@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "416297508296",
+    "firebase_url": "https://restop-f76ae-default-rtdb.firebaseio.com",
+    "project_id": "restop-f76ae",
+    "storage_bucket": "restop-f76ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416297508296:android:603099e6fde376105934fd",
+        "android_client_info": {
+          "package_name": "com.restop.restopadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416297508296-v4hem82ih35bskglplhaioa3tp6biv46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBce4nSSfBzLHT3J2EaFVw9IE47TqQKlq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416297508296-v4hem82ih35bskglplhaioa3tp6biv46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416297508296:android:00fd0740e723074b5934fd",
+        "android_client_info": {
+          "package_name": "com.restop.restopclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416297508296-v4hem82ih35bskglplhaioa3tp6biv46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBce4nSSfBzLHT3J2EaFVw9IE47TqQKlq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416297508296-v4hem82ih35bskglplhaioa3tp6biv46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416297508296:android:b4ce93ced5f8e8a75934fd",
+        "android_client_info": {
+          "package_name": "com.restopclient.restop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416297508296-v4hem82ih35bskglplhaioa3tp6biv46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBce4nSSfBzLHT3J2EaFVw9IE47TqQKlq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416297508296-v4hem82ih35bskglplhaioa3tp6biv46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
