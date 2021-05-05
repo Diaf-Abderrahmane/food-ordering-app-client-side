@@ -40,23 +40,44 @@ public class Option {
     public String getId() {
         return Id;
     }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
     public String getName() {
         return Name;
     }
+
     public void setName(String name) {
         Name = name;
     }
+
     public int getPrice() {
         return Price;
     }
+
+    public void setPrice(int price) {
+        Price = price;
+    }
+
     public String getImgName() {
         return ImgName;
     }
+
+    public void setImgName(String imgName) {
+        ImgName = imgName;
+    }
+
     public String getDescription() {
         return Description;
     }
 
-    public static void ReadOptions(String id,OptionsStatus optionsStatus) {
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public static void ReadOptions(String id, OptionsStatus optionsStatus) {
         ArrayList<Option> AllOptions = new ArrayList<>();
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All");
         ref.addValueEventListener(new ValueEventListener() {
