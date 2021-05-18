@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile"
+    android:orientation="vertical"
+    android:background="@color/mygreen">
+    <include layout="@layout/toolbar"></include>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_profile_pic"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center">
+
+    </ImageView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Mahmoudi Mohammed Hani"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+
+        android:textStyle="bold"></TextView>
+    <TextView
+        android:id="@+id/txtview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+
+        android:textAlignment="center"
+        android:textColor="@color/golden"
+        android:textSize="15dp"></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_weight="2"
+        android:background="@drawable/backround2"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
+            android:text="PROFILE"
+            android:textColor="@color/gris"
+            android:textSize="15dp"
+            android:textStyle="bold"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/ic_group_1"></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Personal Data"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold"></TextView>
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="125dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"></ImageView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/ic_group_1"></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Personal Data"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold"></TextView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:layout_marginLeft="125dp"></ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/ic_group_1"></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Personal Data"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold"></TextView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="125dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"></ImageView>
+
+        </LinearLayout>
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/mygreen"></Toolbar>
+
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

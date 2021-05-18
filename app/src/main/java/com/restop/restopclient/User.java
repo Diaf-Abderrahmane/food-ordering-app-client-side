@@ -53,7 +53,7 @@ public class User {
         ImageName = imageName;
     }
 
-    public void AddUser(User user,String password){
+    static void AddUser(User user,String password){
         FirebaseAuth auth=FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(user.getEmail(),password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
