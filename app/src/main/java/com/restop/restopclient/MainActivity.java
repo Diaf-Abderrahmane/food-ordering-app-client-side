@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar=findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         EditText email=(EditText) findViewById(R.id.Email);
         EditText password=(EditText) findViewById(R.id.Password);
         Button go=(Button) findViewById(R.id.go);
@@ -44,7 +42,11 @@ public class MainActivity extends AppCompatActivity {
                 String pass=password.getText().toString();
                 User user=new User("hani",em);
                 User.AddUser(user,pass);
-                startActivity(new Intent(MainActivity.this,Profile.class));
+                Intent intent=new Intent(MainActivity.this,Profile.class);
+                intent.putExtra("a",em);
+                startActivity(intent);
+
+
             }
         });
     }

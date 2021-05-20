@@ -15,11 +15,8 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        Toolbar toolbar=findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         TextView em=findViewById(R.id.txtview);
+        ImageView back=findViewById(R.id.back);
         ImageView arrow=findViewById(R.id.arrow);
         em.setText(getIntent().getStringExtra("a"));
         arrow.setOnClickListener(new View.OnClickListener() {
@@ -27,6 +24,12 @@ public class Profile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(Profile.this,PersonalData.class);
                 startActivity(intent);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Profile.this,MainActivity.class));
             }
         });
     }

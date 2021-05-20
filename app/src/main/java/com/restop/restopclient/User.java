@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class User {
     private String UserName;
     private String Email;
@@ -59,9 +61,17 @@ public class User {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+                    String email= user.getEmail();
+                    String username= user.getUserName();
+                    HashMap <Object,String> hashMap=new HashMap<>();
+                    hashMap.put("email",email);
+                    hashMap.put("username",username);
+                    hashMap.put("points","");
+                    hashMap.put("image","");
+
                     String UId = task.getResult().getUser().getUid().toString();
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(UId);
-                    ref.setValue(user);
+                    ref.setValue(hashMap);
                 }
 
             }
