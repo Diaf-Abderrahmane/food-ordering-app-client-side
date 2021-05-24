@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:416297508296:android:603099e6fde376105934fd",
         "android_client_info": {
-          "package_name": "com.restop.restopadmin"
+          "package_name": "com.restop.restopclient"
         }
       },
       "oauth_client": [
