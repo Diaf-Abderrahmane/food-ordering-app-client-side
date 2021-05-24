@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu"
-    android:background="#eee">
+    android:background="#f3f4f8"
+    android:elevation="0dp">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -23,8 +24,14 @@
         android:layout_height="64dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@drawable/bg"
+        android:outlineProvider="paddedBounds"
+        android:stateListAnimator="@null"
+        android:hardwareAccelerated="true"
+        android:elevation="80dp">
         <ImageView
+            android:id="@+id/AddNC"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="16dp"
@@ -33,17 +40,8 @@
             android:text="ResTop"
             style="@style/Title"/>
     </LinearLayout>
-    <!--
-        <LinearLayout
-            android:id="@+id/VAllCategories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/VTitle"
-            android:orientation="horizontal"
-            android:scrollbars="none">
-        </LinearLayout>
-    -->
+
+
 
     <LinearLayout
         android:visibility="invisible"
@@ -53,21 +51,127 @@
         app:layout_constraintVertical_weight="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/VTitle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintBottom_toTopOf="@id/VNav"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingTop="16dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/AllCategories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_bottom"/>
+            android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/Menu"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:paddingRight="8dp"/>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/VNav"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/bg_nav"
+        android:orientation="horizontal"
+        android:paddingTop="4dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_restaurant_menu"
+                android:backgroundTint="@color/primaryColor"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="Home"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_qr_code"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="QR generator"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_star_half"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="Reviews"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_people_alt"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="Users"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_settings"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="Setting"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
 
     </LinearLayout>
 

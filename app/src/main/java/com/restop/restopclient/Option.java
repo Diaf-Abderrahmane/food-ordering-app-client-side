@@ -29,12 +29,30 @@ public class Option {
     interface OptionsStatus{
         void isLoaded(ArrayList<Option> AllOptions);
     }
+    interface OptionsStatusC{
+        void onDataChange();
+    }
     interface ImgStatus{
         void isLoaded(Bitmap img);
     }
 
     public Option() {
 
+    }
+
+    public Option(String name, int price, String imgName, String description) {
+        Name = name;
+        Price = price;
+        ImgName = imgName;
+        Description = description;
+    }
+
+    public Option(String id, String name, int price, String imgName, String description) {
+        Id = id;
+        Name = name;
+        Price = price;
+        ImgName = imgName;
+        Description = description;
     }
 
     public String getId() {
@@ -77,21 +95,19 @@ public class Option {
         Description = description;
     }
 
-    public static void ReadOptions(String id, OptionsStatus optionsStatus) {
+    public static void ReadOptions(String id,OptionsStatus optionsStatus) {
         ArrayList<Option> AllOptions = new ArrayList<>();
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds:snapshot.getChildren()) {
-                    Option o=ds.getValue(Option.class);
-                    AllOptions.add(o);
-                    if (snapshot.getChildrenCount()==AllOptions.size()) optionsStatus.isLoaded(AllOptions);
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+                    for (DataSnapshot ds:task.getResult().getChildren()) {
+                        Option o=ds.getValue(Option.class);
+                        AllOptions.add(o);
+                        if (task.getResult().getChildrenCount()==AllOptions.size()) optionsStatus.isLoaded(AllOptions);
+                    }
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -112,7 +128,6 @@ public class Option {
             }
         });
     }
-
 
 
 }

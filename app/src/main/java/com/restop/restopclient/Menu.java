@@ -1,70 +1,95 @@
 package com.restop.restopclient;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class Menu extends AppCompatActivity {
+    ArrayList<Category> AllCategories;
+    CustomAdapter adapter;
+    CustomAdapter adapter2;
     RecyclerView recyclerView;
+    RecyclerView recyclerView2;
     ProgressBar progressBar;
     LinearLayout VMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
 
         progressBar=findViewById(R.id.progressBar);
         VMenu=findViewById(R.id.VMenu);
 
 
         recyclerView = findViewById(R.id.Menu);
-        RecyclerView recyclerView2 = findViewById(R.id.AllCategories);
+        recyclerView2 = findViewById(R.id.AllCategories);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView2.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
 
+        final Boolean[] c = {false};
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected && !c[0]) {
+                    Refresh();
+                    c[0] =true;
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    VMenu.setVisibility(View.INVISIBLE);
+                    c[0]=false;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
+    }
+    public void Refresh(){
         Category.ReadCategories(new Category.CategoriesStatus() {
             @Override
-            public void isLoaded(ArrayList<Category> AllCategories) {
-                CustomAdapter adapter = new CustomAdapter(AllCategories);
-                CustomAdapter adapter2 = new CustomAdapter(2,AllCategories);
+            public void isLoaded(ArrayList<Category> allCategories) {
+                AllCategories = Category.OrderCategories(allCategories);
+                adapter = new CustomAdapter();
+                adapter2 = new CustomAdapter(2);
                 recyclerView.setAdapter(adapter);
                 recyclerView2.setAdapter(adapter2);
-
                 progressBar.setVisibility(View.INVISIBLE);
                 VMenu.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
     public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-        private ArrayList<Category> AllCategories;
-        private ArrayList<Option> AllOptions;
         private int ViewType=0;
+        private int CategoryIndex;
 
         public class ViewHolder0 extends RecyclerView.ViewHolder {
             private final TextView CategoryName;
@@ -77,9 +102,8 @@ public class Menu extends AppCompatActivity {
                 CategoryOptions = view.findViewById(R.id.CategoryOptions);
             }
 
-            public TextView getCategoryName() {
-                return CategoryName;
-            }
+            public RecyclerView getCategoryOptions() { return CategoryOptions;    }
+            public TextView getCategoryName() {  return CategoryName;  }
         }
 
         public class ViewHolder1 extends RecyclerView.ViewHolder {
@@ -119,16 +143,14 @@ public class Menu extends AppCompatActivity {
             }
         }
 
-        public CustomAdapter(ArrayList<Category> allCategories) {
-            AllCategories = allCategories;
+        public CustomAdapter() {
         }
-        public CustomAdapter(int viewType, ArrayList<Category> allCategories) {
-            AllCategories = allCategories;
+        public CustomAdapter(int viewType) {
             ViewType=viewType;
         }
-        public CustomAdapter(ArrayList<Option> allOptions,int viewType) {
-            AllOptions = allOptions;
+        public CustomAdapter(int viewType, int categoryIndex) {
             ViewType=viewType;
+            CategoryIndex=categoryIndex;
         }
 
         @Override
@@ -152,16 +174,18 @@ public class Menu extends AppCompatActivity {
             switch (ViewType) {
                 case 1:
                     ViewHolder1 viewHolder1=(ViewHolder1) Holder;
-                    viewHolder1.getOptionName().setText(AllOptions.get(position).getName());
-                    viewHolder1.getOptionDescription().setText(AllOptions.get(position).getDescription());
-                    String price = AllOptions.get(position).getPrice() +" DZD";
+                    viewHolder1.getOptionName().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getName());
+                    viewHolder1.getOptionDescription().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getDescription());
+                    String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() +" DZD";
                     viewHolder1.getOptionPrice().setText(price);
-                    Option.getImg(AllOptions.get(position).getImgName(), new Option.ImgStatus() {
+                    Option.getImg(AllCategories.get(CategoryIndex).getAllOptions().get(position).getImgName(), new Option.ImgStatus() {
                         @Override
                         public void isLoaded(Bitmap img) {
                             viewHolder1.getOptionImg().setImageBitmap(img);
                         }
                     });
+
+
                     break;
                 case 2:
                     ViewHolder2 viewHolder2=(ViewHolder2) Holder;
@@ -178,10 +202,9 @@ public class Menu extends AppCompatActivity {
                     ViewHolder0 viewHolder0=(ViewHolder0) Holder;
                     viewHolder0.getCategoryName().setText(AllCategories.get(position).getName());
 
-                    viewHolder0.CategoryOptions.setLayoutManager(new LinearLayoutManager(Menu.this));
-                    CustomAdapter adapterO = new CustomAdapter(AllCategories.get(position).getAllOptions(),1);
-                    viewHolder0.CategoryOptions.setAdapter(adapterO);
-
+                    viewHolder0.getCategoryOptions().setLayoutManager(new LinearLayoutManager(Menu.this));
+                    CustomAdapter adapterO = new CustomAdapter(1,position);
+                    viewHolder0.getCategoryOptions().setAdapter(adapterO);
                     break;
             }
 
@@ -191,7 +214,7 @@ public class Menu extends AppCompatActivity {
         public int getItemCount() {
             switch (ViewType){
                 case 1:
-                    return AllOptions.size();
+                    return AllCategories.get(CategoryIndex).getAllOptions().size();
                 default:
                     return AllCategories.size();
             }
@@ -199,5 +222,3 @@ public class Menu extends AppCompatActivity {
     }
 
 }
-
-
