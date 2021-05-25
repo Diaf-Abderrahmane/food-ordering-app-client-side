@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Restop</string>
+    <string name="scanner">Qr Scanner</string>
+    <string name="pointsBalance">Balance &amp; Points</string>
+    <string name="points">Points</string>
+    <string name="pts">0 Pts</string>
+    <string name="balance">Balance</string>
+    <string name="dzd">0.00 DZD</string>
+    <string name="balanceMore">each point equals 15 DZD. Gain more points by commanding more plats</string>
+    <string name="pointsMore">using points you can gain free plats. Each point has a balance</string>
 </resources>
