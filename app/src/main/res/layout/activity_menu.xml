@@ -101,6 +101,7 @@
                 android:textColor="@color/eblack"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/nScanner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -114,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="14dp"
                 android:gravity="center_vertical"
-                android:text="QR generator"
+                android:text="QR scanner"
                 android:textSize="10dp"
                 android:textColor="@color/eblack"/>
         </LinearLayout>

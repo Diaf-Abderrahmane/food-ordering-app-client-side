@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,6 +40,16 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+
+        LinearLayout Menu=findViewById(R.id.nScanner);
+        Menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Menu.this,Qr_Scan.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         progressBar=findViewById(R.id.progressBar);
         VMenu=findViewById(R.id.VMenu);

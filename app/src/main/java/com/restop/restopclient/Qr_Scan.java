@@ -9,6 +9,7 @@ import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,6 +23,20 @@ public class Qr_Scan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr__scan);
+
+        LinearLayout Menu=findViewById(R.id.nMenu);
+        Menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Qr_Scan.this,Menu.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+
+
         ptsL=findViewById(R.id.layout_more_points);
         balL=findViewById(R.id.layout_more_balance);
         pts=findViewById(R.id.points_help);

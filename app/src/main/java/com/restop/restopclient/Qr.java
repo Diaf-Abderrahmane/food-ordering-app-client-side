@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Qr {
     private String Qr_fb;
-    public static void OnScan(String id;int points) {
+    public static void OnScan(String id,int points) {
 
 
     }

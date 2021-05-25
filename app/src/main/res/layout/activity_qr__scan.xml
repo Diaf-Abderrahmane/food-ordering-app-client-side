@@ -15,6 +15,7 @@
         android:orientation="horizontal"
         android:paddingTop="4dp">
         <LinearLayout
+            android:id="@+id/nMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -23,8 +24,7 @@
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="@drawable/ic_baseline_restaurant_menu"
-                android:backgroundTint="@color/primaryColor"/>
+                android:background="@drawable/ic_baseline_restaurant_menu"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="14dp"
@@ -42,7 +42,8 @@
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="@drawable/ic_baseline_qr_code"/>
+                android:background="@drawable/ic_baseline_qr_code"
+                android:backgroundTint="@color/primaryColor"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="14dp"
