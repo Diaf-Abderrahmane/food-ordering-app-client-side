@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.util.ArrayList;
 
 public class Menu extends AppCompatActivity {
@@ -40,6 +42,9 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+
+        FirebaseMessaging.getInstance().subscribeToTopic("Notification");
+        //=================================
 
         LinearLayout Menu=findViewById(R.id.nScanner);
         Menu.setOnClickListener(new View.OnClickListener() {
