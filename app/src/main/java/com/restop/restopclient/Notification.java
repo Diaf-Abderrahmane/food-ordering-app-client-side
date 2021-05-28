@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -116,7 +117,7 @@ public class Notification extends FirebaseMessagingService {
 
         }
 
-        if (remoteMessage.getNotification() != null) {
+        if (remoteMessage.getNotification() != null && false) {
             NotificationObg.getNotificationObg(remoteMessage.getNotification().getTitle(), new NotificationObg.NotificationObgI() {
                 @Override
                 public void isLoaded(NotificationObg notificationObg) {
@@ -125,7 +126,6 @@ public class Notification extends FirebaseMessagingService {
                             @Override
                             public void isLoaded(Bitmap img) {
                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this, "CHANNEL_ID")
-                                        .setSmallIcon(R.drawable.logo)
                                         .setContentTitle(notificationObg.getTitle())
                                         .setContentText(notificationObg.getText())
                                         .setLargeIcon(img)
