@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PersonalData">
+    tools:context=".PersonalData"
+    android:orientation="vertical">
     <LinearLayout
         android:background="@color/golden"
         android:layout_width="match_parent"
@@ -16,7 +17,9 @@
             android:layout_height="match_parent"
             android:id="@+id/back"
             android:src="@drawable/ic_twotone_arrow_back_24"
-            android:layout_marginLeft="15dp"></ImageView>
+            android:layout_marginLeft="15dp">
+
+        </ImageView>
 
         <TextView
             style="@style/Title"
@@ -26,9 +29,149 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="ResTop"
-            android:textColor="@color/mygreen"></TextView>
+            android:textColor="@color/mygreen">
+
+        </TextView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+        android:id="@+id/profilepic"
+        android:layout_marginTop="20dp"
+        android:layout_width="130dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+            app:civ_border_color="@color/golden"
+            app:civ_border_width="3dp"
+            app:civ_border_overlay="true">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_group_3"
+            android:layout_marginTop="80dp"
+            android:layout_marginStart="100dp"></ImageView>
+        <ImageView
+            android:id="@+id/editIv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            android:layout_marginTop="88dp"
+            android:layout_marginStart="102dp"></ImageView>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:text="SAVE"
+        android:backgroundTint="@color/mygreen"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="90dp"
+        android:id="@+id/saveBtn"
+        android:textSize="15dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/golden">
+
+        </Button>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="ADD"
+            android:backgroundTint="@color/mygreen"
+            android:textColor="@color/golden"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="15dp"
+            android:layout_marginLeft="40dp"
+            android:id="@+id/add"></Button>
     </LinearLayout>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="25dp"
+        android:layout_marginLeft="25dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/background2"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:fontFamily="@font/poppins_semibold">
+
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textSize="25dp"
+        android:layout_marginLeft="25dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp">
+
+    </TextView>
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/background2"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:fontFamily="@font/poppins_semibold">
+
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Points"
+        android:textSize="25dp"
+        android:layout_marginLeft="25dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/background2"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:fontFamily="@font/poppins_semibold">
+
+    </TextView>
+   </LinearLayout>

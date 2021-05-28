@@ -9,26 +9,31 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
 public class User {
     private String UserName;
     private String Email;
-    private String ImageName;
+    private String Image;
+    private int Points;
+    private int NotificationActivation;
 
     public User() {
     }
 
-    public User(String userName, String email, String imageName) {
+    public User(String userName, String email, int points) {
         UserName = userName;
         Email = email;
-        ImageName = imageName;
+        Points = points;
     }
 
-    public User(String userName, String email) {
+    public User(String userName, String email, int points, int notificationActivation) {
         UserName = userName;
         Email = email;
+        Points = points;
+        NotificationActivation = notificationActivation;
     }
 
     public String getUserName() {
@@ -47,31 +52,39 @@ public class User {
         Email = email;
     }
 
-    public String getImageName() {
-        return ImageName;
+    public String getImage() {
+        return Image;
     }
 
-    public void setImageName(String imageName) {
-        ImageName = imageName;
+    public void setImage(String image) {
+        Image = image;
     }
 
-    static void AddUser(User user,String password){
+    public int getPoints() {
+        return Points;
+    }
+
+    public void setPoints(int points) {
+        Points = points;
+    }
+
+    public int getNotificationActivation() {
+        return NotificationActivation;
+    }
+
+    public void setNotificationActivation(int notificationActivation) {
+        NotificationActivation = notificationActivation;
+    }
+
+    static void AddUser(User user, String password){
         FirebaseAuth auth=FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(user.getEmail(),password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    String email= user.getEmail();
-                    String username= user.getUserName();
-                    HashMap <Object,String> hashMap=new HashMap<>();
-                    hashMap.put("email",email);
-                    hashMap.put("username",username);
-                    hashMap.put("points","");
-                    hashMap.put("image","");
-
                     String UId = task.getResult().getUser().getUid().toString();
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(UId);
-                    ref.setValue(hashMap);
+                    ref.setValue(user);
                 }
 
             }
@@ -83,6 +96,15 @@ public class User {
         FirebaseUser User=auth.getCurrentUser();
         User.updateEmail(user.getEmail());
         User.updatePassword(password);
+    }
+
+    static void SubscribeNotification(DatabaseReference ref){
+        ref.child("NotificationActivation").setValue(1);
+        FirebaseMessaging.getInstance().subscribeToTopic("Notification");
+    }
+    static void unSubscribeNotification(DatabaseReference ref){
+        ref.child("NotificationActivation").setValue(0);
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("Notification");
     }
 
 }

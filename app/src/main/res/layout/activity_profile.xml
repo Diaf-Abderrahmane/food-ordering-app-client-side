@@ -12,12 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/back"
-            android:src="@drawable/ic_twotone_arrow_back_24"
-            android:layout_marginLeft="15dp"></ImageView>
 
         <TextView
             style="@style/Title"
@@ -27,18 +21,21 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="ResTop"
-            android:textColor="@color/mygreen"></TextView>
-    </LinearLayout>
+            android:textColor="@color/mygreen"></TextView></LinearLayout>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userpic"
+        android:layout_width="130dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/profile_pic"
+        app:civ_border_color="@color/golden"
+        app:civ_border_width="3dp"
+        app:civ_border_overlay="true">
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_profile_pic"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center">
-
-    </ImageView>
+    </de.hdodenhof.circleimageview.CircleImageView>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,12 +79,13 @@
             android:layout_height="67dp"
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:src="@drawable/ic_group_1"></ImageView>
+                android:src="@drawable/ic_group_1">
+
+            </ImageView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,14 +95,50 @@
                 android:text="Personal Data"
                 android:textColor="@color/black"
                 android:textSize="18dp"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold">
+
+            </TextView>
             <ImageView
                 android:id="@+id/arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="125dp"
+                android:layout_marginLeft="100dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/ic_baseline_arrow_forward_ios_24"></ImageView>
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24">
+
+            </ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_notif"></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Notifications"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold"></TextView>
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="100dp"
+                android:id="@+id/switchBox"
+                android:checked="true"></Switch>
+
 
         </LinearLayout>
         <LinearLayout
@@ -117,6 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_group_1"></ImageView>
             <TextView
                 android:layout_width="wrap_content"
@@ -124,42 +159,15 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="Personal Data"
+                android:text="Logout"
                 android:textColor="@color/black"
                 android:textSize="18dp"
                 android:textStyle="bold"></TextView>
             <ImageView
+                android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                android:layout_marginLeft="125dp"></ImageView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="67dp"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:src="@drawable/ic_group_1"></ImageView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="Personal Data"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:textStyle="bold"></TextView>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="125dp"
+                android:layout_marginLeft="170dp"
                 android:layout_marginTop="15dp"
                 android:src="@drawable/ic_baseline_arrow_forward_ios_24"></ImageView>
 
