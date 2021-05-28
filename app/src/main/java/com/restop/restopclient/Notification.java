@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.widget.RemoteViews;
@@ -99,7 +101,6 @@ public class Notification extends FirebaseMessagingService {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    notificationObgImg.isLoaded(null);
                 }
             });
         }
@@ -119,14 +120,15 @@ public class Notification extends FirebaseMessagingService {
                             @Override
                             public void isLoaded(Bitmap img) {
                                     RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
-                                    remoteViews.setBitmap(R.id.NotificationImage," ",img);
+                                    remoteViews.setImageViewBitmap(R.id.NotificationImage,img);
                                     remoteViews.setTextViewText(R.id.NotificationTitle,notificationObg.getTitle());
                                     remoteViews.setTextViewText(R.id.NotificationText,notificationObg.getText());
 
                                     NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this, "CHANNEL_ID")
                                             .setSmallIcon(R.drawable.logo)
+                                            .setCustomBigContentView(remoteViews)
                                             .setCustomContentView(remoteViews)
-                                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                            .setPriority(NotificationCompat.PRIORITY_MAX);
 
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                         int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -137,7 +139,11 @@ public class Notification extends FirebaseMessagingService {
                                     }
 
                                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(Notification.this);
-                                    notificationManager.notify(1, builder.build());
+                                    android.app.Notification n=builder.build();
+                                    n.flags|=android.app.Notification.FLAG_AUTO_CANCEL;
+                                    n.defaults|=android.app.Notification.DEFAULT_SOUND;
+                                    n.defaults|=android.app.Notification.DEFAULT_VIBRATE;
+                                    notificationManager.notify(1, n);
 
                             }
                         });
