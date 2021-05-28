@@ -2,9 +2,12 @@ package com.restop.restopclient;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.view.LayoutInflater;
+import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -21,6 +24,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.zip.Inflater;
 
 public class Notification extends FirebaseMessagingService {
 
@@ -94,6 +99,7 @@ public class Notification extends FirebaseMessagingService {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    notificationObgImg.isLoaded(null);
                 }
             });
         }
@@ -112,23 +118,27 @@ public class Notification extends FirebaseMessagingService {
                         NotificationObg.getImg(notificationObg.getImgName(), new NotificationObg.NotificationObgImg() {
                             @Override
                             public void isLoaded(Bitmap img) {
-                                NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this, "CHANNEL_ID")
-                                        .setSmallIcon(R.drawable.logo)
-                                        .setContentTitle(notificationObg.getTitle())
-                                        .setContentText(notificationObg.getText())
-                                        .setLargeIcon(img)
-                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                    RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
+                                    remoteViews.setBitmap(R.id.NotificationImage," ",img);
+                                    remoteViews.setTextViewText(R.id.NotificationTitle,notificationObg.getTitle());
+                                    remoteViews.setTextViewText(R.id.NotificationText,notificationObg.getText());
 
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                                    NotificationChannel channel = new NotificationChannel("CHANNEL_ID", "name", importance);
-                                    channel.setDescription("description");
-                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                                    notificationManager.createNotificationChannel(channel);
-                                }
+                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this, "CHANNEL_ID")
+                                            .setSmallIcon(R.drawable.logo)
+                                            .setCustomContentView(remoteViews)
+                                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-                                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(Notification.this);
-                                notificationManager.notify(1, builder.build());
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                                        NotificationChannel channel = new NotificationChannel("CHANNEL_ID", "name", importance);
+                                        channel.setDescription("description");
+                                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                                        notificationManager.createNotificationChannel(channel);
+                                    }
+
+                                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(Notification.this);
+                                    notificationManager.notify(1, builder.build());
+
                             }
                         });
                     }
