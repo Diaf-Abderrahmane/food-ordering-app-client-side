@@ -18,7 +18,6 @@ public class User {
     private String Email;
     private String Image;
     private int Points;
-    private int NotificationActivation;
 
     public User() {
     }
@@ -29,12 +28,7 @@ public class User {
         Points = points;
     }
 
-    public User(String userName, String email, int points, int notificationActivation) {
-        UserName = userName;
-        Email = email;
-        Points = points;
-        NotificationActivation = notificationActivation;
-    }
+
 
     public String getUserName() {
         return UserName;
@@ -68,13 +62,6 @@ public class User {
         Points = points;
     }
 
-    public int getNotificationActivation() {
-        return NotificationActivation;
-    }
-
-    public void setNotificationActivation(int notificationActivation) {
-        NotificationActivation = notificationActivation;
-    }
 
     static void AddUser(User user, String password){
         FirebaseAuth auth=FirebaseAuth.getInstance();
@@ -85,6 +72,7 @@ public class User {
                     String UId = task.getResult().getUser().getUid().toString();
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(UId);
                     ref.setValue(user);
+                    User.SubscribeNotification(ref);
                 }
 
             }

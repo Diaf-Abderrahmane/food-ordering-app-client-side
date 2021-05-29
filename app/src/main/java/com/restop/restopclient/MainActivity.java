@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,9 +34,10 @@ public class MainActivity extends AppCompatActivity {
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               // FirebaseMessaging.getInstance().subscribeToTopic("Notification");
                 String em = email.getText().toString();
                 String pass = password.getText().toString();
-                User user = new User("hani", em,0,1);
+                User user = new User("hani", em,0);
                 User.AddUser(user, pass);
                 Intent intent = new Intent(MainActivity.this, Profile.class);
                 intent.putExtra("a", em);
@@ -44,7 +45,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        Intent intent=new Intent(MainActivity.this,Menu.class);
-        startActivity(intent);
     }
 }

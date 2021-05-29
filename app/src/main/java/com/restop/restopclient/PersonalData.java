@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -43,16 +44,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PersonalData extends AppCompatActivity {
 
-
-
-    private TextView emailtv;
-    private TextView usernametv;
-    private TextView pointstv;
+    private TextView emailTv;
+    private TextView usernameTv;
+    private TextView passwordTv;
     private ImageView back;
     private CircleImageView profilepic;
     private ImageView editIv;
     private Button saveBtn;
     private Button add;
+    private ImageView edit1;
+    private ImageView edit2;
+    private ImageView edit3;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
@@ -69,13 +71,16 @@ public class PersonalData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_data);
 
-        add=findViewById(R.id.add);
+        edit1 = findViewById(R.id.edit1);
+        edit2 = findViewById(R.id.edit2);
+        edit3 = findViewById(R.id.edit3);
+        emailTv = findViewById(R.id.email);
+        usernameTv = findViewById(R.id.username);
+        passwordTv = findViewById(R.id.password);
+        add = findViewById(R.id.add);
         saveBtn = findViewById(R.id.saveBtn);
         editIv = findViewById(R.id.editIv);
         storageReference= FirebaseStorage.getInstance().getReference().child("Profile_Pics");
-        emailtv = findViewById(R.id.email);
-        usernametv = findViewById(R.id.username);
-        pointstv = findViewById(R.id.points);
         back = findViewById(R.id.back);
         profilepic = findViewById(R.id.profilepic);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -90,16 +95,9 @@ public class PersonalData extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     String email = ds.child("email").getValue().toString();
                     String username = ds.child("userName").getValue().toString();
-                    String points = ds.child("points").getValue().toString();
 
-                    emailtv.setText(email);
-                    usernametv.setText(username);
-                    pointstv.setText(points);
-                    /*try {
-                        Picasso.get().load(image).into(profilepic);
-                    } catch (Exception e) {
-                        Picasso.get().load(R.drawable.profile_pic).into(profilepic);
-                    }*/
+
+
 
                 }
             }

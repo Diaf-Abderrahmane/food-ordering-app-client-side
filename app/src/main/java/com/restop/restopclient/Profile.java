@@ -94,8 +94,8 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        FirebaseMessaging.getInstance().subscribeToTopic("Notification");
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+       /* aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true){
@@ -106,7 +106,7 @@ public class Profile extends AppCompatActivity {
                     User.unSubscribeNotification(reference.child(user.getUid()));
                 }
             }
-        });
+        });*/
         //Picasso.get().load(R.drawable.profile_pic).into(profilepic);
         //getUserInfo();
 
