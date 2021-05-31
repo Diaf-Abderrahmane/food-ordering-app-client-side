@@ -37,10 +37,6 @@ public class Login extends AppCompatActivity {
         AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
 
-        if (!(fAuth.getCurrentUser() == null)) {
-            startActivity(new Intent(Login.this, MainActivity.class));
-        }
-
         awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.Linvalid_email);
         awesomeValidation.addValidation(this, R.id.password, ".{6,}", R.string.invalid_password);
 

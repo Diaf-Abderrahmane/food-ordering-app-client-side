@@ -53,6 +53,8 @@ dependencies {
 
     implementation 'com.karumi:dexter:6.0.0'
     implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation "com.basgeekball:awesome-validation:4.2"
+
 
 
 
