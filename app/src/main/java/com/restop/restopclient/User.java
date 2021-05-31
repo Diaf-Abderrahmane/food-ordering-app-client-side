@@ -11,8 +11,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.HashMap;
-
 public class User {
     private String UserName;
     private String Email;
@@ -79,6 +77,7 @@ public class User {
         }
         );
     }
+
     public void EditUser(User user,String password){
         FirebaseAuth auth=FirebaseAuth.getInstance();
         FirebaseUser User=auth.getCurrentUser();

@@ -8,4 +8,9 @@
     <string name="dzd">0.00 DZD</string>
     <string name="balanceMore">each point equals 15 DZD. Gain more points by commanding more plats</string>
     <string name="pointsMore">using points you can gain free plats. Each point has a balance</string>
+    <string name="invalid_username">Please enter a valid username</string>
+    <string name="invalid_email">Please enter a valid email</string>
+    <string name="invalid_password">Please enter a valid password</string>
+    <string name="invalid_confirm_password">Password does not match</string>
+    <string name="Linvalid_email">Please enter valid email</string>
 </resources>
