@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -29,7 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Profile extends AppCompatActivity {
 
-    TextView em;
+
     ImageView back;
     ImageView arrow;
     private CircleImageView profilepic;
@@ -46,38 +47,16 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         logout = findViewById(R.id.logout);
-        em = findViewById(R.id.txtview);
         back = findViewById(R.id.back);
         arrow = findViewById(R.id.arrow);
         profilepic = findViewById(R.id.userpic);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         aSwitch = findViewById(R.id.switchBox);
 
-        em.setText(getIntent().getStringExtra("a"));
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         query = reference.orderByChild("email").equalTo(user.getEmail());
-        /*query.addValueEventListener(new ValueEventListener() {
-           @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds:snapshot.getChildren()){
-                    String image=""+ds.child("image").getValue();
 
-                    try {
-                        Picasso.get().load(image).into(userpic);
-                    }
-                    catch (Exception e){
-                        Picasso.get().load(R.drawable.profile_pic).into(userpic);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,13 +65,6 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut(); 
-                signOutUser();
-            }
-        });
 
 
        /* aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -108,28 +80,37 @@ public class Profile extends AppCompatActivity {
             }
         });*/
         //Picasso.get().load(R.drawable.profile_pic).into(profilepic);
-        //getUserInfo();
+
+        getUserInfo();
 
 
 
     }
 
-    private void signOutUser() {
-        Intent mainActivity = new Intent(Profile.this,MainActivity.class);
-        mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(mainActivity);
-        finish();
-    }
 
-   /* private void getUserInfo() {
+   private void getUserInfo() {
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
-                    if (snapshot.hasChild("image")) {
+                    if (!snapshot.hasChild("image")) {
+                       Picasso.get().load(R.drawable.profile_pic).into(profilepic);
+                        /*reference.child("Default_Img").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                  Uri defaultUri = snapshot.getValue(Uri.class);
+                                  profilepic.setImageURI(defaultUri);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                            }
+                        });*/
+                   }else{
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
-                   }
+                    }
                 }
 
 
@@ -141,5 +122,5 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-    }*/
+    }
 }
