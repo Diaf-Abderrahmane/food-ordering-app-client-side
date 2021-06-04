@@ -72,7 +72,7 @@
         android:id="@+id/saveBtn"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center"
         android:backgroundTint="@color/mygreen"
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
@@ -97,6 +97,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
+
         <TextView
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -104,20 +107,25 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/background2"
-            android:textColor="@color/white"
-            android:textSize="20dp"
+            android:fontFamily="@font/poppins_semibold"
             android:textAlignment="gravity"
             android:gravity="center"
-            android:fontFamily="@font/poppins_semibold">
+            android:textColor="@color/white"
+            android:textSize="20dp">
 
         </TextView>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_edit"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="340dp"
-            android:id="@+id/edit1"></ImageView>
+            android:layout_marginLeft="300dp"
+            android:id="@+id/edit1">
+
+        </ImageView>
+
+
 
     </RelativeLayout>
 
@@ -154,45 +162,35 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_edit"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="340dp"
+            android:layout_marginLeft="300dp"
             android:id="@+id/edit2"></ImageView>
 
     </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:textSize="25dp"
-        android:layout_marginLeft="25dp"
-        android:fontFamily="@font/poppins_bold"
-        android:textColor="@color/black"
-        android:layout_marginTop="20dp">
-
-    </TextView>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
         <TextView
-            android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/background2"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textAlignment="gravity"
-            android:gravity="center"
-            android:fontFamily="@font/poppins_semibold">
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textSize="25dp"
+            android:layout_marginLeft="25dp"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp">
 
         </TextView>
+
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_edit"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="340dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="300dp"
             android:id="@+id/edit3"></ImageView>
 
     </RelativeLayout>

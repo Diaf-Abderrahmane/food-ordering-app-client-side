@@ -41,12 +41,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                // FirebaseMessaging.getInstance().subscribeToTopic("Notification");
-                String em = email.getText().toString();
-                String pass = password.getText().toString();
+                final String em = email.getText().toString();
+                final String pass = password.getText().toString();
                 User user = new User("hani", em,0);
                 User.AddUser(user, pass);
                 Intent intent = new Intent(MainActivity.this, Profile.class);
-                intent.putExtra("a", em);
                 startActivity(intent);
 
             }
