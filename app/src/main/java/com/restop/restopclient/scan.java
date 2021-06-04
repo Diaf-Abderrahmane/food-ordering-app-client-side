@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,7 @@ public class scan extends AppCompatActivity {
         codeScanner = new CodeScanner(this, scannerView);
         fb=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
-        Rusers=fb.getReference().child("users");
+        Rusers=fb.getReference().child("Users");
         Rqr=fb.getReference().child("QrCode");
         uid[0]=auth.getCurrentUser().getUid();
         codeScanner.setDecodeCallback(new DecodeCallback() {
@@ -53,7 +54,6 @@ public class scan extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        Toast.makeText(scan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         Rqr.child(result.getText()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -65,21 +65,23 @@ public class scan extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                                             if (task.isSuccessful()){
                                                 int points;
-                                                points=task.getResult().child("points").getValue(int.class);
+                                                points=task.getResult().child("Points").getValue(int.class);
                                                 switch (status[0]){
                                                     case 0:{
-                                                        Rusers.child(uid[0]).child("points").setValue(points+price[0]);
+                                                        Rusers.child(uid[0]).child("Points").setValue(points+price[0]);
                                                         Rqr.child(result.getText()).child("status").setValue(2);
                                                         break;
                                                     }
                                                     case 1:{
                                                         if (points>=price[0]){
-                                                            Rusers.child(uid[0]).child("points").setValue(points-price[0]);
+                                                            Rusers.child(uid[0]).child("Points").setValue(points-price[0]);
                                                             Rqr.child(result.getText()).child("status").setValue(3);
-                                                        }else{Rqr.child(result.getText()).child("status").setValue(4);}
+                                                        }else{Rqr.child(result.getText()).child("status").setValue(4);
+                                                            Toast.makeText(scan.this, "not enough points", Toast.LENGTH_SHORT).show();}
                                                         break;
                                                     }
                                                 }
+
                                             }
                                         }
                                     });
@@ -94,6 +96,9 @@ public class scan extends AppCompatActivity {
 
             }
         });
+        startActivity(new Intent(scan.this,Qr_Scan.class));
+        finish();
+
     }
 
     @Override

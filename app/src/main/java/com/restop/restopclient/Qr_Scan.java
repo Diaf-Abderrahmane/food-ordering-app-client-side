@@ -48,7 +48,7 @@ public class Qr_Scan extends AppCompatActivity {
         });
         fb=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
-        Rusers=fb.getReference().child("users");
+        Rusers=fb.getReference().child("Users");
         uid[0]=auth.getCurrentUser().getUid();
         txtPts=findViewById(R.id.ptsBal);
         txtDzd=findViewById(R.id.dzdBal);
@@ -63,7 +63,7 @@ public class Qr_Scan extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()){
-                    int points =task.getResult().child("points").getValue(int.class);
+                    int points =Integer.parseInt(task.getResult().child("Points").getValue().toString());
                     txtDzd.setText(String.valueOf(points));
                     txtPts.setText(String.valueOf(points/10));
 
