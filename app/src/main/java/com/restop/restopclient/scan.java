@@ -41,21 +41,18 @@ public class scan extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
         scannerView = findViewById(R.id.scannerV);
         codeScanner = new CodeScanner(this, scannerView);
-//        fb=FirebaseDatabase.getInstance();
-//        auth=FirebaseAuth.getInstance();
-//        Rusers=fb.getReference().child("users");
-//        Rqr=fb.getReference().child("QrCode");
+        fb=FirebaseDatabase.getInstance();
+        auth=FirebaseAuth.getInstance();
+        Rusers=fb.getReference().child("users");
+        Rqr=fb.getReference().child("QrCode");
+        uid[0]=auth.getCurrentUser().getUid();
         codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        fb=FirebaseDatabase.getInstance();
-                        auth=FirebaseAuth.getInstance();
-                        Rusers=fb.getReference().child("users");
-                        Rqr=fb.getReference().child("QrCode");
-                        uid[0]=auth.getCurrentUser().getUid();
+
                         Toast.makeText(scan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         Rqr.child(result.getText()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override

@@ -1,5 +1,6 @@
 package com.restop.restopclient;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -10,14 +11,26 @@ import android.transition.TransitionManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Qr_Scan extends AppCompatActivity {
     private ConstraintLayout ptsL,balL;
     private Button morePts,moreBal;
     private MaterialCardView pts,bal;
+    private TextView txtPts,txtDzd;
+    private FirebaseDatabase fb;
+    private DatabaseReference Rusers,Rqr;
+    private FirebaseAuth auth;
+    private final String[] uid=new String[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +46,12 @@ public class Qr_Scan extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
+        fb=FirebaseDatabase.getInstance();
+        auth=FirebaseAuth.getInstance();
+        Rusers=fb.getReference().child("users");
+        uid[0]=auth.getCurrentUser().getUid();
+        txtPts=findViewById(R.id.ptsBal);
+        txtDzd=findViewById(R.id.dzdBal);
         ptsL=findViewById(R.id.layout_more_points);
         balL=findViewById(R.id.layout_more_balance);
         pts=findViewById(R.id.points_help);
@@ -44,6 +59,18 @@ public class Qr_Scan extends AppCompatActivity {
         moreBal=findViewById(R.id.more);
         morePts=findViewById(R.id.morePts);
         FloatingActionButton scanBtn = findViewById(R.id.scanBtn);
+        Rusers.child(uid[0]).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()){
+                    int points =task.getResult().child("points").getValue(int.class);
+                    txtDzd.setText(String.valueOf(points));
+                    txtPts.setText(String.valueOf(points/10));
+
+                }
+            }
+        });
+
         morePts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

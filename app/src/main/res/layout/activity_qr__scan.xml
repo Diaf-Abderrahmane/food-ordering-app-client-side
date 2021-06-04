@@ -168,10 +168,19 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="60dp"
-                    android:ems="8"
                     android:fontFamily="@font/germania_one"
                     android:text="@string/points"
                     android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/ptsBal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="7dp"
+                    android:layout_toStartOf="@id/pts"
+                    android:fontFamily="@font/germania_one"
+                    android:textSize="20sp"
+                    tools:ignore="RelativeOverlap" />
 
                 <TextView
                     android:id="@+id/pts"
@@ -263,11 +272,19 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="60dp"
-                    android:ems="8"
                     android:fontFamily="@font/germania_one"
                     android:text="@string/balance"
                     android:textSize="20sp" />
-
+                <TextView
+                    android:id="@+id/dzdBal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="7dp"
+                    android:layout_toStartOf="@+id/dzd"
+                    android:fontFamily="@font/germania_one"
+                    android:textSize="20sp"
+                    tools:ignore="RelativeOverlap" />
                 <TextView
                     android:id="@+id/dzd"
                     android:layout_width="wrap_content"
