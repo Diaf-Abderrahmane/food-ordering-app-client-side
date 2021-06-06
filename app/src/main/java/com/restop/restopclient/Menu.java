@@ -86,8 +86,8 @@ public class Menu extends Fragment {
             @Override
             public void isLoaded(ArrayList<Category> allCategories) {
                 AllCategories = Category.OrderCategories(allCategories);
-                adapter = new Menu1.CustomAdapter();
-                adapter2 = new Menu1.CustomAdapter(2);
+                adapter = new Menu.CustomAdapter();
+                adapter2 = new Menu.CustomAdapter(2);
                 recyclerView.setAdapter(adapter);
                 recyclerView2.setAdapter(adapter2);
                 progressBar.setVisibility(View.INVISIBLE);
@@ -182,7 +182,7 @@ public class Menu extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder Holder, final int position) {
             switch (ViewType) {
                 case 1:
-                    Menu1.CustomAdapter.ViewHolder1 viewHolder1=(Menu1.CustomAdapter.ViewHolder1) Holder;
+                    Menu.CustomAdapter.ViewHolder1 viewHolder1=(Menu.CustomAdapter.ViewHolder1) Holder;
                     viewHolder1.getOptionName().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getName());
                     viewHolder1.getOptionDescription().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getDescription());
                     String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() +" DZD";
@@ -197,7 +197,7 @@ public class Menu extends Fragment {
 
                     break;
                 case 2:
-                    Menu1.CustomAdapter.ViewHolder2 viewHolder2=(Menu1.CustomAdapter.ViewHolder2) Holder;
+                    Menu.CustomAdapter.ViewHolder2 viewHolder2=(Menu.CustomAdapter.ViewHolder2) Holder;
                     viewHolder2.getCategoryName().setText(AllCategories.get(position).getName());
                     viewHolder2.getCategoryName().setOnClickListener(new View.OnClickListener() {
                         @Override
