@@ -104,7 +104,7 @@ public class Qr_Scaner extends Fragment {
 
             }
         });
-        startActivity(new Intent(getActivity(), Qr_Scan1.class));
+        startActivity(new Intent(getActivity(), Qr_Scaner.class));
         getActivity().finish();
         return view;
     }

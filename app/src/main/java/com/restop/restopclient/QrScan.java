@@ -126,7 +126,7 @@ public class QrScan extends Fragment {
         scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(),scan.class));
+                startActivity(new Intent(getActivity(),Qr_Scaner.class));
             }
         });
         return view;
