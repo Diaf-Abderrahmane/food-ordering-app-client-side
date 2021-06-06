@@ -1,15 +1,14 @@
 package com.restop.restopclient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,44 +26,34 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
-public class Menu extends AppCompatActivity {
+public class Menu extends Fragment {
+
     ArrayList<Category> AllCategories;
-    CustomAdapter adapter;
-    CustomAdapter adapter2;
+    Menu1.CustomAdapter adapter;
+    Menu1.CustomAdapter adapter2;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ProgressBar progressBar;
     LinearLayout VMenu;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+         View view =inflater.inflate(R.layout.fragment_menu, container, false);
 
         FirebaseMessaging.getInstance().subscribeToTopic("Notification");
         //=================================
 
-        LinearLayout Menu=findViewById(R.id.nScanner);
-        Menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Menu.this,Qr_Scan.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
-        progressBar=findViewById(R.id.progressBar);
-        VMenu=findViewById(R.id.VMenu);
+        progressBar=view.findViewById(R.id.progressBar);
+        VMenu=view.findViewById(R.id.VMenu);
 
 
-        recyclerView = findViewById(R.id.Menu);
-        recyclerView2 = findViewById(R.id.AllCategories);
+        recyclerView = view.findViewById(R.id.Menu);
+        recyclerView2 = view.findViewById(R.id.AllCategories);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
 
         final Boolean[] c = {false};
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -87,14 +76,18 @@ public class Menu extends AppCompatActivity {
         });
 
 
+
+
+        return view;
+
     }
     public void Refresh(){
         Category.ReadCategories(new Category.CategoriesStatus() {
             @Override
             public void isLoaded(ArrayList<Category> allCategories) {
                 AllCategories = Category.OrderCategories(allCategories);
-                adapter = new CustomAdapter();
-                adapter2 = new CustomAdapter(2);
+                adapter = new Menu1.CustomAdapter();
+                adapter2 = new Menu1.CustomAdapter(2);
                 recyclerView.setAdapter(adapter);
                 recyclerView2.setAdapter(adapter2);
                 progressBar.setVisibility(View.INVISIBLE);
@@ -177,11 +170,11 @@ public class Menu extends AppCompatActivity {
 
             switch (ViewType){
                 case 1:
-                    return new ViewHolder1(view1);
+                    return new Menu.CustomAdapter.ViewHolder1(view1);
                 case 2:
-                    return new ViewHolder2(view2);
+                    return new Menu.CustomAdapter.ViewHolder2(view2);
                 default:
-                    return new ViewHolder0(view0);
+                    return new Menu.CustomAdapter.ViewHolder0(view0);
             }
         }
 
@@ -189,7 +182,7 @@ public class Menu extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder Holder, final int position) {
             switch (ViewType) {
                 case 1:
-                    ViewHolder1 viewHolder1=(ViewHolder1) Holder;
+                    Menu1.CustomAdapter.ViewHolder1 viewHolder1=(Menu1.CustomAdapter.ViewHolder1) Holder;
                     viewHolder1.getOptionName().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getName());
                     viewHolder1.getOptionDescription().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getDescription());
                     String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() +" DZD";
@@ -204,7 +197,7 @@ public class Menu extends AppCompatActivity {
 
                     break;
                 case 2:
-                    ViewHolder2 viewHolder2=(ViewHolder2) Holder;
+                    Menu1.CustomAdapter.ViewHolder2 viewHolder2=(Menu1.CustomAdapter.ViewHolder2) Holder;
                     viewHolder2.getCategoryName().setText(AllCategories.get(position).getName());
                     viewHolder2.getCategoryName().setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -215,11 +208,11 @@ public class Menu extends AppCompatActivity {
                     break;
 
                 default:
-                    ViewHolder0 viewHolder0=(ViewHolder0) Holder;
+                    Menu.CustomAdapter.ViewHolder0 viewHolder0=(Menu.CustomAdapter.ViewHolder0) Holder;
                     viewHolder0.getCategoryName().setText(AllCategories.get(position).getName());
 
-                    viewHolder0.getCategoryOptions().setLayoutManager(new LinearLayoutManager(Menu.this));
-                    CustomAdapter adapterO = new CustomAdapter(1,position);
+                    viewHolder0.getCategoryOptions().setLayoutManager(new LinearLayoutManager(getActivity()));
+                    Menu.CustomAdapter adapterO = new Menu.CustomAdapter(1,position);
                     viewHolder0.getCategoryOptions().setAdapter(adapterO);
                     break;
             }
@@ -236,5 +229,4 @@ public class Menu extends AppCompatActivity {
             }
         }
     }
-
 }

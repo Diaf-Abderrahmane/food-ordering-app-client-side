@@ -1,17 +1,16 @@
 package com.restop.restopclient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,15 +20,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Profile extends AppCompatActivity {
 
+public class Profile extends Fragment {
 
     ImageView back;
     ImageView arrow;
@@ -42,16 +40,17 @@ public class Profile extends AppCompatActivity {
     Switch aSwitch;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        logout = findViewById(R.id.logout);
-        back = findViewById(R.id.back);
-        arrow = findViewById(R.id.arrow);
-        profilepic = findViewById(R.id.userpic);
+        logout = view.findViewById(R.id.logout);
+        back = view.findViewById(R.id.back);
+        arrow = view.findViewById(R.id.arrow);
+        profilepic = view.findViewById(R.id.userpic);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
-        aSwitch = findViewById(R.id.switchBox);
+        aSwitch = view.findViewById(R.id.switchBox);
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -60,7 +59,7 @@ public class Profile extends AppCompatActivity {
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile.this, PersonalData.class);
+                Intent intent = new Intent(getActivity(), PersonalData.class);
                 startActivity(intent);
             }
         });
@@ -83,18 +82,15 @@ public class Profile extends AppCompatActivity {
 
         getUserInfo();
 
-
-
+        return view;
     }
-
-
-   private void getUserInfo() {
+    private void getUserInfo() {
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                     if (!snapshot.hasChild("image")) {
-                       Picasso.get().load(R.drawable.profile_pic).into(profilepic);
+                        Picasso.get().load(R.drawable.profile_pic).into(profilepic);
                         /*reference.child("Default_Img").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -107,7 +103,7 @@ public class Profile extends AppCompatActivity {
 
                             }
                         });*/
-                   }else{
+                    }else{
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
                     }

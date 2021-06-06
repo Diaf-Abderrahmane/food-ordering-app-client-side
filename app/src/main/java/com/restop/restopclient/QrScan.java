@@ -1,17 +1,19 @@
 package com.restop.restopclient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,7 +25,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Qr_Scan extends AppCompatActivity {
+
+
+public class QrScan extends Fragment {
+
     private ConstraintLayout ptsL,balL;
     private Button morePts,moreBal;
     private MaterialCardView pts,bal;
@@ -35,37 +40,28 @@ public class Qr_Scan extends AppCompatActivity {
     private MaterialCardView ptsDialogue,balDialogue;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr__scan);
-
-        LinearLayout Menu=findViewById(R.id.nMenu);
-        Menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Qr_Scan.this,Menu.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+         View view = inflater.inflate(R.layout.fragment_qr_scan, container, false);
         fb=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
         Rusers=fb.getReference().child("Users");
         uid[0]=auth.getCurrentUser().getUid();
-        txtPts=findViewById(R.id.ptsBal);
-        txtDzd=findViewById(R.id.dzdBal);
-        ptsL=findViewById(R.id.layout_more_points);
-        balL=findViewById(R.id.layout_more_balance);
-        pts=findViewById(R.id.points_help);
-        bal=findViewById(R.id.balance_help);
-        moreBal=findViewById(R.id.more);
-        morePts=findViewById(R.id.morePts);
-        ptsDialogue=findViewById(R.id.points);
-        balDialogue=findViewById(R.id.balance);
+        txtPts=view.findViewById(R.id.ptsBal);
+        txtDzd=view.findViewById(R.id.dzdBal);
+        ptsL=view.findViewById(R.id.layout_more_points);
+        balL=view.findViewById(R.id.layout_more_balance);
+        pts=view.findViewById(R.id.points_help);
+        bal=view.findViewById(R.id.balance_help);
+        moreBal=view.findViewById(R.id.more);
+        morePts=view.findViewById(R.id.morePts);
+        ptsDialogue=view.findViewById(R.id.points);
+        balDialogue=view.findViewById(R.id.balance);
         ptsDialogue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Qr_Scan.this);
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                 View view = getLayoutInflater().inflate(R.layout.pts_dialogue, null);
                 alertDialog.setView(view);
                 final AlertDialog alertDialog1 = alertDialog.create();
@@ -76,7 +72,7 @@ public class Qr_Scan extends AppCompatActivity {
         balDialogue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Qr_Scan.this);
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                 View view = getLayoutInflater().inflate(R.layout.bal_dialogue, null);
                 alertDialog.setView(view);
                 final AlertDialog alertDialog1 = alertDialog.create();
@@ -84,7 +80,7 @@ public class Qr_Scan extends AppCompatActivity {
                 alertDialog1.show();
             }
         });
-        FloatingActionButton scanBtn = findViewById(R.id.scanBtn);
+        FloatingActionButton scanBtn = view.findViewById(R.id.scanBtn);
         Rusers.child(uid[0]).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -130,10 +126,9 @@ public class Qr_Scan extends AppCompatActivity {
         scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Qr_Scan.this,scan.class));
+                startActivity(new Intent(getActivity(),scan.class));
             }
         });
-
+        return view;
     }
-
 }

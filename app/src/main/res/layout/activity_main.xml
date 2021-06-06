@@ -1,65 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <LinearLayout
-        android:background="@color/golden"
+
+    <FrameLayout
+        android:id="@+id/frameLO"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="677dp"
+        app:layout_constraintBottom_toTopOf="@+id/Meow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <TextView
-            style="@style/Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="ResTop"
-            android:textColor="@color/mygreen"></TextView>
-    </LinearLayout>
+    </FrameLayout>
 
-    <Button
-        android:id="@+id/go"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GO"
+    <LinearLayout
+        android:id="@+id/VNav"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.729"
-        android:background="@drawable/background"
-        android:textColor="@color/white"/>
+        android:background="@drawable/bg_nav"
+        android:orientation="horizontal"
+        android:paddingTop="4dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:id="@+id/nMenu">
+            <ImageView
+                android:id="@+id/MenuImg"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_restaurant_menu"
+                android:backgroundTint="@color/primaryColor"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="Home"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:id="@+id/nQR_generator">
+            <ImageView
+                android:id="@+id/QrCodeImg"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_qr_code"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="QR generator"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/nReviews"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:id="@+id/ReviewsImg"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_star_half"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="Reviews"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/nSettings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:id="@+id/SettingImg"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_baseline_settings"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:text="Setting"
+                android:textSize="10dp"
+                android:textColor="@color/eblack"/>
+        </LinearLayout>
 
-    <EditText
-        android:id="@+id/Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/go"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.388" />
-
-    <EditText
-        android:id="@+id/Password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/go"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Email"
-        app:layout_constraintVertical_bias="0.316" />
-
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

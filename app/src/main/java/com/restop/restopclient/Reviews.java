@@ -1,17 +1,18 @@
 package com.restop.restopclient;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Toast;
@@ -28,11 +29,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
-public class  Reviews extends AppCompatActivity {
-    private ImageView imgCurrentUser,restopPhoto;
+
+public class Reviews extends Fragment {
+
+    private ImageView imgCurrentUser, restopPhoto;
     private EditText editComment;
     private Button btnAddComment;
     private RatingBar userRating;
@@ -48,16 +50,17 @@ public class  Reviews extends AppCompatActivity {
     static String COMMENT_KEY = "Comments";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reviews);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_reviews, container, false);
         listComments = new ArrayList<>();
-        progressBar = findViewById(R.id.progressBar);
-        RvComment = findViewById(R.id.rv_comment);
-        imgCurrentUser =  findViewById(R.id.current_user_img);
-        editComment = findViewById(R.id.edit_comment);
-        btnAddComment = findViewById(R.id.add_comment_button);
-        userRating = findViewById(R.id.ratingBar);
+        progressBar = view.findViewById(R.id.progressBar);
+        RvComment = view.findViewById(R.id.rv_comment);
+        imgCurrentUser = view.findViewById(R.id.current_user_img);
+        editComment = view.findViewById(R.id.edit_comment);
+        btnAddComment = view.findViewById(R.id.add_comment_button);
+        userRating = view.findViewById(R.id.ratingBar);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -73,8 +76,8 @@ public class  Reviews extends AppCompatActivity {
 
 
         ////////////////////////////////////////////////////////
-        if(firebaseUser != null && firebaseUser.getPhotoUrl() != null)
-           Glide.with(this).load(firebaseUser.getPhotoUrl()).into(imgCurrentUser);
+        if (firebaseUser != null && firebaseUser.getPhotoUrl() != null)
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(imgCurrentUser);
         else
             Glide.with(this).load(R.drawable.profile_pic).into(imgCurrentUser);
 
@@ -85,10 +88,10 @@ public class  Reviews extends AppCompatActivity {
                 btnAddComment.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
                 String commentContent = editComment.getText().toString();
-                String uid =firebaseUser.getUid().toString();
-                String uname =firebaseUser.getDisplayName();
+                String uid = firebaseUser.getUid().toString();
+                String uname = firebaseUser.getDisplayName();
                 String uimg = firebaseUser.getPhotoUrl().toString();
-                Comment comment = new Comment(commentContent,uid,uimg,uname,commentRating);
+                Comment comment = new Comment(commentContent, uid, uimg, uname, commentRating);
 
                 addComment(comment);
             }
@@ -96,10 +99,10 @@ public class  Reviews extends AppCompatActivity {
         //ini recyclerview
 
         iniRvComment();
-        restopPhoto = findViewById(R.id.resto_img);
+        restopPhoto = view.findViewById(R.id.resto_img);
         Glide.with(this).load(R.drawable.restop).into(restopPhoto);
 
-
+        return view;
     }
 
 
@@ -119,7 +122,7 @@ public class  Reviews extends AppCompatActivity {
 */
 
     private void iniRvComment() {
-        RvComment.setLayoutManager(new LinearLayoutManager(this));
+        RvComment.setLayoutManager(new LinearLayoutManager(getActivity()));
         DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child(COMMENT_KEY);
         listComments = new ArrayList<>();
 
@@ -134,7 +137,7 @@ public class  Reviews extends AppCompatActivity {
 
                 }
                 Collections.reverse(listComments);
-                commentAdapter = new CommentAdapter(getApplicationContext(),listComments);
+                commentAdapter = new CommentAdapter(getActivity().getApplicationContext(),listComments);
                 RvComment.setAdapter(commentAdapter);
 
 
@@ -170,6 +173,6 @@ public class  Reviews extends AppCompatActivity {
         });
     }
     private void showMessage(String message) {
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
     }
 }

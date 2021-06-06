@@ -1,17 +1,16 @@
 package com.restop.restopclient;
 
 
-import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.fragment.app.Fragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,36 +18,63 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_main);
-        EditText email = findViewById(R.id.Email);
-        EditText password = findViewById(R.id.Password);
-        Button go = findViewById(R.id.go);
-        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.golden));
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Registering User...");
+        replace(new Menu());
 
-        if (!(FirebaseAuth.getInstance().getCurrentUser() == null)) {
-            startActivity(new Intent(MainActivity.this, Menu.class));
-            finish();
-        } else {
-            startActivity(new Intent(MainActivity.this,Login.class));
-            finish();
-        }
-
-        go.setOnClickListener(new View.OnClickListener() {
+        LinearLayout qr=findViewById(R.id.nQR_generator);
+        qr.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-               // FirebaseMessaging.getInstance().subscribeToTopic("Notification");
-                final String em = email.getText().toString();
-                final String pass = password.getText().toString();
-                User user = new User("hani", em,0);
-                User.AddUser(user, pass);
-                Intent intent = new Intent(MainActivity.this, Profile.class);
-                startActivity(intent);
+                replace(new QrScan());
+                findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
+                findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+            }
+        });
+        LinearLayout Setting=findViewById(R.id.nSettings);
+        Setting.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                replace(new Profile());
+                findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
+                findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
 
             }
         });
+        LinearLayout Menu=findViewById(R.id.nMenu);
+        Menu.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                replace(new Menu());
+                findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
+            }
+        });
+        LinearLayout reviws=findViewById(R.id.nReviews);
+        reviws.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                replace(new Reviews());
+                findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
+            }
+        });
+
+
+    }
+    private void replace(Fragment Fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLO, Fragment).commit();
+
     }
 }
