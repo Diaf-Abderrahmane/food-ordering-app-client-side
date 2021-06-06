@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Restop</string>
+    <string name="app_name">Restop Client</string>
     <string name="scanner">Qr Scanner</string>
     <string name="pointsBalance">Balance &amp; Points</string>
     <string name="points">Points</string>

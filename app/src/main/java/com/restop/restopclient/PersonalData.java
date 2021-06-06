@@ -73,8 +73,8 @@ public class PersonalData extends AppCompatActivity {
     private Uri uri;
     private String myUri = "";
     private StorageTask storageTask;
-    private String email;
-    private String username;
+    private String email="";
+    private String username="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +98,19 @@ public class PersonalData extends AppCompatActivity {
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                username = snapshot.child("userName").getValue().toString();
-                email = snapshot.child("email").getValue().toString();
-                emailTv.setText(email);
-                usernameTv.setText(username);
+                int i=0;
+                for (DataSnapshot snap:snapshot.getChildren()){
+                    switch (i){
+                        case 0:
+                            emailTv.setText(snap.getValue().toString());
+                            break;
+                        case 3:
+                            usernameTv.setText(snap.getValue().toString());
+                            break;
+                    }
+                    i++;
+                }
+
             }
 
             @Override
