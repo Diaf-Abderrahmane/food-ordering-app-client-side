@@ -31,6 +31,7 @@ public class Qr_Scan extends AppCompatActivity {
     private DatabaseReference Rusers,Rqr;
     private FirebaseAuth auth;
     private final String[] uid=new String[1];
+    private MaterialCardView ptsDialogue,balDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
