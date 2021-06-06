@@ -29,8 +29,8 @@ import java.util.ArrayList;
 public class Menu extends Fragment {
 
     ArrayList<Category> AllCategories;
-    Menu1.CustomAdapter adapter;
-    Menu1.CustomAdapter adapter2;
+    Menu.CustomAdapter adapter;
+    Menu.CustomAdapter adapter2;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ProgressBar progressBar;
