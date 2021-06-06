@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Reviews"
+    android:background="#fff">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/VNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment_card" />
+
+    <ImageView
+    android:id="@+id/resto_img"
+    android:layout_width="0dp"
+    android:layout_height="250dp"
+    android:scaleType="centerCrop"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+
+        android:id="@+id/resto_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="4dp"
+        android:text="ResTop"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resto_img" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#2e2e2e"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resto_name" />
+
+
+    <TextView
+
+        android:id="@+id/resto_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="8dp"
+        android:text="this restaurant is open to all client every day from 11am to 11pm, except saturday."
+        android:textColor="#373737"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+<androidx.cardview.widget.CardView
+    android:id="@+id/comment_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/resto_description"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="97dp">
+
+        <ImageView
+
+            android:id="@+id/current_user_img"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Base.Widget.AppCompat.RatingBar.Small"
+            android:rating="1"
+            android:stepSize="1"
+            android:progressTint="#8685ef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="false"
+            android:max="5"
+            android:min="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="76dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/add_comment_button"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/edit_text_button_style"
+
+            android:text="ADD"
+            android:textColor="@color/gris"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_comment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edit_comment"
+            app:layout_constraintTop_toTopOf="@+id/edit_comment" />
+
+        <EditText
+            android:id="@+id/edit_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/comment_edittext"
+
+            android:ems="10"
+            android:hint="Write Comment"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/current_user_img"
+            app:layout_constraintStart_toEndOf="@+id/current_user_img"
+            app:layout_constraintTop_toTopOf="@+id/current_user_img"
+            />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/add_comment_button"
+            app:layout_constraintEnd_toEndOf="@+id/add_comment_button"
+            app:layout_constraintStart_toStartOf="@+id/add_comment_button"
+            app:layout_constraintTop_toTopOf="@+id/add_comment_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+android:id="@+id/VNav"
+
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent" >
+
+<LinearLayout
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/bg_nav"
+    android:orientation="horizontal"
+    android:paddingTop="4dp">
+
+    <LinearLayout
+        android:id="@+id/nMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_baseline_restaurant_menu" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:gravity="center_vertical"
+            android:text="Home"
+            android:textColor="@color/eblack"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_baseline_qr_code"
+            android:backgroundTint="@color/eblack" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:gravity="center_vertical"
+            android:text="QR generator"
+            android:textColor="@color/eblack"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nReviews"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_baseline_star_half"
+            android:backgroundTint="@color/primaryColor"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:gravity="center_vertical"
+            android:text="Reviews"
+            android:textColor="@color/primaryColor"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_baseline_people_alt" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:gravity="center_vertical"
+            android:text="Users"
+            android:textColor="@color/eblack"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_baseline_settings" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:gravity="center_vertical"
+            android:text="Setting"
+            android:textSize="10dp"
+            android:textColor="@color/eblack" />
+    </LinearLayout>
+
+</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
