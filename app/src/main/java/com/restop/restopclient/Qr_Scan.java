@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.AutoTransition;
@@ -59,6 +60,30 @@ public class Qr_Scan extends AppCompatActivity {
         bal=findViewById(R.id.balance_help);
         moreBal=findViewById(R.id.more);
         morePts=findViewById(R.id.morePts);
+        ptsDialogue=findViewById(R.id.points);
+        balDialogue=findViewById(R.id.balance);
+        ptsDialogue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Qr_Scan.this);
+                View view = getLayoutInflater().inflate(R.layout.pts_dialogue, null);
+                alertDialog.setView(view);
+                final AlertDialog alertDialog1 = alertDialog.create();
+                alertDialog1.setCanceledOnTouchOutside(true);
+                alertDialog1.show();
+            }
+        });
+        balDialogue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Qr_Scan.this);
+                View view = getLayoutInflater().inflate(R.layout.bal_dialogue, null);
+                alertDialog.setView(view);
+                final AlertDialog alertDialog1 = alertDialog.create();
+                alertDialog1.setCanceledOnTouchOutside(true);
+                alertDialog1.show();
+            }
+        });
         FloatingActionButton scanBtn = findViewById(R.id.scanBtn);
         Rusers.child(uid[0]).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
