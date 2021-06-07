@@ -1,16 +1,11 @@
 package com.restop.restopclient;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +26,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-
-public class Qr_Scaner extends Fragment {
+public class QR_Scaner extends AppCompatActivity {
     private CodeScanner codeScanner;
     private CodeScannerView scannerView;
     private TextView textdata;
@@ -44,21 +38,20 @@ public class Qr_Scaner extends Fragment {
     private final String[] uid=new String[1];
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-         View view =inflater.inflate(R.layout.fragment_qr__scaner, container, false);
-        scannerView = view.findViewById(R.id.scannerV);
-        codeScanner = new CodeScanner(getActivity(), scannerView);
-        fb=FirebaseDatabase.getInstance();
-        auth=FirebaseAuth.getInstance();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_q_r__scaner);
+        scannerView = findViewById(R.id.scannerV);
+        codeScanner = new CodeScanner(QR_Scaner.this, scannerView);
+        fb= FirebaseDatabase.getInstance();
+        auth= FirebaseAuth.getInstance();
         Rusers=fb.getReference().child("Users");
         Rqr=fb.getReference().child("QrCode");
         uid[0]=auth.getCurrentUser().getUid();
         codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
-                getActivity().runOnUiThread(new Runnable() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
 
@@ -66,6 +59,7 @@ public class Qr_Scaner extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
                                 if (task.isSuccessful()){
+
                                     price[0]=task.getResult().child("price").getValue(int.class);
                                     status[0]=task.getResult().child("status").getValue(int.class);
                                     Rusers.child(uid[0]).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -85,7 +79,7 @@ public class Qr_Scaner extends Fragment {
                                                             Rusers.child(uid[0]).child("Points").setValue(points-price[0]);
                                                             Rqr.child(result.getText()).child("status").setValue(3);
                                                         }else{Rqr.child(result.getText()).child("status").setValue(4);
-                                                            Toast.makeText(getActivity(), "not enough points", Toast.LENGTH_SHORT).show();}
+                                                            Toast.makeText(QR_Scaner.this, "not enough points", Toast.LENGTH_SHORT).show();}
                                                         break;
                                                     }
                                                 }
@@ -104,11 +98,11 @@ public class Qr_Scaner extends Fragment {
 
             }
         });
-        startActivity(new Intent(getActivity(), Qr_Scaner.class));
-        getActivity().finish();
-        return view;
-    }
+        Intent intent =new Intent(QR_Scaner.this, MainActivity.class);
+        intent.putExtra("key", 2);
+        startActivity(intent);
 
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -117,7 +111,7 @@ public class Qr_Scaner extends Fragment {
     }
 
     private void request() {
-        Dexter.withActivity(getActivity()).withPermission(Manifest.permission.CAMERA).withListener(new PermissionListener() {
+        Dexter.withActivity(QR_Scaner.this).withPermission(Manifest.permission.CAMERA).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse response) {
                 codeScanner.startPreview();
@@ -125,7 +119,7 @@ public class Qr_Scaner extends Fragment {
 
             @Override
             public void onPermissionDenied(PermissionDeniedResponse response) {
-                Toast.makeText(getActivity(), "camera permission required", Toast.LENGTH_SHORT).show();
+                Toast.makeText(QR_Scaner.this, "camera permission required", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -136,6 +130,5 @@ public class Qr_Scaner extends Fragment {
             }
         }).check();
     }
-
 
 }

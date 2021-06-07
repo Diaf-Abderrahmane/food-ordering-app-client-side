@@ -100,7 +100,7 @@ public class Reviews extends Fragment {
 
         iniRvComment();
         restopPhoto = view.findViewById(R.id.resto_img);
-        Glide.with(this).load(R.drawable.restop).into(restopPhoto);
+        Glide.with(getActivity()).load(R.drawable.restop).into(restopPhoto);
 
         return view;
     }

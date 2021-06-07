@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -142,7 +143,10 @@ public class PersonalData extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PersonalData.this, Profile.class));
+                Intent intent =new Intent(PersonalData.this, MainActivity.class);
+                intent.putExtra("key", 4);
+                startActivity(intent);
+
             }
         });
 
