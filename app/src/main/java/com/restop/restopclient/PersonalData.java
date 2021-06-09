@@ -60,8 +60,6 @@ public class PersonalData extends AppCompatActivity {
     private TextView usernameTv;
     private EditText editName;
     private EditText editEmail;
-    private EditText editPassword;
-    private EditText confirmPassword;
     private ImageView edit1;
     private ImageView edit2;
     private ImageView edit3;
@@ -222,8 +220,8 @@ public class PersonalData extends AppCompatActivity {
             public void onClick(View v) {
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(PersonalData.this);
                 View view = getLayoutInflater().inflate(R.layout.dialog_edit_password, null);
-                editPassword = view.findViewById(R.id.editpassword);
-                confirmPassword = view.findViewById(R.id.confirm_password);
+                 EditText editPassword = view.findViewById(R.id.editpassword);
+                 EditText confirmPassword = view.findViewById(R.id.confirm_password);
                 update2 = view.findViewById(R.id.update2);
                 alertDialog.setView(view);
                 final AlertDialog alertDialog1 = alertDialog.create();
@@ -232,8 +230,18 @@ public class PersonalData extends AppCompatActivity {
                 update2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       // changeUserPassword();
-                        Toast.makeText(PersonalData.this,"Data has been changed",Toast.LENGTH_SHORT).show();
+                        final String edit_password = editPassword.getText().toString();
+                        final String confirm_password = confirmPassword.getText().toString();
+                        if (changeUserPassword(edit_password,confirm_password)) {
+                            user.updatePassword(edit_password).addOnCompleteListener(PersonalData.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
 
@@ -248,9 +256,7 @@ public class PersonalData extends AppCompatActivity {
     }
 
 
-    private boolean changeUserPassword() {
-        String edit_password = editPassword.getText().toString();
-        String confirm_password = confirmPassword.getText().toString();
+    private boolean changeUserPassword(String edit_password,String confirm_password) {
         Boolean isValidNewPassword, isValidConfirmPassword;
         ArrayList<String> errors = new ArrayList<>();
         isValidNewPassword = edit_password.length() >= 6;
