@@ -32,6 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Profile extends Fragment {
     ImageView back;
     ImageView arrow;
+    ImageView about_us;
     private CircleImageView profilepic;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
@@ -39,6 +40,7 @@ public class Profile extends Fragment {
     Query query;
     ImageView logout;
     Switch aSwitch;
+    Intent intent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,12 +56,22 @@ public class Profile extends Fragment {
         aSwitch = view.findViewById(R.id.switchBox);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        query = reference.orderByChild("email").equalTo(user.getEmail());
+        about_us = view.findViewById(R.id.about_us);
+
+        about_us.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(getActivity(), AboutUs.class);
+                startActivity(intent);
+
+
+            }
+        });
 
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PersonalData.class);
+                intent = new Intent(getActivity(), PersonalData.class);
                 startActivity(intent);
             }
         });

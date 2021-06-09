@@ -20,7 +20,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
-    private TextView authen,login,desc;
     private TextInputLayout email, password;
     private Button loginBtn,toRegister;
     private FirebaseAuth fAuth;

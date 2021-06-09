@@ -349,6 +349,7 @@ public class PersonalData extends AppCompatActivity {
                     if (snapshot.hasChild("image")) {
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
+                        //profilepic.setImageURI(storageReference.);
                     }
                 }
 

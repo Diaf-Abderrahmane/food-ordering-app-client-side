@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="14dp"
                 android:gravity="center_vertical"
-                android:text="QR generator"
+                android:text="QR Scan"
                 android:textSize="10dp"
                 android:textColor="@color/eblack"/>
         </LinearLayout>
