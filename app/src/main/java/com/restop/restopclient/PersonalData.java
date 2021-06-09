@@ -375,7 +375,6 @@ public class PersonalData extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         throw task.getException();
                     }
-
                     return storageReference1.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {

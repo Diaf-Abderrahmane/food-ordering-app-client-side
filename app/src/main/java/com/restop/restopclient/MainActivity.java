@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
             findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
             findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+            Main();
+
 
         } else if (i ==4 ){
             replace(new Profile());
@@ -39,63 +41,69 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
             findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
             findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+            Main();
+
 
         } else {
             replace(new Menu());
-            LinearLayout qr = findViewById(R.id.nQR_generator);
-            qr.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(View v) {
-                    replace(new QrScan());
-                    findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
-                    findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                }
-            });
-            LinearLayout profile = findViewById(R.id.nSettings);
-            profile.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(View v) {
-                    replace(new Profile());
-                    findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
-                    findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-
-                }
-            });
-            LinearLayout Menu = findViewById(R.id.nMenu);
-            Menu.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(View v) {
-                    replace(new Menu());
-                    findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
-                }
-            });
-            LinearLayout reveiws = findViewById(R.id.nReviews);
-            reveiws.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(View v) {
-                    replace(new Reviews());
-                    findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
-                    findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
-                }
-            });
+            Main();
 
         }
     }
     private void replace(Fragment Fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLO, Fragment).commit();
+
+    }
+    public void Main(){
+        LinearLayout qr = findViewById(R.id.nQR_generator);
+        qr.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                replace(new QrScan());
+                findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
+                findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+            }
+        });
+        LinearLayout profile = findViewById(R.id.nSettings);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                replace(new Profile());
+                findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
+                findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+
+            }
+        });
+        LinearLayout Menu = findViewById(R.id.nMenu);
+        Menu.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                replace(new Menu());
+                findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
+            }
+        });
+        LinearLayout reveiws = findViewById(R.id.nReviews);
+        reveiws.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                replace(new Reviews());
+                findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
+                findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
+            }
+        });
 
     }
 }

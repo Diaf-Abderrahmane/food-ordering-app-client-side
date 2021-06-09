@@ -2,6 +2,7 @@ package com.restop.restopclient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
@@ -59,42 +60,41 @@ public class QR_Scaner extends AppCompatActivity {
                         Rusers=fb.getReference().child("Users");
                         Rqr=fb.getReference().child("QrCode");
                         uid[0]=auth.getCurrentUser().getUid();
+                       Rqr.child(result.getText()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                           @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                               if (task.isSuccessful()){
 
-//                        Rqr.child(result.getText()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                                if (task.isSuccessful()){
-//
-//                                    price[0]=task.getResult().child("price").getValue(int.class);
-//                                        status[0]=task.getResult().child("status").getValue(int.class);
-//                                    Rusers.child(uid[0]).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                                        @Override
-//                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                                            if (task.isSuccessful()){
-//                                                int points;
-//                                                points=task.getResult().child("Points").getValue(int.class);
-//                                                switch (status[0]){
-//                                                    case 0:{
-//                                                        Rusers.child(uid[0]).child("Points").setValue(points+price[0]);
-//                                                        Rqr.child(result.getText()).child("status").setValue(2);
-//                                                        break;
-//                                                    }
-//                                                    case 1:{
-//                                                        if (points>=price[0]){
-//                                                            Rusers.child(uid[0]).child("Points").setValue(points-price[0]);
-//                                                            Rqr.child(result.getText()).child("status").setValue(3);
-//                                                        }else{Rqr.child(result.getText()).child("status").setValue(4);
-//                                                            Toast.makeText(QR_Scaner.this, "not enough points", Toast.LENGTH_SHORT).show();}
-//                                                        break;
-//                                                    }
-//                                                }
-//
-//                                            }
-//                                        }
-//                                    });
-//                                }
-//                            }
-//                        });
+                                    price[0]=task.getResult().child("price").getValue(int.class);
+                                        status[0]=task.getResult().child("status").getValue(int.class);
+                                  Rusers.child(uid[0]).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                            if (task.isSuccessful()){
+                                                int points;
+                                                points=task.getResult().child("Points").getValue(int.class);
+                                                switch (status[0]){
+                                                    case 0:{
+                                                        Rusers.child(uid[0]).child("Points").setValue(points+price[0]);
+                                                        Rqr.child(result.getText()).child("status").setValue(2);
+                                                        break;
+                                                    }
+                                                    case 1:{
+                                                        if (points>=price[0]){
+                                                            Rusers.child(uid[0]).child("Points").setValue(points-price[0]);
+                                                            Rqr.child(result.getText()).child("status").setValue(3);
+                                                        }else{Rqr.child(result.getText()).child("status").setValue(4);
+                                                            Toast.makeText(QR_Scaner.this, "not enough points", Toast.LENGTH_SHORT).show();}
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            }
+                                   });
+                                }
+                            }
+                      });
 
 
                     }
@@ -103,19 +103,20 @@ public class QR_Scaner extends AppCompatActivity {
 
             }
         });
-//        Intent intent =new Intent(QR_Scaner.this, MainActivity.class);
-//        intent.putExtra("key", 2);
-//        startActivity(intent);
+        Intent intent =new Intent(QR_Scaner.this, MainActivity.class);
+        intent.putExtra("key", 2);
+        startActivity(intent);
 
     }
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        request();
-//
-//    }
+   @Override
+    public void onResume() {
+        super.onResume();
+        request();
+
+   }
 
     private void request() {
+
         Dexter.withActivity(QR_Scaner.this).withPermission(Manifest.permission.CAMERA).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse response) {
