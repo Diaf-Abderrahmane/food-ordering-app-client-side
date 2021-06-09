@@ -236,10 +236,9 @@ public class PersonalData extends AppCompatActivity {
                             user.updatePassword(edit_password).addOnCompleteListener(PersonalData.this, new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()) {
-                                        Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
-                                        alertDialog1.dismiss();
-                                    }
+                                    if(task.isSuccessful()){
+                                    Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
+}
                                 }
                             });
                         }
