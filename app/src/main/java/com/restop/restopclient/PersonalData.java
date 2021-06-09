@@ -143,10 +143,10 @@ public class PersonalData extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent =new Intent(PersonalData.this, MainActivity.class);
                 intent.putExtra("key", 4);
                 startActivity(intent);
+
 
             }
         });
