@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -75,7 +76,7 @@ public class Profile extends Fragment {
 
 
 
-       /* aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+       aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true){
@@ -86,9 +87,7 @@ public class Profile extends Fragment {
                     User.unSubscribeNotification(reference.child(user.getUid()));
                 }
             }
-        });*/
-        //Picasso.get().load(R.drawable.profile_pic).into(profilepic);
-
+        });
         getUserInfo();
 
         return view;
