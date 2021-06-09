@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +29,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Profile extends Fragment {
-
     ImageView back;
     ImageView arrow;
     private CircleImageView profilepic;
@@ -51,7 +51,6 @@ public class Profile extends Fragment {
         profilepic = view.findViewById(R.id.userpic);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         aSwitch = view.findViewById(R.id.switchBox);
-
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         query = reference.orderByChild("email").equalTo(user.getEmail());
@@ -61,6 +60,16 @@ public class Profile extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PersonalData.class);
                 startActivity(intent);
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                Intent intent = new Intent(getActivity(), Login.class);
+                startActivity(intent);
+                getActivity().finish();
+
             }
         });
 
