@@ -237,8 +237,8 @@ public class PersonalData extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
-                                        alertDialog1.dismiss();
                                         Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
+                                        alertDialog1.dismiss();
                                     }
                                 }
                             });
