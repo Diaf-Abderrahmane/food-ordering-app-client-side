@@ -222,20 +222,20 @@ public class PersonalData extends AppCompatActivity {
             public void onClick(View v) {
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(PersonalData.this);
                 View view = getLayoutInflater().inflate(R.layout.dialog_edit_password, null);
-                editPassword = findViewById(R.id.editpassword);
-                confirmPassword = findViewById(R.id.confirm_password);
-                update2 = findViewById(R.id.update2);
+                editPassword = view.findViewById(R.id.editpassword);
+                confirmPassword = view.findViewById(R.id.confirm_password);
+                update2 = view.findViewById(R.id.update2);
                 alertDialog.setView(view);
                 final AlertDialog alertDialog1 = alertDialog.create();
                 alertDialog1.setCanceledOnTouchOutside(true);
                 alertDialog1.show();
-                /*update2.setOnClickListener(new View.OnClickListener() {
+                update2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                        // changeUserPassword();
                         Toast.makeText(PersonalData.this,"Data has been changed",Toast.LENGTH_SHORT).show();
                     }
-                });*/
+                });
 
             }
         });

@@ -67,7 +67,7 @@ public class QR_Scaner extends AppCompatActivity {
 
                                     price[0]=task.getResult().child("price").getValue(int.class);
                                         status[0]=task.getResult().child("status").getValue(int.class);
-                                  Rusers.child(uid[0]).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                        Rusers.child(uid[0]).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                                             if (task.isSuccessful()){
