@@ -67,6 +67,12 @@ public class QrScan extends Fragment {
                 final AlertDialog alertDialog1 = alertDialog.create();
                 alertDialog1.setCanceledOnTouchOutside(true);
                 alertDialog1.show();
+                view.findViewById(R.id.OK).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog1.dismiss();
+                    }
+                });
             }
         });
         balDialogue.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +84,13 @@ public class QrScan extends Fragment {
                 final AlertDialog alertDialog1 = alertDialog.create();
                 alertDialog1.setCanceledOnTouchOutside(true);
                 alertDialog1.show();
+                view.findViewById(R.id.OK).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog1.dismiss();
+                    }
+                });
+
             }
         });
         FloatingActionButton scanBtn = view.findViewById(R.id.scanBtn);
