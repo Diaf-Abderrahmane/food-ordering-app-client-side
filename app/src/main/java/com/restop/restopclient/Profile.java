@@ -73,9 +73,6 @@ public class Profile extends Fragment {
 
             }
         });
-
-
-
        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -83,13 +80,11 @@ public class Profile extends Fragment {
                     User.SubscribeNotification(reference.child(user.getUid()));
                 }
                 else {
-
                     User.unSubscribeNotification(reference.child(user.getUid()));
                 }
             }
         });
-        getUserInfo();
-
+       getUserInfo();
         return view;
     }
     private void getUserInfo() {
