@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,20 +9,13 @@
     tools:context=".Reviews"
     android:background="#fff">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_comment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/VNav"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comment_card" />
-
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <ImageView
         android:id="@+id/resto_img"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -156,135 +149,14 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/VNav"
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_comment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" >
-
-        <LinearLayout
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/bg_nav"
-            android:orientation="horizontal"
-            android:paddingTop="4dp">
-
-            <LinearLayout
-                android:id="@+id/nMenu"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/ic_baseline_restaurant_menu" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="14dp"
-                    android:gravity="center_vertical"
-                    android:text="Home"
-                    android:textColor="@color/eblack"
-                    android:textSize="10dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/ic_baseline_qr_code"
-                    android:backgroundTint="@color/eblack" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="14dp"
-                    android:gravity="center_vertical"
-                    android:text="QR generator"
-                    android:textColor="@color/eblack"
-                    android:textSize="10dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/nReviews"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/ic_baseline_star_half"
-                    android:backgroundTint="@color/primaryColor"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="14dp"
-                    android:gravity="center_vertical"
-                    android:text="Reviews"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="10dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/ic_baseline_people_alt" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="14dp"
-                    android:gravity="center_vertical"
-                    android:text="Users"
-                    android:textColor="@color/eblack"
-                    android:textSize="10dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/ic_baseline_settings" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="14dp"
-                    android:gravity="center_vertical"
-                    android:text="Setting"
-                    android:textSize="10dp"
-                    android:textColor="@color/eblack" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -3,6 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:background="@color/golden"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/back1"
+            android:src="@drawable/ic_twotone_arrow_back_24"
+            android:layout_marginLeft="15dp">
+
+        </ImageView>
+
+        <TextView
+            style="@style/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="ResTop"
+            android:textColor="@color/mygreen">
+
+        </TextView>
+
+    </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="130dp"
@@ -14,10 +42,14 @@
     </de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
+        android:id="@+id/restoName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
+        android:textSize="20dp">
 
     </TextView>
 
@@ -28,10 +60,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="90dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/emailicon"></ImageView>
+            android:id="@+id/emailicon"
+            android:src="@drawable/gmail"></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,12 +85,13 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="90dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/phoneicon">
+            android:id="@+id/phoneicon"
+            android:src="@drawable/phone">
 
-        </ImageView>
+        </de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,10 +112,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="90dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/fbicon"></ImageView>
+            android:id="@+id/fbicon"
+            android:src="@drawable/facebook"></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,10 +138,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="90dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/instaicon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/instaicon"></ImageView>
+            android:src="@drawable/ic_instagram"></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -118,5 +154,7 @@
             android:id="@+id/instaurl">
 
         </TextView>
+
     </LinearLayout>
+
 </LinearLayout>
