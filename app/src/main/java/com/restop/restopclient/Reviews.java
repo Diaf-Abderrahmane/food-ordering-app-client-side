@@ -90,8 +90,8 @@ public class Reviews extends Fragment {
                 String commentContent = editComment.getText().toString();
                 String uid = firebaseUser.getUid().toString();
                 String uname = firebaseUser.getDisplayName();
-                String uimg = firebaseUser.getPhotoUrl().toString();
-                Comment comment = new Comment(commentContent, uid, uimg, uname, commentRating);
+
+                Comment comment = new Comment(commentContent, uid,  uname, commentRating);
 
                 addComment(comment);
             }

@@ -3,7 +3,7 @@ package com.restop.restopclient;
 
 import com.google.firebase.database.ServerValue;
 
- public class Comment {
+public class Comment {
     private String content, uid, uimg, uname,key;
     private float rating;
 
@@ -12,10 +12,10 @@ import com.google.firebase.database.ServerValue;
     public Comment() {
     }
 
-    public Comment(String content, String uid, String uimg, String uname,float rating) {
+    public Comment(String content, String uid,String uname,float rating) {
         this.content = content;
         this.uid = uid;
-        this.uimg = uimg;
+
         this.uname = uname;
         this.rating = rating;
 

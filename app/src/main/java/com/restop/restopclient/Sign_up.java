@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -78,7 +80,15 @@ public class Sign_up extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 fAuth.signInWithEmailAndPassword(vemail,vpassword);
                                 String userId = fAuth.getCurrentUser().getUid();
-                                Toast.makeText(Sign_up.this, "Use Created", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Sign_up.this, "User Created", Toast.LENGTH_SHORT).show();
+
+                                // ADDED BY NASSIM
+                                // SET USERNAME
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                UserProfileChangeRequest nameUpdate = new UserProfileChangeRequest.Builder().setDisplayName(vusername).build();
+                                user.updateProfile(nameUpdate);
+                                // END
+
 
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("Email", vemail);
