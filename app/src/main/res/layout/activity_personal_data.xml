@@ -9,7 +9,7 @@
     tools:context=".PersonalData"
     android:orientation="vertical">
     <LinearLayout
-        android:background="@color/golden"
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -31,7 +31,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="ResTop"
-            android:textColor="@color/mygreen">
+            android:textColor="@color/colorPrimary">
 
         </TextView>
     </LinearLayout>
@@ -47,7 +47,7 @@
             android:layout_width="130dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            app:civ_border_color="@color/golden"
+            app:civ_border_color="@color/colorPrimaryDark"
             app:civ_border_width="3dp"
             app:civ_border_overlay="true">
 
@@ -75,11 +75,11 @@
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:backgroundTint="@color/mygreen"
+        android:backgroundTint="@color/colorPrimary"
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:text="SAVE"
-        android:textColor="@color/golden"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="15dp"
         android:layout_marginHorizontal="160dp">
 

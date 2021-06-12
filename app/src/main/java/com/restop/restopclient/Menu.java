@@ -41,8 +41,6 @@ public class Menu extends Fragment {
         // Inflate the layout for this fragment
          View view =inflater.inflate(R.layout.fragment_menu, container, false);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("Notification");
-        //=================================
 
 
         progressBar=view.findViewById(R.id.progressBar);
@@ -65,8 +63,6 @@ public class Menu extends Fragment {
                     Refresh();
                     c[0] =true;
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
-                    VMenu.setVisibility(View.INVISIBLE);
                     c[0]=false;
                 }
             }
