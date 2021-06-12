@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,10 +8,16 @@
     android:layout_height="match_parent"
     tools:context=".Reviews"
     android:background="#fff">
-
+<ScrollView
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/resto_img"
         android:layout_width="0dp"
@@ -62,7 +68,8 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:lineSpacingExtra="8dp"
-        android:text="this restaurant is open to all client every day from 11am to 11pm, except saturday."
+        android:text="this restaurant is open to all clients every day from 11am to 11pm, except saturday."
+        android:fontFamily=""
         android:textColor="#373737"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +92,7 @@
                 android:id="@+id/current_user_img"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:background="@drawable/image_comment"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -153,10 +161,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comment"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

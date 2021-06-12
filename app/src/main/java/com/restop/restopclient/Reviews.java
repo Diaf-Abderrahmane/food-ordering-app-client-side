@@ -28,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -76,22 +78,21 @@ public class Reviews extends Fragment {
 
 
         ////////////////////////////////////////////////////////
-        if (firebaseUser != null && firebaseUser.getPhotoUrl() != null)
-            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(imgCurrentUser);
-        else
-            Glide.with(this).load(R.drawable.profile_pic).into(imgCurrentUser);
-
+        getUserInfo();
         btnAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(firebaseDatabase.getReference().child(COMMENT_KEY).child(firebaseUser.getUid()) ==null)
                 btnAddComment.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
                 String commentContent = editComment.getText().toString();
-                String uid = firebaseUser.getUid().toString();
-                String uname = firebaseUser.getDisplayName();
 
-                Comment comment = new Comment(commentContent, uid,  uname, commentRating);
+                String uname = firebaseUser.getDisplayName();
+                String uimg = "";
+                if(firebaseUser.getPhotoUrl() != null) {
+                     uimg= firebaseUser.getPhotoUrl().toString();
+                }
+                Comment comment = new Comment(commentContent, uimg,  uname, commentRating);
 
                 addComment(comment);
             }
@@ -120,7 +121,32 @@ public class Reviews extends Fragment {
 
     }
 */
+private void getUserInfo() {
+    FirebaseUser user = firebaseAuth.getCurrentUser();
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+    reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+            if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
+                if (snapshot.hasChild("image")) {
+                    String image = snapshot.child("image").getValue(String.class);
+                    Glide.with(Reviews.this).load(image).into(imgCurrentUser);
 
+
+                }
+                else
+                    Glide.with(Reviews.this).load(R.drawable.profile_pic).into(imgCurrentUser);
+            }
+
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+        }
+    });
+}
     private void iniRvComment() {
         RvComment.setLayoutManager(new LinearLayoutManager(getActivity()));
         DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child(COMMENT_KEY);
@@ -151,17 +177,17 @@ public class Reviews extends Fragment {
 
     private void addComment(Comment comment) {
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference().child(COMMENT_KEY).push();
+        DatabaseReference databaseReference = firebaseDatabase.getReference().child(COMMENT_KEY);
 
-        comment.setKey(databaseReference.getKey());
-        databaseReference.setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+        comment.setKey(firebaseUser.getUid());
+        databaseReference.child(firebaseUser.getUid()).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 showMessage("comment added successfully");
                 btnAddComment.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
                 editComment.setText("");
-                userRating.setRating(1);
+                userRating.setRating(0);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

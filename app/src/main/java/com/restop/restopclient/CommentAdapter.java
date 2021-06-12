@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,9 +57,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.content.setText(mData.get(position).getContent());
         holder.date.setText(timestampToString((long) mData.get(position).getTimestamp()));
         holder.commentRatingShow.setNumStars((int) mData.get(position).getRating());
-        getUserInfo(holder);
+        getUserInfo(holder,position);
 
-        if(firebaseAuth.getCurrentUser().getUid().equals(mData.get(position).getUid())){
+        if(firebaseAuth.getCurrentUser().getUid().equals(mData.get(position).getKey())){
             holder.removeComment.setVisibility(View.VISIBLE);
             holder.removeComment.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,9 +76,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     }
 
-    private boolean isUserComment(Comment comment){
-        return (firebaseAuth.getCurrentUser().getUid().equals(comment.getUid()));
-    }
+
 
     @Override
     public int getItemCount() {
@@ -100,10 +99,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 
-    private void getUserInfo(@NonNull CommentViewHolder holder) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+    private void getUserInfo(@NonNull CommentViewHolder holder, int position) {
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
-        reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        reference.child(mData.get(position).getKey()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
@@ -130,7 +129,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(time);
-        String date = DateFormat.format("yyyy-mm-dd hh:mm",calendar).toString();
+        String date = DateFormat.format("dd/MM/yyyy hh:mm aaa",calendar).toString();
         return date;
 
 

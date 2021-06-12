@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -324,6 +325,10 @@ public class PersonalData extends AppCompatActivity {
     private boolean changeUserName() {
         if (!username.equals(editName.getText().toString())) {
             reference.child(user.getUid()).child("userName").setValue(editName.getText().toString());
+            UserProfileChangeRequest updateName = new UserProfileChangeRequest.Builder().setDisplayName(editName.getText().toString()).build();
+            user.updateProfile(updateName);
+
+
             reference.child(user.getUid()).child("userName").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -392,8 +397,10 @@ public class PersonalData extends AppCompatActivity {
                         myUri = downloadUri.toString();
 
                         HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("image", myUri); //a modifier
+                        hashMap.put("image", myUri);//a modifier
+
                         reference.child(user.getUid()).updateChildren(hashMap);
+
                         progressDialog.dismiss();
                     }
                 }
