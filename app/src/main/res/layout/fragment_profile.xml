@@ -6,22 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".Profile"
     android:orientation="vertical"
-    android:background="@color/mygreen">
-    <LinearLayout
-        android:background="@color/golden"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    android:background="@color/colorPrimary">
 
-        <TextView
-            style="@style/Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="ResTop"
-            android:textColor="@color/mygreen"></TextView></LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userpic"
@@ -31,7 +17,7 @@
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
         android:src="@drawable/profile_pic"
-        app:civ_border_color="@color/golden"
+        app:civ_border_color="@color/colorPrimaryDark"
         app:civ_border_width="3dp"
         app:civ_border_overlay="true">
 

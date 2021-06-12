@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Restop">
         <activity android:name=".AboutUs"></activity>
-        <activity android:name=".QR_Scaner" />
+        <activity android:name=".Capture"></activity>
+
         <activity android:name=".Login" />
         <activity android:name=".PersonalData" />
         <activity android:name=".Sign_up" />

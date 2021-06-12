@@ -104,7 +104,7 @@ public class PersonalData extends AppCompatActivity {
                         case 0:
                             emailTv.setText(snap.getValue().toString());
                             break;
-                        case 3:
+                        case 1:
                             usernameTv.setText(snap.getValue().toString());
                             break;
                     }
