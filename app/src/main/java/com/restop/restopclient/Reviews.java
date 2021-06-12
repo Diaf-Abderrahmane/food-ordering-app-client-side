@@ -163,6 +163,7 @@ private void getUserInfo() {
 
                 }
                 Collections.reverse(listComments);
+
                 commentAdapter = new CommentAdapter(getActivity().getApplicationContext(),listComments);
                 RvComment.setAdapter(commentAdapter);
 

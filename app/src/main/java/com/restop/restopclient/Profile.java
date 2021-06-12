@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,7 +20,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -30,14 +29,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Profile extends Fragment {
-    ImageView back;
     ImageView arrow;
     ImageView about_us;
     private CircleImageView profilepic;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
     private DatabaseReference reference;
-    Query query;
     ImageView logout;
     Switch aSwitch;
     Intent intent;
@@ -48,34 +45,27 @@ public class Profile extends Fragment {
         // Inflate the layout for this fragment
          View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        logout = view.findViewById(R.id.logout);
-        back = view.findViewById(R.id.back);
-        arrow = view.findViewById(R.id.arrow);
+        ConstraintLayout myAccount = view.findViewById(R.id.personal_data);
+        ConstraintLayout aboutUs = view.findViewById(R.id.aboutUs);
+        ConstraintLayout logOut= view.findViewById(R.id.Logout);
+
+
         profilepic = view.findViewById(R.id.userpic);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
-        aSwitch = view.findViewById(R.id.switchBox);
+        aSwitch = view.findViewById(R.id.switch1);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        about_us = view.findViewById(R.id.about_us);
 
-        about_us.setOnClickListener(new View.OnClickListener() {
+        aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getActivity(), AboutUs.class);
                 startActivity(intent);
 
-
             }
         });
 
-        arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent = new Intent(getActivity(), PersonalData.class);
-                startActivity(intent);
-            }
-        });
-        logout.setOnClickListener(new View.OnClickListener() {
+        logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
@@ -85,7 +75,16 @@ public class Profile extends Fragment {
 
             }
         });
-       aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        myAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(getActivity(), PersonalData.class);
+                startActivity(intent);
+            }
+        });
+
+
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true){
@@ -96,7 +95,7 @@ public class Profile extends Fragment {
                 }
             }
         });
-       getUserInfo();
+       //getUserInfo();
         return view;
     }
     private void getUserInfo() {
@@ -105,7 +104,7 @@ public class Profile extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                     if (!snapshot.hasChild("image")) {
-                        Picasso.get().load(R.drawable.profile_pic).into(profilepic);
+                        Picasso.get().load(R.drawable.ic_undraw_profile_pic_ic5t).into(profilepic);
                         /*reference.child("Default_Img").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {

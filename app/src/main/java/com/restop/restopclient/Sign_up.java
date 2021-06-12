@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
@@ -84,7 +85,7 @@ public class Sign_up extends AppCompatActivity {
 
                                 // ADDED BY NASSIM
                                 // SET USERNAME
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                               FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 UserProfileChangeRequest nameUpdate = new UserProfileChangeRequest.Builder().setDisplayName(vusername).build();
                                 user.updateProfile(nameUpdate);
                                 // END
@@ -93,8 +94,10 @@ public class Sign_up extends AppCompatActivity {
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("Email", vemail);
                                 map.put("Username", vusername);
-                                map.put("NotificationActivation",1);
                                 map.put("Points", 0);
+                                //map.put("NotificationActivation",1);
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+                                User.SubscribeNotification(ref);
 
                                 FirebaseDatabase.getInstance().getReference().child("Users").child(userId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -127,6 +130,15 @@ public class Sign_up extends AppCompatActivity {
             }
         });
 
+    }
+
+    static void SubscribeNotification(DatabaseReference ref){
+        ref.child("NotificationActivation").push().setValue(1);
+        FirebaseMessaging.getInstance().subscribeToTopic("Notification");
+    }
+    static void unSubscribeNotification(DatabaseReference ref){
+        ref.child("NotificationActivation").push().setValue(0);
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("Notification");
     }
 
 }

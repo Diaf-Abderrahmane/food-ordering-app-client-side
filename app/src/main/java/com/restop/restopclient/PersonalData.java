@@ -27,11 +27,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -104,7 +104,7 @@ public class PersonalData extends AppCompatActivity {
                         case 0:
                             emailTv.setText(snap.getValue().toString());
                             break;
-                        case 1:
+                        case 3:
                             usernameTv.setText(snap.getValue().toString());
                             break;
                     }
@@ -118,25 +118,6 @@ public class PersonalData extends AppCompatActivity {
 
             }
         });
-
-       /* Query query = reference.orderByChild("email").equalTo(user.getEmail());
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    username = ds.child("userName").getValue().toString();
-                    email = ds.child("email").getValue().toString();
-                    emailTv.setText(email);
-                    usernameTv.setText(username);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
 
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +162,7 @@ public class PersonalData extends AppCompatActivity {
                 update.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (changeUserEmail()) {
+                        if (changeUserName()) {
                            Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
                         }else if(editName.getText().toString().equals("")){
                             alertDialog1.dismiss();
@@ -209,6 +190,8 @@ public class PersonalData extends AppCompatActivity {
                     public void onClick(View v) {
                         if (changeUserEmail()) {
                             Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
+                        }else if(editEmail.getText().toString().equals("")){
+                            alertDialog1.dismiss();
                         }
                     }
                 });
@@ -242,6 +225,8 @@ public class PersonalData extends AppCompatActivity {
 }
                                 }
                             });
+                        }else if (edit_password.equals("") || confirm_password.equals("")){
+                            alertDialog1.dismiss();
                         }
                     }
                 });
@@ -292,24 +277,17 @@ public class PersonalData extends AppCompatActivity {
         d.show();
     }
 
-
     private boolean changeUserEmail() {
-        if (!email.equals(editEmail.getText().toString())) {
-            reference.child(user.getUid()).child("email").setValue(editEmail.getText().toString());
-            user.updateEmail(editEmail.getText().toString());
-            user.sendEmailVerification()
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(PersonalData.this, "C bon", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-            reference.child(user.getUid()).child("email").addValueEventListener(new ValueEventListener() {
+        String email = emailTv.getText().toString();
+        if (!email.equals(editEmail.getText().toString()) && !editEmail.getText().toString().equals("")) {
+            reference.child(user.getUid()).child("Email").setValue(editEmail.getText().toString());
+            // user.updateEmail(editEmail.getText().toString());
+            user.sendEmailVerification();
+            reference.child(user.getUid()).child("Email").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    emailTv.setText(snapshot.getValue().toString());
+                    emailTv.setText(snapshot.getValue(String.class));
+                    user.updateEmail(snapshot.getValue(String.class));
                 }
 
                 @Override
@@ -323,13 +301,10 @@ public class PersonalData extends AppCompatActivity {
     }
 
     private boolean changeUserName() {
-        if (!username.equals(editName.getText().toString())) {
-            reference.child(user.getUid()).child("userName").setValue(editName.getText().toString());
-            UserProfileChangeRequest updateName = new UserProfileChangeRequest.Builder().setDisplayName(editName.getText().toString()).build();
-            user.updateProfile(updateName);
-
-
-            reference.child(user.getUid()).child("userName").addValueEventListener(new ValueEventListener() {
+        String userName = usernameTv.getText().toString();
+        if (!userName.equals(editName.getText().toString())) {
+            reference.child(user.getUid()).child("Username").setValue(editName.getText().toString());
+            reference.child(user.getUid()).child("Username").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                     usernameTv.setText(snapshot.getValue().toString());
@@ -397,10 +372,8 @@ public class PersonalData extends AppCompatActivity {
                         myUri = downloadUri.toString();
 
                         HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("image", myUri);//a modifier
-
+                        hashMap.put("image", myUri); //a modifier
                         reference.child(user.getUid()).updateChildren(hashMap);
-
                         progressDialog.dismiss();
                     }
                 }
