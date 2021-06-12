@@ -137,6 +137,7 @@ public class Reviews extends Fragment {
 
                 }
                 Collections.reverse(listComments);
+
                 commentAdapter = new CommentAdapter(getActivity().getApplicationContext(),listComments);
                 RvComment.setAdapter(commentAdapter);
 
