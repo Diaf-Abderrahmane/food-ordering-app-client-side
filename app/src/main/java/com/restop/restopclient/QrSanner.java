@@ -1,5 +1,7 @@
 package com.restop.restopclient;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -58,6 +60,7 @@ public class QrSanner extends Fragment {
                 );
                 integrator.setPrompt("For flash use volume up key");
                 integrator.setBeepEnabled(true);
+                integrator.setOrientationLocked(true);
                 integrator.setCaptureActivity(Capture.class);
                 integrator.initiateScan();
 
@@ -67,58 +70,58 @@ public class QrSanner extends Fragment {
         });
         return view;
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult result=IntentIntegrator.parseActivityResult(
-                requestCode,resultCode,data
-        );
-        if (result.getContents()!=null){
-            FirebaseAuth auth;
-            DatabaseReference userFb,qrFb;
-            auth=FirebaseAuth.getInstance();
-            final int[] price=new int[1];
-            final int[] status=new int[1];
-            final int[] points=new int[1];
-            userFb= FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid());
-            qrFb=FirebaseDatabase.getInstance().getReference().child("QrCode").child(result.getContents());
-            qrFb.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (task.isSuccessful()){
-                        price[0]=task.getResult().child("price").getValue(int.class);
-                        status[0]=task.getResult().child("status").getValue(int.class);
-                        userFb.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                if (task.isSuccessful()){
-                                    points[0]=task.getResult().child("Points").getValue(int.class);
-                                    switch(status[0]){
-                                        case 0:{
-                                            userFb.child("Points").setValue(points[0]+price[0]);
-                                            qrFb.child("status").setValue(1);
-                                            break;
-                                        }
-                                        case 1:{if (points[0]>=price[0]){
-                                            userFb.child("Points").setValue(points[0]-price[0]);
-                                            qrFb.child("status").setValue(2);}else{
-                                            qrFb.child("status").setValue(3);
-                                            Toast.makeText(getActivity(), "no enough points", Toast.LENGTH_SHORT).show();}
-
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            });
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        IntentResult result=IntentIntegrator.parseActivityResult(
+//                requestCode,resultCode,data
+//        );
+//            FirebaseAuth auth;
+//            DatabaseReference userFb,qrFb;
+//            auth=FirebaseAuth.getInstance();
+//            Toast.makeText(getActivity(), result.getContents(), Toast.LENGTH_SHORT).show();
+//            final int[] price=new int[1];
+//            final int[] status=new int[1];
+//            final int[] points=new int[1];
+//            userFb= FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid());
+//            qrFb=FirebaseDatabase.getInstance().getReference().child("QrCode").child(result.getContents());
+//            qrFb.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                    if (task.isSuccessful()){
+//                        price[0]=task.getResult().child("price").getValue(int.class);
+//                        status[0]=task.getResult().child("status").getValue(int.class);
+//                        userFb.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                                if (task.isSuccessful()){
+//                                    points[0]=task.getResult().child("Points").getValue(int.class);
+//                                    switch(status[0]){
+//                                        case 0:{
+//                                            userFb.child("Points").setValue(points[0]+price[0]);
+//                                            qrFb.child("status").setValue(1);
+//                                            break;
+//                                        }
+//                                        case 1:{if (points[0]>=price[0]){
+//                                            userFb.child("Points").setValue(points[0]-price[0]);
+//                                            qrFb.child("status").setValue(2);}else{
+//                                            qrFb.child("status").setValue(3);
+//                                            Toast.makeText(getActivity(), "no enough points", Toast.LENGTH_SHORT).show();}
+//
+//                                            break;
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        });
+//                    }
+//                }
+//            });
 //            AlertDialog.Builder builder=new AlertDialog.Builder(
-//                    MainActivity.this
+//                    getActivity()
 //            );
 //            builder.setTitle("Result");
-//            builder.setMessage(result.getContents());
+//            builder.setMessage("nooooooooooo");
 //            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 //                @Override
 //                public void onClick(DialogInterface dialogInterface, int i) {
@@ -126,10 +129,17 @@ public class QrSanner extends Fragment {
 //                }
 //            });
 //            builder.show();
+//
+//    }
 
-        }else {
-            Toast.makeText(getActivity().getApplicationContext(), "no scan", Toast.LENGTH_SHORT).show();
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result=IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+        if (result.getContents()!=null){
+            Toast.makeText(getActivity(), "hi "+result.getContents(), Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getActivity(), "no scan bii", Toast.LENGTH_SHORT).show();
         }
     }
 }
