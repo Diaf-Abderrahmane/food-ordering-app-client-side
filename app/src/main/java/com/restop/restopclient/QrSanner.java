@@ -1,7 +1,5 @@
 package com.restop.restopclient;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.CaptureActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +41,7 @@ public class QrSanner extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View view = inflater.inflate(R.layout.fragment_arcanner, container, false);
+         View view = inflater.inflate(R.layout.fragment_qrcanner, container, false);
 
         scan=view.findViewById(R.id.scan);
         fbB=view.findViewById(R.id.fbB);
