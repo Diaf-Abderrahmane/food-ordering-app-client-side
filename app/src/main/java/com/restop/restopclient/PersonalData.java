@@ -75,6 +75,8 @@ public class PersonalData extends AppCompatActivity {
     private StorageTask storageTask;
     private String email="";
     private String username="";
+    static String hhhh="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +105,10 @@ public class PersonalData extends AppCompatActivity {
                     switch (i){
                         case 0:
                             emailTv.setText(snap.getValue().toString());
+                            PersonalData.this.hhhh= snap.getValue().toString();
+
                             break;
-                        case 3:
+                        case 2:
                             usernameTv.setText(snap.getValue().toString());
                             break;
                     }
@@ -119,7 +123,7 @@ public class PersonalData extends AppCompatActivity {
             }
         });
 
-
+        Toast.makeText(PersonalData.this, hhhh , Toast.LENGTH_SHORT).show();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

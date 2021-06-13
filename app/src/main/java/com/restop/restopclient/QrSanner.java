@@ -33,16 +33,21 @@ public class QrSanner extends Fragment {
 //    private Object capture;
 //    public class Capture extends CaptureActivity {
 //    }
+    String name = null,Price=null,img = null;
+    int quantity = 0;
+    int j =0;
+    static OptionStats optionStats;
+    private  static ArrayList<OptionStats> options=new ArrayList<OptionStats>();
     private Button scan;
     private TextView fbP,fbB;
     private DatabaseReference user;
+    private DatabaseReference stats = FirebaseDatabase.getInstance().getReference().child("statistics");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          View view = inflater.inflate(R.layout.fragment_qrcanner, container, false);
-
         scan=view.findViewById(R.id.scan);
         fbB=view.findViewById(R.id.fbB);
         fbP=view.findViewById(R.id.fbP);
@@ -140,26 +145,45 @@ public class QrSanner extends Fragment {
             Calendar calendar=Calendar.getInstance();
             SimpleDateFormat format=new SimpleDateFormat("dd_MM_yyyy");
             String date=format.format(calendar.getTime());
-            ArrayList<OptionStats> options=new ArrayList<>();
-            DatabaseReference stats;
 
-            stats=FirebaseDatabase.getInstance().getReference().child("statistics");
-
-
-            qrFb.child("options").addListenerForSingleValueEvent(new ValueEventListener() {
+            qrFb.child("options").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                    String name = null,price = null,img = null;
-                    int quantity = 0;
                     for (DataSnapshot snapshot1:snapshot.getChildren()){
-                        switch (snapshot1.getKey()){
-                            case "imgName":img=snapshot1.getValue().toString();break;
-                            case "name":name=snapshot1.getValue().toString();break;
-                            case "price":price=snapshot1.getValue().toString();break;
-                            case "quantity":quantity=snapshot1.getValue(int.class);break;
-                        }
-                        options.add(new OptionStats(name,price,quantity,img));
+                        String SNP =snapshot1.getKey().toString();
+
+                        qrFb.child("options").child(SNP).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot snapshot1:snapshot.getChildren()) {
+                                    switch (snapshot1.getKey()) {
+                                        case "imgName":
+                                            img = snapshot1.getValue().toString();
+                                            break;
+                                        case "name":
+                                            name = snapshot1.getValue().toString();
+                                            break;
+                                        case "price":
+                                            Price = snapshot1.getValue().toString();
+                                            break;
+                                        case "quantity":
+                                            quantity = snapshot1.getValue(int.class);
+                                            break;
+                                    }
+
+                                }
+                                optionStats = new OptionStats(name,Price,quantity,img);
+                                options.add(optionStats);
+                                Toast.makeText(getActivity(),options.get(0).getName(), Toast.LENGTH_SHORT).show();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
 
 //                        options.add(new OptionStats(name,price,quantity,img));
                     }
@@ -170,12 +194,14 @@ public class QrSanner extends Fragment {
 
                 }
             });
-            for (int i=0;i<options.size();i++) {
-                String name=options.get(i).getName();
-                String img=options.get(i).getImg();
-                String Lprice=options.get(i).getPrice();
-                int Lquantity=options.get(i).getQuantity();
-                stats.child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            for (int i=0; i<options.size();i++) {
+                 name=options.get(i).getName();
+                 img=options.get(i).getImg();
+                 Price=options.get(i).getPrice();
+                Toast.makeText(getActivity(), options.get(0).getImg().toString(), Toast.LENGTH_SHORT).show();
+                quantity=options.get(i).getQuantity();
+                stats.child(date).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.hasChild(name)){
@@ -183,16 +209,17 @@ public class QrSanner extends Fragment {
                                 int quantity,somme;
                                 String url;
                                 quantity=snapshot1.child("quantity").getValue(int.class);
-                                stats.child(date).child(name).child("quantity").setValue(quantity+Lquantity);
+                                stats.child(date).child(name).child("quantity").setValue(quantity+quantity);
                                 somme=snapshot1.child("price").getValue(int.class);
-                                stats.child(date).child(name).child("price").setValue(somme+(Integer.parseInt(Lprice))*Lquantity);
+                                stats.child(date).child(name).child("price").setValue(somme+(Integer.parseInt(Price))*quantity);
                                 url=snapshot1.child("img").getValue().toString();
                                 if (url!=img){stats.child(date).child(name).child("img").setValue(img);}
                             }
                         }else {
-                            stats.child(date).child(name).child("quantity").setValue(Lquantity);
-                            stats.child(date).child(name).child("price").setValue((Integer.parseInt(Lprice))*Lquantity);
+                            stats.child(date).child(name).child("quantity").setValue(quantity);
+                            stats.child(date).child(name).child("price").setValue((Integer.parseInt(Price))*quantity);
                             stats.child(date).child(name).child("img").setValue(img);
+
                         }
                     }
 

@@ -79,7 +79,7 @@
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:text="SAVE"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
         android:textSize="15dp"
         android:layout_marginHorizontal="160dp">
 
