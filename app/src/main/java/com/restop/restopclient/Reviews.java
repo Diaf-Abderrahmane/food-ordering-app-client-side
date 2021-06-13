@@ -3,6 +3,7 @@ package com.restop.restopclient;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +19,10 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,8 +41,9 @@ public class Reviews extends Fragment {
 
     private ImageView imgCurrentUser, restopPhoto;
     private EditText editComment;
-    private Button btnAddComment;
+    private Button btnAddComment, btnEditComment, btnDeleteComment;
     private RatingBar userRating;
+    private CardView commentCard, editDeleteCard;
 
     private ProgressBar progressBar;
     private float commentRating;
@@ -62,13 +66,23 @@ public class Reviews extends Fragment {
         imgCurrentUser = view.findViewById(R.id.current_user_img);
         editComment = view.findViewById(R.id.edit_comment);
         btnAddComment = view.findViewById(R.id.add_comment_button);
+        btnEditComment = view.findViewById(R.id.edit_comment_button);
+        btnDeleteComment = view.findViewById(R.id.delete_comment_button);
         userRating = view.findViewById(R.id.ratingBar);
+        editDeleteCard = view.findViewById(R.id.edit_delete_card);
+        commentCard = view.findViewById(R.id.comment_card);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
+
+        // launch visibility
         progressBar.setVisibility(View.INVISIBLE);
+        commentCard.setVisibility(View.VISIBLE);
+        editDeleteCard.setVisibility(View.INVISIBLE);
+
+
         userRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -76,26 +90,58 @@ public class Reviews extends Fragment {
             }
         });
 
+        // if the user already commented
+        firebaseDatabase.getReference().child(COMMENT_KEY).child(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful() && task.getResult().getChildrenCount()>0){
+                    commentCard.setVisibility(View.INVISIBLE);
+                    editDeleteCard.setVisibility(View.VISIBLE);
+                    btnEditComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            commentCard.setVisibility(View.VISIBLE);
+                            editDeleteCard.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                    btnDeleteComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DatabaseReference commentRef = firebaseDatabase.getReference().child("Comments").child(firebaseUser.getUid());
+                            commentRef.removeValue();
+                            commentAdapter.removeItem(getPosition());
+                            commentCard.setVisibility(View.VISIBLE);
+                            editDeleteCard.setVisibility(View.INVISIBLE);
+
+                        }
+                    });
+                }
+            }
+        }) ;
+
+
 
         ////////////////////////////////////////////////////////
         getUserInfo();
         btnAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(firebaseDatabase.getReference().child(COMMENT_KEY).child(firebaseUser.getUid()) ==null)
                 btnAddComment.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
+                commentCard.setVisibility(View.INVISIBLE);
+                editDeleteCard.setVisibility(View.VISIBLE);
                 String commentContent = editComment.getText().toString();
 
                 String uname = firebaseUser.getDisplayName();
                 String uimg = "";
-                if(firebaseUser.getPhotoUrl() != null) {
-                     uimg= firebaseUser.getPhotoUrl().toString();
+                if (firebaseUser.getPhotoUrl() != null) {
+                    uimg = firebaseUser.getPhotoUrl().toString();
                 }
-                Comment comment = new Comment(commentContent, uimg,  uname, commentRating);
-
+                Comment comment = new Comment(commentContent, uimg, uname, commentRating);
                 addComment(comment);
             }
+
+
         });
         //ini recyclerview
 
@@ -121,6 +167,15 @@ public class Reviews extends Fragment {
 
     }
 */
+private int getPosition(){
+    int position=0;
+    while(position<listComments.size()){
+        if(listComments.get(position).getKey().equals(firebaseUser.getUid()))
+            break;
+        position++;
+    }
+    return position;
+}
 private void getUserInfo() {
     FirebaseUser user = firebaseAuth.getCurrentUser();
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -163,8 +218,7 @@ private void getUserInfo() {
 
                 }
                 Collections.reverse(listComments);
-
-                commentAdapter = new CommentAdapter(getActivity().getApplicationContext(),listComments);
+                commentAdapter = new CommentAdapter(getActivity(),listComments);
                 RvComment.setAdapter(commentAdapter);
 
 
