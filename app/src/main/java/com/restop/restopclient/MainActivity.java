@@ -35,16 +35,25 @@ public class MainActivity extends AppCompatActivity {
             Main();
 
 
-        } else if (i ==4 ){
+        } else if (i ==3 ){
             replace(new Profile());
-            findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
-            findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
+            findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
+            findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
             findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
             findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
             Main();
 
 
-        } else {
+        } else if (i ==4 ){
+        replace(new Profile());
+        findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
+        findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
+        findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
+        findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
+        Main();
+
+
+    } else {
             replace(new Menu());
             Main();
 
@@ -65,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
                 findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
                 findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
+
             }
         });
         LinearLayout profile = findViewById(R.id.nSettings);
