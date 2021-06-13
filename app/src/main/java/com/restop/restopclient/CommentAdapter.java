@@ -56,7 +56,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.name.setText(mData.get(position).getUname());
         holder.content.setText(mData.get(position).getContent());
         holder.date.setText(timestampToString((long) mData.get(position).getTimestamp()));
-        holder.commentRatingShow.setNumStars((int) mData.get(position).getRating());
+        holder.commentRatingShow.setRating(mData.get(position).getRating());
         getUserInfo(holder,position);
 
 

@@ -59,6 +59,9 @@
             <RatingBar
                 android:id="@+id/comment_ratingbar"
                 style="@style/Base.Widget.AppCompat.RatingBar.Small"
+
+                android:secondaryProgressTint="@android:color/transparent"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -66,7 +69,7 @@
                 android:layout_marginBottom="4dp"
                 android:isIndicator="true"
                 android:max="5"
-                android:progressTint="#8685ef"
+                android:progressTint="@color/primaryColor"
                 android:stepSize="1"
                 app:layout_constraintBottom_toTopOf="@+id/comment_content"
                 app:layout_constraintStart_toStartOf="parent"

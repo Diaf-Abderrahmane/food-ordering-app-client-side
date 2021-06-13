@@ -134,7 +134,7 @@
                 style="@style/Base.Widget.AppCompat.RatingBar.Small"
                 android:rating="1"
                 android:stepSize="1"
-                android:progressTint="#8685ef"
+                android:progressTint="@color/primaryColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="false"

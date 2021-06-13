@@ -185,12 +185,12 @@ private void getUserInfo() {
             if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                 if (snapshot.hasChild("image")) {
                     String image = snapshot.child("image").getValue(String.class);
-                    Glide.with(Reviews.this).load(image).into(imgCurrentUser);
+                    Glide.with(getActivity()).load(image).into(imgCurrentUser);
 
 
                 }
                 else
-                    Glide.with(Reviews.this).load(R.drawable.profile_pic).into(imgCurrentUser);
+                    Glide.with(getActivity()).load(R.drawable.profile_pic).into(imgCurrentUser);
             }
 
 

@@ -85,7 +85,7 @@ public class Sign_up extends AppCompatActivity {
 
                                 // ADDED BY NASSIM
                                 // SET USERNAME
-                               FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 UserProfileChangeRequest nameUpdate = new UserProfileChangeRequest.Builder().setDisplayName(vusername).build();
                                 user.updateProfile(nameUpdate);
                                 // END
