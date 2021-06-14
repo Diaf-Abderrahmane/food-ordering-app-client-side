@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,13 +30,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Profile extends Fragment {
-    ImageView arrow;
-    ImageView about_us;
     private CircleImageView profilepic;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
     private DatabaseReference reference;
-    ImageView logout;
     Switch aSwitch;
     Intent intent;
 
@@ -48,13 +46,36 @@ public class Profile extends Fragment {
         ConstraintLayout myAccount = view.findViewById(R.id.personal_data);
         ConstraintLayout aboutUs = view.findViewById(R.id.aboutUs);
         ConstraintLayout logOut= view.findViewById(R.id.Logout);
-
-
+        TextView nameProfile = view.findViewById(R.id.nameProfile);
         profilepic = view.findViewById(R.id.userpic);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         aSwitch = view.findViewById(R.id.switch1);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
+
+       /* reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                int i=0;
+                for (DataSnapshot snap:snapshot.getChildren()){
+                    switch (i){
+                        case 3:
+                            nameProfile.setText(snap.getValue().toString());
+                            break;
+                    }
+                    i++;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });*/
+
+        String userName = user.getDisplayName();
+        nameProfile.setText(userName);
 
         aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override

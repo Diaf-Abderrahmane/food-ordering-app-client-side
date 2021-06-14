@@ -18,19 +18,24 @@
     <EditText
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginTop="10dp"
         android:hint="Enter Email"
-        android:id="@+id/editemail">
+        android:drawablePadding="5dp"
+        android:id="@+id/editemail"
+        android:drawableStart="@drawable/ic_email_icon_profile"
+        android:background="@drawable/edittext_dialog_background"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
     </EditText>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_gravity="center"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/background_dialog_btn"
         android:text="UPDATE"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
         android:textSize="15dp"
         android:fontFamily="@font/poppins_bold"
         android:id="@+id/update1">

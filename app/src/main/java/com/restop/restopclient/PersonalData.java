@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,13 +24,14 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -68,7 +68,7 @@ public class PersonalData extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference reference;
     private StorageReference storageReference;
-
+    private CircleImageView editPic;
 
     private Uri uri;
     private String myUri = "";
@@ -81,14 +81,14 @@ public class PersonalData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_data);
 
-
+        editPic = findViewById(R.id.editPic);
         usernameTv = findViewById(R.id.username);
         emailTv = findViewById(R.id.email);
         edit1 = findViewById(R.id.edit1);
         edit2 = findViewById(R.id.edit2);
         edit3 = findViewById(R.id.edit3);
         saveBtn = findViewById(R.id.saveBtn);
-        editIv = findViewById(R.id.editIv);
+        //editIv = findViewById(R.id.editIv);
         storageReference = FirebaseStorage.getInstance().getReference().child("Profile_Pics");
         back = findViewById(R.id.back);
         profilepic = findViewById(R.id.profilepic);
@@ -120,7 +120,7 @@ public class PersonalData extends AppCompatActivity {
         });
 
 
-        back.setOnClickListener(new View.OnClickListener() {
+       back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent =new Intent(PersonalData.this, MainActivity.class);
@@ -139,7 +139,7 @@ public class PersonalData extends AppCompatActivity {
         });
 
 
-        editIv.setOnClickListener(new View.OnClickListener() {
+        editPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CropImage.activity().setAspectRatio(1, 1).
@@ -234,7 +234,7 @@ public class PersonalData extends AppCompatActivity {
             }
         });
 
-        Picasso.get().load(R.drawable.profile_pic).into(profilepic);
+       // Picasso.get().load(R.drawable.ic_undraw_profile_pic_ic5t).into(profilepic);
 
         getUserInfo();
 
@@ -308,6 +308,8 @@ public class PersonalData extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                     usernameTv.setText(snapshot.getValue().toString());
+                    UserProfileChangeRequest nameUpdate1 = new UserProfileChangeRequest.Builder().setDisplayName(usernameTv.getText().toString()).build();
+                    user.updateProfile(nameUpdate1);
                 }
 
                 @Override
