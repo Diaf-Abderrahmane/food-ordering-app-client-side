@@ -1,7 +1,5 @@
 package com.restop.restopclient;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,23 +18,36 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-public class QrSanner extends Fragment {
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
+public class QrSanner extends Fragment {
+//    private Object capture;
+//    public class Capture extends CaptureActivity {
+//    }
+    String name = null,Price=null,img = null;
+    int quantity = 0;
+    int j =0;
+    static OptionStats optionStats;
+    private  static ArrayList<OptionStats> options=new ArrayList<OptionStats>();
     private Button scan;
     private TextView fbP,fbB;
     private DatabaseReference user;
+    private DatabaseReference stats = FirebaseDatabase.getInstance().getReference().child("statistics");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View view = inflater.inflate(R.layout.fragment_arcanner, container, false);
-
+         View view = inflater.inflate(R.layout.fragment_qrcanner, container, false);
         scan=view.findViewById(R.id.scan);
         fbB=view.findViewById(R.id.fbB);
         fbP=view.findViewById(R.id.fbP);
@@ -58,88 +69,167 @@ public class QrSanner extends Fragment {
                 IntentIntegrator integrator=new IntentIntegrator(
                         getActivity()
                 );
-                integrator.setPrompt("For flash use volume up key");
+                integrator.forSupportFragment(QrSanner.this)
+                        .setBeepEnabled(true)
+                        .setPrompt("For flash use volume up key")
+                        .setOrientationLocked(false)
+                        .setCaptureActivity(Capture.class)
+                        .initiateScan();
+
+              /* integrator.setPrompt("For flash use volume up key");
                 integrator.setBeepEnabled(true);
                 integrator.setOrientationLocked(true);
                 integrator.setCaptureActivity(Capture.class);
-                integrator.initiateScan();
-
+                IntentIntegrator.forSupportFragment(this).initiateScan();*/
 
 
             }
         });
         return view;
     }
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        IntentResult result=IntentIntegrator.parseActivityResult(
-//                requestCode,resultCode,data
-//        );
-//            FirebaseAuth auth;
-//            DatabaseReference userFb,qrFb;
-//            auth=FirebaseAuth.getInstance();
-//            Toast.makeText(getActivity(), result.getContents(), Toast.LENGTH_SHORT).show();
-//            final int[] price=new int[1];
-//            final int[] status=new int[1];
-//            final int[] points=new int[1];
-//            userFb= FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid());
-//            qrFb=FirebaseDatabase.getInstance().getReference().child("QrCode").child(result.getContents());
-//            qrFb.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                    if (task.isSuccessful()){
-//                        price[0]=task.getResult().child("price").getValue(int.class);
-//                        status[0]=task.getResult().child("status").getValue(int.class);
-//                        userFb.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                                if (task.isSuccessful()){
-//                                    points[0]=task.getResult().child("Points").getValue(int.class);
-//                                    switch(status[0]){
-//                                        case 0:{
-//                                            userFb.child("Points").setValue(points[0]+price[0]);
-//                                            qrFb.child("status").setValue(1);
-//                                            break;
-//                                        }
-//                                        case 1:{if (points[0]>=price[0]){
-//                                            userFb.child("Points").setValue(points[0]-price[0]);
-//                                            qrFb.child("status").setValue(2);}else{
-//                                            qrFb.child("status").setValue(3);
-//                                            Toast.makeText(getActivity(), "no enough points", Toast.LENGTH_SHORT).show();}
-//
-//                                            break;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        });
-//                    }
-//                }
-//            });
-//            AlertDialog.Builder builder=new AlertDialog.Builder(
-//                    getActivity()
-//            );
-//            builder.setTitle("Result");
-//            builder.setMessage("nooooooooooo");
-//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                    dialogInterface.dismiss();
-//                }
-//            });
-//            builder.show();
-//
-//    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        IntentResult result=IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if (result.getContents()!=null){
-            Toast.makeText(getActivity(), "hi "+result.getContents(), Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getActivity(), "no scan bii", Toast.LENGTH_SHORT).show();
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (resultCode != 0 && data != null) {
+
+            FirebaseAuth auth;
+            DatabaseReference userFb, qrFb;
+            auth = FirebaseAuth.getInstance();
+            final int[] price = new int[1];
+            int[] status = new int[1];
+            final int[] points = new int[1];
+            userFb = FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid());
+            qrFb = FirebaseDatabase.getInstance().getReference().child("QrCode").child(result.getContents());
+            qrFb.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        price[0] = task.getResult().child("price").getValue(int.class);
+                        status[0] = task.getResult().child("status").getValue(int.class);
+                        userFb.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    points[0] = task.getResult().child("Points").getValue(int.class);
+                                    switch (status[0]) {
+                                        case 0: {
+                                            userFb.child("Points").setValue(points[0] + price[0]);
+                                            qrFb.child("status").setValue(2);
+                                            status[0] = 2;
+                                            fbB.setText(String.valueOf(points[0] + price[0]));
+                                            fbP.setText(String.valueOf((points[0] + price[0]) / 10));
+                                            break;
+                                        }
+                                        case 1: {
+                                            if (points[0] >= price[0]) {
+                                                userFb.child("Points").setValue(points[0] - price[0]);
+                                                qrFb.child("status").setValue(3);
+                                                status[0] = 3;
+                                                fbB.setText(String.valueOf(points[0] - price[0]));
+                                                fbP.setText(String.valueOf((points[0] - price[0]) / 10));
+                                            } else {qrFb.child("status").setValue(4);
+                                                Toast.makeText(getActivity(), "no enough points", Toast.LENGTH_SHORT).show();
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            Calendar calendar=Calendar.getInstance();
+            SimpleDateFormat format=new SimpleDateFormat("dd_MM_yyyy");
+            String date=format.format(calendar.getTime());
+
+            qrFb.child("options").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snapshot1:snapshot.getChildren()){
+                        String SNP =snapshot1.getKey().toString();
+
+                        qrFb.child("options").child(SNP).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot snapshot1:snapshot.getChildren()) {
+                                    switch (snapshot1.getKey()) {
+                                        case "imgName":
+                                            img = snapshot1.getValue().toString();
+                                            break;
+                                        case "name":
+                                            name = snapshot1.getValue().toString();
+                                            break;
+                                        case "price":
+                                            Price = snapshot1.getValue().toString();
+                                            break;
+                                        case "quantity":
+                                            quantity = snapshot1.getValue(int.class);
+                                            break;
+                                    }
+
+                                }
+                                optionStats = new OptionStats(name,Price,quantity,img);
+                                options.add(optionStats);
+                                Toast.makeText(getActivity(),options.get(0).getName(), Toast.LENGTH_SHORT).show();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+//                        options.add(new OptionStats(name,price,quantity,img));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            for (int i=0; i<options.size();i++) {
+                 name=options.get(i).getName();
+                 img=options.get(i).getImg();
+                 Price=options.get(i).getPrice();
+                Toast.makeText(getActivity(), options.get(0).getImg().toString(), Toast.LENGTH_SHORT).show();
+                quantity=options.get(i).getQuantity();
+                stats.child(date).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.hasChild(name)){
+                            for (DataSnapshot snapshot1:snapshot.child(name).getChildren()){
+                                int quantity,somme;
+                                String url;
+                                quantity=snapshot1.child("quantity").getValue(int.class);
+                                stats.child(date).child(name).child("quantity").setValue(quantity+quantity);
+                                somme=snapshot1.child("price").getValue(int.class);
+                                stats.child(date).child(name).child("price").setValue(somme+(Integer.parseInt(Price))*quantity);
+                                url=snapshot1.child("img").getValue().toString();
+                                if (url!=img){stats.child(date).child(name).child("img").setValue(img);}
+                            }
+                        }else {
+                            stats.child(date).child(name).child("quantity").setValue(quantity);
+                            stats.child(date).child(name).child("price").setValue((Integer.parseInt(Price))*quantity);
+                            stats.child(date).child(name).child("img").setValue(img);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
         }
     }
 }

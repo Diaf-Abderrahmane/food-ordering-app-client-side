@@ -56,22 +56,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.name.setText(mData.get(position).getUname());
         holder.content.setText(mData.get(position).getContent());
         holder.date.setText(timestampToString((long) mData.get(position).getTimestamp()));
-        holder.commentRatingShow.setNumStars((int) mData.get(position).getRating());
+        holder.commentRatingShow.setRating(mData.get(position).getRating());
         getUserInfo(holder,position);
 
-        if(firebaseAuth.getCurrentUser().getUid().equals(mData.get(position).getKey())){
-            holder.removeComment.setVisibility(View.VISIBLE);
-            holder.removeComment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child("Comments").child(mData.get(position).getKey());
-                    commentRef.removeValue();
-                    mData.remove(position);
-                    notifyDataSetChanged();
-                    notifyItemRangeChanged(position, mData.size());
-                }
-            });
-        }
+
 
 
     }
@@ -85,7 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public class CommentViewHolder extends RecyclerView.ViewHolder{
         ImageView userPhoto;
-        TextView name,content,date,removeComment;
+        TextView name,content,date;
         RatingBar commentRatingShow;
         public CommentViewHolder(View itemView){
             super(itemView);
@@ -94,7 +82,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             content = itemView.findViewById(R.id.comment_content);
             date = itemView.findViewById(R.id.comment_date);
             commentRatingShow = itemView.findViewById(R.id.comment_ratingbar);
-            removeComment = itemView.findViewById(R.id.comment_remove);
 
         }
     }
@@ -129,9 +116,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(time);
-        String date = DateFormat.format("dd/MM/yyyy hh:mm aaa",calendar).toString();
+        String date = DateFormat.format("dd/MM/yyyy",calendar).toString();
         return date;
 
 
+    }
+    public void removeItem(int position){
+        mData.remove(position);
+        notifyDataSetChanged();
+        notifyItemRangeChanged(position, mData.size());
     }
 }
