@@ -45,7 +45,7 @@ public class Reviews extends Fragment {
     private RatingBar userRating;
     private CardView commentCard, editDeleteCard;
 
-    private ProgressBar progressBar;
+    private ProgressBar addBtnProgressBar,logoProgressBar;
     private float commentRating;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -61,7 +61,7 @@ public class Reviews extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reviews, container, false);
         listComments = new ArrayList<>();
-        progressBar = view.findViewById(R.id.progressBar);
+        addBtnProgressBar = view.findViewById(R.id.progressBar);
         RvComment = view.findViewById(R.id.rv_comment);
         imgCurrentUser = view.findViewById(R.id.current_user_img);
         editComment = view.findViewById(R.id.edit_comment);
@@ -71,14 +71,17 @@ public class Reviews extends Fragment {
         userRating = view.findViewById(R.id.ratingBar);
         editDeleteCard = view.findViewById(R.id.edit_delete_card);
         commentCard = view.findViewById(R.id.comment_card);
-
+        restopPhoto = view.findViewById(R.id.resto_logo);
+        logoProgressBar = view.findViewById(R.id.resto_logo_progress_bar);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         // launch visibility
-        progressBar.setVisibility(View.INVISIBLE);
+        restopPhoto.setVisibility(View.INVISIBLE);
+        logoProgressBar.setVisibility(View.VISIBLE);
+        addBtnProgressBar.setVisibility(View.INVISIBLE);
         commentCard.setVisibility(View.VISIBLE);
         editDeleteCard.setVisibility(View.INVISIBLE);
 
@@ -91,7 +94,9 @@ public class Reviews extends Fragment {
         });
 
         // if the user already commented
-        firebaseDatabase.getReference().child(COMMENT_KEY).child(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        DatabaseReference commentRef = firebaseDatabase.getReference().child("Comments").child(firebaseUser.getUid());
+
+        commentRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful() && task.getResult().getChildrenCount()>0){
@@ -107,12 +112,13 @@ public class Reviews extends Fragment {
                     btnDeleteComment.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            DatabaseReference commentRef = firebaseDatabase.getReference().child("Comments").child(firebaseUser.getUid());
+
                             commentRef.removeValue();
                             commentAdapter.removeItem(getPosition());
                             commentCard.setVisibility(View.VISIBLE);
                             editDeleteCard.setVisibility(View.INVISIBLE);
-
+                            editComment.setText("");
+                            userRating.setRating(0);
                         }
                     });
                 }
@@ -122,12 +128,12 @@ public class Reviews extends Fragment {
 
 
         ////////////////////////////////////////////////////////
-        getUserInfo();
+        getUserPhoto();
         btnAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btnAddComment.setVisibility(View.INVISIBLE);
-                progressBar.setVisibility(View.VISIBLE);
+                addBtnProgressBar.setVisibility(View.VISIBLE);
                 commentCard.setVisibility(View.INVISIBLE);
                 editDeleteCard.setVisibility(View.VISIBLE);
                 String commentContent = editComment.getText().toString();
@@ -146,8 +152,23 @@ public class Reviews extends Fragment {
         //ini recyclerview
 
         iniRvComment();
-        restopPhoto = view.findViewById(R.id.resto_img);
-        Glide.with(getActivity()).load(R.drawable.restop).into(restopPhoto);
+        DatabaseReference logoRef = firebaseDatabase.getReference().child("About_Us");
+        logoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                restopPhoto.setVisibility(View.VISIBLE);
+                logoProgressBar.setVisibility(View.INVISIBLE);
+                String logo = snapshot.child("LogoUrl").getValue(String.class);
+                Glide.with(getActivity()).load(logo).into(restopPhoto);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         return view;
     }
@@ -176,32 +197,30 @@ private int getPosition(){
     }
     return position;
 }
-private void getUserInfo() {
-    FirebaseUser user = firebaseAuth.getCurrentUser();
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
-    reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-            if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
-                if (snapshot.hasChild("image")) {
-                    String image = snapshot.child("image").getValue(String.class);
-                    Glide.with(getActivity()).load(image).into(imgCurrentUser);
-
-
+    private void getUserPhoto() {
+        DatabaseReference reference = firebaseDatabase.getReference().child("Users");
+        reference.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
+                    if (snapshot.hasChild("image")) {
+                        String image = snapshot.child("image").getValue(String.class);
+                        Glide.with(getActivity()).load(image).into(imgCurrentUser);
+                        //profilepic.setImageURI(storageReference.);
+                    }
+                    else
+                        Glide.with(getActivity()).load(R.drawable.profile_pic).into(imgCurrentUser);
                 }
-                else
-                    Glide.with(getActivity()).load(R.drawable.profile_pic).into(imgCurrentUser);
+
+
             }
 
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-        }
-
-        @Override
-        public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-        }
-    });
-}
+            }
+        });
+    }
     private void iniRvComment() {
         RvComment.setLayoutManager(new LinearLayoutManager(getActivity()));
         DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child(COMMENT_KEY);
@@ -240,16 +259,15 @@ private void getUserInfo() {
             public void onSuccess(Void aVoid) {
                 showMessage("comment added successfully");
                 btnAddComment.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
-                editComment.setText("");
-                userRating.setRating(0);
+                addBtnProgressBar.setVisibility(View.INVISIBLE);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 showMessage("failed to add comment : "+e.getMessage());
                 btnAddComment.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
+                addBtnProgressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
