@@ -95,35 +95,39 @@ public class Reviews extends Fragment {
 
         // if the user already commented
         DatabaseReference commentRef = firebaseDatabase.getReference().child("Comments").child(firebaseUser.getUid());
-
-        commentRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        commentRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful() && task.getResult().getChildrenCount()>0){
-                    commentCard.setVisibility(View.INVISIBLE);
-                    editDeleteCard.setVisibility(View.VISIBLE);
-                    btnEditComment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            commentCard.setVisibility(View.VISIBLE);
-                            editDeleteCard.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                    btnDeleteComment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                commentCard.setVisibility(View.INVISIBLE);
+                editDeleteCard.setVisibility(View.VISIBLE);
+                btnEditComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        commentCard.setVisibility(View.VISIBLE);
+                        editDeleteCard.setVisibility(View.INVISIBLE);
+                    }
+                });
+                btnDeleteComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                            commentRef.removeValue();
-                            commentAdapter.removeItem(getPosition());
-                            commentCard.setVisibility(View.VISIBLE);
-                            editDeleteCard.setVisibility(View.INVISIBLE);
-                            editComment.setText("");
-                            userRating.setRating(0);
-                        }
-                    });
+                        commentRef.removeValue();
+                        commentAdapter.removeItem(getPosition());
+                        commentCard.setVisibility(View.VISIBLE);
+                        editDeleteCard.setVisibility(View.INVISIBLE);
+                        editComment.setText("");
+                        userRating.setRating(0);
+                    }
+                });
                 }
             }
-        }) ;
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
