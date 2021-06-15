@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,11 +22,13 @@ public class AboutUs extends AppCompatActivity {
     private TextView restoName;
     private TextView emailTxt;
     private TextView phoneTxt;
-    private TextView fbUrl;
-    private TextView instaUrl;
     private DatabaseReference reference;
     private ImageView back;
     private ImageView logo;
+    private ImageView facebook;
+    private ImageView instagram;
+    private String insta_url;
+    private String fb_url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,8 @@ public class AboutUs extends AppCompatActivity {
         restoName = findViewById(R.id.restoName);
         emailTxt = findViewById(R.id.emailtxt);
         phoneTxt = findViewById(R.id.phonetxt);
-        fbUrl = findViewById(R.id.fburl);
-        instaUrl = findViewById(R.id.instaurl);
+        facebook = findViewById(R.id.facebook);
+        instagram = findViewById(R.id.instagram);
         reference = FirebaseDatabase.getInstance().getReference().child("About_Us");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -47,14 +50,12 @@ public class AboutUs extends AppCompatActivity {
                 String resto_name = snapshot.child("RestaurantName").getValue(String.class);
                 String email_txt = snapshot.child("Email").getValue(String.class);
                 String phone_nmb = snapshot.child("Phone").getValue(String.class);
-                String fb_url = snapshot.child("FacebookPage").getValue(String.class);
-                String insta_url = snapshot.child("InstagramAccount").getValue(String.class);
+                fb_url = snapshot.child("FacebookPage").getValue(String.class);
+                insta_url = snapshot.child("InstagramAccount").getValue(String.class);
                 String logo_url = snapshot.child("LogoUrl").getValue(String.class);
                 restoName.setText(resto_name);
                 emailTxt.setText(email_txt);
                 phoneTxt.setText(phone_nmb);
-                fbUrl.setText(fb_url);
-                instaUrl.setText(insta_url);
                 Picasso.get().load(logo_url).into(logo);
             }
 
@@ -70,7 +71,27 @@ public class AboutUs extends AppCompatActivity {
                 Intent intent = new Intent(AboutUs.this, MainActivity.class);
                 intent.putExtra("key", 4);
                 startActivity(intent);
+
             }
         });
+
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoUrl(fb_url);
+            }
+        });
+
+        instagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoUrl(insta_url);
+            }
+        });
+    }
+
+    private void gotoUrl(String s) {
+        Uri uri = Uri.parse(s);
+        startActivity(new Intent(Intent.ACTION_VIEW,uri));
     }
 }
