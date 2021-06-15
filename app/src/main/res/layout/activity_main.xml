@@ -48,7 +48,7 @@
                 android:gravity="center_vertical"
                 android:text="Home"
                 android:textSize="10dp"
-                android:textColor="@color/eblack"/>
+                android:textColor="@color/colorPrimary"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -68,7 +68,7 @@
                 android:gravity="center_vertical"
                 android:text="QR Scan"
                 android:textSize="10dp"
-                android:textColor="@color/eblack"/>
+                android:textColor="@color/black"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/nReviews"
@@ -88,7 +88,7 @@
                 android:gravity="center_vertical"
                 android:text="Reviews"
                 android:textSize="10dp"
-                android:textColor="@color/eblack"/>
+                android:textColor="@color/black"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/nSettings"
@@ -108,7 +108,7 @@
                 android:gravity="center_vertical"
                 android:text="Setting"
                 android:textSize="10dp"
-                android:textColor="@color/eblack"/>
+                android:textColor="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>
