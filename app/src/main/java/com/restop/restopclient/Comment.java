@@ -4,7 +4,7 @@ package com.restop.restopclient;
 import com.google.firebase.database.ServerValue;
 
 public class Comment {
-    private String content,  uname,key;
+    private String content,  uname,key, reply="";
     private float rating;
 
     private Object timestamp;
@@ -20,6 +20,9 @@ public class Comment {
         this.timestamp = ServerValue.TIMESTAMP;
     }
 
+    public String getReply() {
+        return reply;
+    }
 
     public float getRating() {
         return rating;
@@ -51,6 +54,11 @@ public class Comment {
 
     public String getUname() {
         return uname;
+    }
+
+
+    public void setReply(String reply) {
+        this.reply = reply;
     }
 
     public void setUname(String uname) {
