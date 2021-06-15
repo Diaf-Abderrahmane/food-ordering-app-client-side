@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,7 +33,7 @@ public class AboutUs extends AppCompatActivity {
         setContentView(R.layout.activity_about_us);
 
         logo = findViewById(R.id.logo);
-        back = findViewById(R.id.back1);
+        back = findViewById(R.id.back);
         restoName = findViewById(R.id.restoName);
         emailTxt = findViewById(R.id.emailtxt);
         phoneTxt = findViewById(R.id.phonetxt);
@@ -68,7 +67,7 @@ public class AboutUs extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(AboutUs.this, MainActivity.class);
+                Intent intent = new Intent(AboutUs.this, MainActivity.class);
                 intent.putExtra("key", 4);
                 startActivity(intent);
             }

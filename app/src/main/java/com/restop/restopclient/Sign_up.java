@@ -95,9 +95,9 @@ public class Sign_up extends AppCompatActivity {
                                 map.put("Email", vemail);
                                 map.put("Username", vusername);
                                 map.put("Points", 0);
-                                //map.put("NotificationActivation",1);
+                                map.put("NotificationActivation",1);
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-                                User.SubscribeNotification(ref);
+                                //User.SubscribeNotification(ref);
 
                                 FirebaseDatabase.getInstance().getReference().child("Users").child(userId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
