@@ -4,7 +4,7 @@ package com.restop.restopclient;
 import com.google.firebase.database.ServerValue;
 
 public class Comment {
-    private String content, uimg, uname,key;
+    private String content,  uname,key;
     private float rating;
 
     private Object timestamp;
@@ -12,9 +12,8 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String content,String uimg, String uname,float rating) {
+    public Comment(String content, String uname,float rating) {
         this.content = content;
-        this.uimg = uimg;
         this.uname = uname;
         this.rating = rating;
 
@@ -48,13 +47,7 @@ public class Comment {
 
 
 
-    public String getUimg() {
-        return uimg;
-    }
 
-    public void setUimg(String uimg) {
-        this.uimg = uimg;
-    }
 
     public String getUname() {
         return uname;
@@ -77,7 +70,6 @@ public class Comment {
         return "Comment{" +
                 "content='" + content + '\'' +
 
-                ", uimg='" + uimg + '\'' +
                 ", uname='" + uname + '\'' +
                 ", key='" + key + '\'' +
                 ", rating=" + rating +

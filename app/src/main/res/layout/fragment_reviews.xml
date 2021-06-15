@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,15 +9,11 @@
     tools:context=".Reviews"
     android:background="#fff">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
     <ImageView
         android:id="@+id/resto_logo"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:background="@drawable/reviewsbackground"
+        android:background="@drawable/reviewslogobackground"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -49,7 +45,7 @@
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="#2e2e2e"
+        android:background="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +53,6 @@
 
 
     <TextView
-
         android:id="@+id/resto_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -65,8 +60,10 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:lineSpacingExtra="8dp"
-        android:text="this restaurant is open to all clients every day from 11am to 11pm, except saturday."
-        android:fontFamily=""
+        android:background="@drawable/backgrounddescription"
+
+        android:hint="Description"
+        android:fontFamily="roboto"
         android:textColor="#373737"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -151,20 +148,20 @@
 
             <Button
                 android:id="@+id/add_comment_button"
-                android:layout_width="65dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/edit_text_button_style"
 
-                android:text="ADD"
+                android:text="SUBMIT"
                 android:textColor="@color/white"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_comment"
+                app:layout_constraintBottom_toBottomOf="@+id/add_comment_edittext"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/edit_comment" />
+                app:layout_constraintTop_toTopOf="@+id/add_comment_edittext" />
 
             <EditText
-                android:id="@+id/edit_comment"
+                android:id="@+id/add_comment_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -173,7 +170,7 @@
 
                 android:ems="10"
                 android:hint="Write Comment"
-                android:inputType="textPersonName"
+
                 app:layout_constraintEnd_toStartOf="@id/add_comment_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -198,7 +195,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -216,4 +213,3 @@
         app:layout_constraintTop_toTopOf="@+id/resto_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>

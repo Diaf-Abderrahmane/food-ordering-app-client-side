@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,12 +39,12 @@ import java.util.Collections;
 
 public class Reviews extends Fragment {
 
-    private ImageView imgCurrentUser, restopPhoto;
+    private ImageView imgCurrentUser, restopLogo;
     private EditText editComment;
     private Button btnAddComment, btnEditComment, btnDeleteComment;
     private RatingBar userRating;
     private CardView commentCard, editDeleteCard;
-
+    private TextView description;
     private ProgressBar addBtnProgressBar,logoProgressBar;
     private float commentRating;
     private FirebaseAuth firebaseAuth;
@@ -53,33 +53,38 @@ public class Reviews extends Fragment {
     private RecyclerView RvComment;
     private CommentAdapter commentAdapter;
     private ArrayList<Comment> listComments;
-    static String COMMENT_KEY = "Comments";
+    final static String COMMENT_KEY = "Comments",DESCRIPTION_KEY = "resto_description";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+
         View view = inflater.inflate(R.layout.fragment_reviews, container, false);
         listComments = new ArrayList<>();
         addBtnProgressBar = view.findViewById(R.id.progressBar);
         RvComment = view.findViewById(R.id.rv_comment);
         imgCurrentUser = view.findViewById(R.id.current_user_img);
-        editComment = view.findViewById(R.id.edit_comment);
+        editComment = view.findViewById(R.id.add_comment_edittext);
         btnAddComment = view.findViewById(R.id.add_comment_button);
         btnEditComment = view.findViewById(R.id.edit_comment_button);
         btnDeleteComment = view.findViewById(R.id.delete_comment_button);
         userRating = view.findViewById(R.id.ratingBar);
         editDeleteCard = view.findViewById(R.id.edit_delete_card);
         commentCard = view.findViewById(R.id.comment_card);
-        restopPhoto = view.findViewById(R.id.resto_logo);
+        restopLogo = view.findViewById(R.id.resto_logo);
         logoProgressBar = view.findViewById(R.id.resto_logo_progress_bar);
+        description = view.findViewById(R.id.resto_description);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         // launch visibility
-        restopPhoto.setVisibility(View.INVISIBLE);
+        restopLogo.setVisibility(View.INVISIBLE);
         logoProgressBar.setVisibility(View.VISIBLE);
         addBtnProgressBar.setVisibility(View.INVISIBLE);
         commentCard.setVisibility(View.VISIBLE);
@@ -94,41 +99,53 @@ public class Reviews extends Fragment {
         });
 
         // if the user already commented
+        // show two buttons
+        // either delete the comment
+        // or edit it
         DatabaseReference commentRef = firebaseDatabase.getReference().child("Comments").child(firebaseUser.getUid());
-
-        commentRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        commentRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful() && task.getResult().getChildrenCount()>0){
-                    commentCard.setVisibility(View.INVISIBLE);
-                    editDeleteCard.setVisibility(View.VISIBLE);
-                    btnEditComment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            commentCard.setVisibility(View.VISIBLE);
-                            editDeleteCard.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                    btnDeleteComment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                commentCard.setVisibility(View.INVISIBLE);
+                editDeleteCard.setVisibility(View.VISIBLE);
+                btnEditComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        commentCard.setVisibility(View.VISIBLE);
+                        editDeleteCard.setVisibility(View.INVISIBLE);
+                    }
+                });
+                btnDeleteComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                            commentRef.removeValue();
-                            commentAdapter.removeItem(getPosition());
-                            commentCard.setVisibility(View.VISIBLE);
-                            editDeleteCard.setVisibility(View.INVISIBLE);
-                            editComment.setText("");
-                            userRating.setRating(0);
-                        }
-                    });
+                        commentRef.removeValue();
+                        commentAdapter.removeItem(getPosition());
+                        commentCard.setVisibility(View.VISIBLE);
+                        editDeleteCard.setVisibility(View.INVISIBLE);
+                        editComment.setText("");
+                        userRating.setRating(0);
+                    }
+                });
                 }
             }
-        }) ;
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
 
-        ////////////////////////////////////////////////////////
+        //getting the logo from firebase
+        getLogo();
+
+        getDescription();
+
         getUserPhoto();
+
+
+        //if user wanted to add a comment
         btnAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,28 +156,52 @@ public class Reviews extends Fragment {
                 String commentContent = editComment.getText().toString();
 
                 String uname = firebaseUser.getDisplayName();
-                String uimg = "";
-                if (firebaseUser.getPhotoUrl() != null) {
-                    uimg = firebaseUser.getPhotoUrl().toString();
-                }
-                Comment comment = new Comment(commentContent, uimg, uname, commentRating);
+
+
+                Comment comment = new Comment(commentContent, uname, commentRating);
                 addComment(comment);
             }
 
 
         });
-        //ini recyclerview
-
+        //initialize recyclerview
         iniRvComment();
-        DatabaseReference logoRef = firebaseDatabase.getReference().child("About_Us");
-        logoRef.addValueEventListener(new ValueEventListener() {
+
+
+
+        return view;
+    }
+
+private void getLogo(){
+    DatabaseReference logoRef = firebaseDatabase.getReference().child("About_Us");
+    logoRef.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            restopLogo.setVisibility(View.VISIBLE);
+            logoProgressBar.setVisibility(View.INVISIBLE);
+            String logo = snapshot.child("LogoUrl").getValue(String.class);
+            Glide.with(getActivity()).load(logo).into(restopLogo);
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    });
+
+}
+//----------------------------------------------------------------
+// this method gets the restaurant description and puts it in the description TextView
+    private void getDescription(){
+        DatabaseReference reference = firebaseDatabase.getReference().child("About_Us");
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                restopPhoto.setVisibility(View.VISIBLE);
-                logoProgressBar.setVisibility(View.INVISIBLE);
-                String logo = snapshot.child("LogoUrl").getValue(String.class);
-                Glide.with(getActivity()).load(logo).into(restopPhoto);
-
+                if(snapshot.hasChild(DESCRIPTION_KEY))
+                    description.setText(snapshot.child(DESCRIPTION_KEY).getValue().toString());
+                else
+                    description.setText("THE DESCRIPTION IS NOT ADDED YET");
             }
 
             @Override
@@ -168,26 +209,8 @@ public class Reviews extends Fragment {
 
             }
         });
-
-
-        return view;
     }
-
-
-//----------------------------------------------------------------
-
-/*    private void gotoActivity(Class<?> cls){
-        navBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Reviews.this,cls);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-    }
-*/
+// this method gets the position of the current user comment
 private int getPosition(){
     int position=0;
     while(position<listComments.size()){
@@ -197,7 +220,9 @@ private int getPosition(){
     }
     return position;
 }
-    private void getUserPhoto() {
+
+// this method gets the current user photo from firebase
+private void getUserPhoto() {
         DatabaseReference reference = firebaseDatabase.getReference().child("Users");
         reference.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -221,6 +246,8 @@ private int getPosition(){
             }
         });
     }
+
+    // this method gets comments from firebase and puts them in a recyclerview
     private void iniRvComment() {
         RvComment.setLayoutManager(new LinearLayoutManager(getActivity()));
         DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child(COMMENT_KEY);
