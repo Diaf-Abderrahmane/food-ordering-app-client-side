@@ -1,20 +1,33 @@
 package com.restop.restopclient;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +53,13 @@ public class Menu extends Fragment {
 
     TextView textView0=null;
 
+    AlertDialog.Builder alertDialog;
+    Dialog dialog;
+    View viewP;
+    ImageView PopUpOptionImg;
+    TextView PopUpOptionName;
+    TextView PopUpOptionDescription;
+    TextView PopUpOptionPrice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,6 +124,8 @@ public class Menu extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+
         return view;
     }
     public void Refresh(){
@@ -136,7 +158,27 @@ public class Menu extends Fragment {
             textView0 = textView1;
         }
     }
+    public void PopUpOption(int categoryIndex, int position, Bitmap img) {
+        alertDialog = new AlertDialog.Builder(getActivity());
+        viewP = getLayoutInflater().inflate(R.layout.popup_option, null);
+        PopUpOptionImg=viewP.findViewById(R.id.PopUpOption_img);
+        PopUpOptionName=viewP.findViewById(R.id.PopUpOption_name);
+        PopUpOptionDescription=viewP.findViewById(R.id.PopUpOption_description);
 
+        PopUpOptionImg.getLayoutParams().height=getActivity().getWindowManager().getDefaultDisplay().getWidth();
+
+        PopUpOptionPrice=viewP.findViewById(R.id.PopUpOption_price);
+        PopUpOptionName.setText(AllCategories.get(categoryIndex).getAllOptions().get(position).getName());
+        PopUpOptionDescription.setText(AllCategories.get(categoryIndex).getAllOptions().get(position).getDescription());
+        String price = AllCategories.get(categoryIndex).getAllOptions().get(position).getPrice() +" DZD";
+        PopUpOptionPrice.setText(price);
+        if(img!=null)PopUpOptionImg.setImageBitmap(img);
+
+        alertDialog.setView(viewP);
+        dialog = alertDialog.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
     public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private int ViewType=0;
         private int CategoryIndex;
@@ -157,6 +199,7 @@ public class Menu extends Fragment {
         }
 
         public class ViewHolder1 extends RecyclerView.ViewHolder {
+            private final CardView OptionView;
             private final TextView OptionName;
             private final TextView OptionDescription;
             private final TextView OptionPrice;
@@ -164,6 +207,7 @@ public class Menu extends Fragment {
 
             public ViewHolder1(View view) {
                 super(view);
+                OptionView=view.findViewById(R.id.Option_v);
                 OptionName = view.findViewById(R.id.OptionName);
                 OptionDescription = view.findViewById(R.id.OptionDescription);
                 OptionPrice = view.findViewById(R.id.OptionPrice);
@@ -171,6 +215,7 @@ public class Menu extends Fragment {
 
             }
 
+            public CardView getOptionView() { return OptionView;  }
             public TextView getOptionName() { return OptionName;  }
             public TextView getOptionDescription() { return OptionDescription;  }
             public TextView getOptionPrice() { return OptionPrice;  }
@@ -228,16 +273,19 @@ public class Menu extends Fragment {
                     viewHolder1.getOptionDescription().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getDescription());
                     String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() +" DZD";
                     viewHolder1.getOptionPrice().setText(price);
+
                     Option.getImg(AllCategories.get(CategoryIndex).getAllOptions().get(position).getImgName(), new Option.ImgStatus() {
                         @Override
                         public void isLoaded(Bitmap img) {
-                            if(img!=null)viewHolder1.getOptionImg().setImageBitmap(img);
-                            else Option.getImg("default.jpg", new Option.ImgStatus() {
-                                @Override
-                                public void isLoaded(Bitmap img) {
-                                    viewHolder1.getOptionImg().setImageBitmap(img);
-                                }
-                            });
+                            if(img!=null){
+                                viewHolder1.getOptionImg().setImageBitmap(img);
+                                viewHolder1.getOptionView().setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        PopUpOption(CategoryIndex,position,img);
+                                    }
+                                });
+                            }
                         }
                     });
                     break;
