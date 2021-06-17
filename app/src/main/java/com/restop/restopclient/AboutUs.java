@@ -22,6 +22,8 @@ public class AboutUs extends AppCompatActivity {
     private TextView restoName;
     private TextView emailTxt;
     private TextView phoneTxt;
+    private TextView dayTxt;
+    private TextView timeTxt;
     private DatabaseReference reference;
     private ImageView back;
     private ImageView logo;
@@ -29,7 +31,8 @@ public class AboutUs extends AppCompatActivity {
     private ImageView instagram;
     private String insta_url;
     private String fb_url;
-
+    String fromDay,toDay,fromTime,toTime;
+    String resto_name,email_txt,phone_nmb,logo_url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,26 +45,57 @@ public class AboutUs extends AppCompatActivity {
         phoneTxt = findViewById(R.id.phonetxt);
         facebook = findViewById(R.id.facebook);
         instagram = findViewById(R.id.instagram);
+        dayTxt = findViewById(R.id.day);
+        timeTxt = findViewById(R.id.time);
         reference = FirebaseDatabase.getInstance().getReference().child("About_Us");
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                String resto_name = snapshot.child("RestaurantName").getValue(String.class);
-                String email_txt = snapshot.child("Email").getValue(String.class);
-                String phone_nmb = snapshot.child("Phone").getValue(String.class);
-                fb_url = snapshot.child("FacebookPage").getValue(String.class);
-                insta_url = snapshot.child("InstagramAccount").getValue(String.class);
-                String logo_url = snapshot.child("LogoUrl").getValue(String.class);
-                restoName.setText(resto_name);
-                emailTxt.setText(email_txt);
-                phoneTxt.setText(phone_nmb);
-                Picasso.get().load(logo_url).into(logo);
+                for(DataSnapshot snap:snapshot.getChildren()) {
+                    switch (snap.getKey()){
+                        case "FromDay":
+                            fromDay = snap.getValue().toString();
+                            break;
+                        case "ToDay":
+                            toDay = snap.getValue().toString();
+                            break;
+                        case "FromTime":
+                            fromTime = snap.getValue().toString();
+                            break;
+                        case "ToTime":
+                            toTime = snap.getValue().toString();
+                            break;
+                        case "RestaurantName":
+                            resto_name = snap.getValue().toString();
+                            break;
+                        case "FacebookPage":
+                            fb_url = snap.getValue().toString();
+                            break;
+                        case "InstagramAccount":
+                            insta_url = snap.getValue().toString();
+                            break;
+                        case "Phone":
+                            phone_nmb = snap.getValue().toString();
+                            break;
+                        case "LogoUrl":
+                            logo_url = snap.getValue().toString();
+                            break;
+                        case "Email":
+                            email_txt = snap.getValue().toString();
+                            break;
+                    }
+                    String day = fromDay + " - " + toDay ;
+                    String time = fromTime + " - " +toTime;
+                    dayTxt.setText(day);
+                    timeTxt.setText(time);
+                    restoName.setText(resto_name);
+                    emailTxt.setText(email_txt);
+                    phoneTxt.setText(phone_nmb);
+                    Picasso.get().load(logo_url).into(logo);
+                }
             }
-
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
             }
         });
 

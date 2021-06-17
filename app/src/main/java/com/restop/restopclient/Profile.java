@@ -116,7 +116,7 @@ public class Profile extends Fragment {
                 }
             }
         });
-       //getUserInfo();
+       getUserInfo();
         return view;
     }
     private void getUserInfo() {
