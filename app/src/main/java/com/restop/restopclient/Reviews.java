@@ -157,10 +157,10 @@ public class Reviews extends Fragment {
                 editDeleteCard.setVisibility(View.VISIBLE);
                 String commentContent = editComment.getText().toString();
 
-                String uname = firebaseUser.getDisplayName();
 
 
-                Comment comment = new Comment(commentContent, uname, commentRating);
+
+                Comment comment = new Comment(commentContent,  commentRating);
                 addComment(comment);
             }
 

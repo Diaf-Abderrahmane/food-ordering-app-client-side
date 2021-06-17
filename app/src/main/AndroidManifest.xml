@@ -27,7 +27,10 @@
         <activity android:name=".Login" />
         <activity android:name=".PersonalData" />
         <activity android:name=".Sign_up" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity">
+
+
+        </activity>
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

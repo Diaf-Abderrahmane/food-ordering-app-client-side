@@ -54,7 +54,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         ///////////////////////////
 
         firebaseAuth = FirebaseAuth.getInstance();
-        holder.name.setText(mData.get(position).getUname());
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mData.get(position).getKey());
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                holder.name.setText(snapshot.child("Username").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         holder.content.setText(mData.get(position).getContent());
         holder.date.setText(timestampToString((long) mData.get(position).getTimestamp()));
         holder.commentRatingShow.setRating(mData.get(position).getRating());
