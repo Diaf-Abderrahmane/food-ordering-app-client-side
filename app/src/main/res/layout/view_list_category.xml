@@ -2,20 +2,23 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="36dp"
+    android:layout_height="wrap_content"
     android:layout_marginRight="8dp">
+
     <TextView
         android:id="@+id/CategoryName"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="16dp"
+        android:paddingTop="8dp"
         android:paddingRight="16dp"
+        android:paddingBottom="8dp"
         android:gravity="center"
         android:background="@drawable/bg_view_list_category"
         android:textSize="16dp"
         android:textStyle="bold"
         android:textColor="@color/eblack"
-        android:fontFamily="monospace"
+        android:fontFamily="@font/opensans_regular"
         android:text="Name"/>
 
 </LinearLayout>

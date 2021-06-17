@@ -36,8 +36,15 @@
             android:layout_margin="16dp"
             android:src="@drawable/logo_"/>
         <TextView
-            android:text="ResTop"
-            style="@style/Title"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="24dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:paddingLeft="6dp"
+            android:text="ResTop"/>
     </LinearLayout>
 
 
@@ -47,24 +54,24 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:paddingLeft="12dp"
-        android:paddingTop="16dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/VTitle"
         app:layout_constraintVertical_weight="1">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/AllCategories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/Menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:paddingRight="12dp" />
+
 
 
     </LinearLayout>
