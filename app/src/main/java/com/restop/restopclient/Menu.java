@@ -165,8 +165,7 @@ public class Menu extends Fragment {
         PopUpOptionName=viewP.findViewById(R.id.PopUpOption_name);
         PopUpOptionDescription=viewP.findViewById(R.id.PopUpOption_description);
 
-        /*LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(PopUpOptionImg.getDrawable().getIntrinsicWidth(), PopUpOptionImg.getDrawable().getIntrinsicWidth());
-        PopUpOptionImg.setLayoutParams(layoutParams);*/
+        PopUpOptionImg.getLayoutParams().height=getActivity().getWindowManager().getDefaultDisplay().getWidth();
 
         PopUpOptionPrice=viewP.findViewById(R.id.PopUpOption_price);
         PopUpOptionName.setText(AllCategories.get(categoryIndex).getAllOptions().get(position).getName());
@@ -289,11 +288,10 @@ public class Menu extends Fragment {
                             });
                         }
                     });
-                    viewHolder1.getOptionView().setOnLongClickListener(new View.OnLongClickListener() {
+                    viewHolder1.getOptionView().setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public boolean onLongClick(View v) {
+                        public void onClick(View v) {
                             PopUpOption(CategoryIndex,position,viewHolder1.getOptionImg().getDrawable());
-                            return false;
                         }
                     });
                     break;
