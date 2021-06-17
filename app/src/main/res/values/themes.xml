@@ -32,4 +32,9 @@
         <item name="android:textColorHint">@color/white</item>
         <item name="boxStrokeColor">@color/colorPrimary</item>
     </style>
+    
+    <style name="imageStyle">
+        <item name="cornerSizeBottomLeft">15dp</item>
+        <item name="cornerSizeBottomRight">15dp</item>
+    </style>
 </resources>

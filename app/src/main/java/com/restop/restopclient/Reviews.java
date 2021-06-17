@@ -21,8 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -224,26 +226,18 @@ private int getPosition(){
 // this method gets the current user photo from firebase
 private void getUserPhoto() {
         DatabaseReference reference = firebaseDatabase.getReference().child("Users");
-        reference.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+        reference.child(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
-                    if (snapshot.hasChild("image")) {
-                        String image = snapshot.child("image").getValue(String.class);
-                        Glide.with(getActivity()).load(image).into(imgCurrentUser);
-                        //profilepic.setImageURI(storageReference.);
-                    }
-                    else
-                        Glide.with(getActivity()).load(R.drawable.profile_pic).into(imgCurrentUser);
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                if(task.getResult().hasChild("image")){
+                    String image = task.getResult().child("image").getValue(String.class);
+                    Glide.with(getActivity()).load(image).into(imgCurrentUser);
+
                 }
-
-
+                else
+                    Glide.with(getActivity()).load(R.drawable.profile_pic).into(imgCurrentUser);
             }
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
         });
     }
 

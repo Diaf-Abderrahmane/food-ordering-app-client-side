@@ -24,7 +24,6 @@
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:src="@drawable/ic_undraw_profile_pic_ic5t"
             app:civ_border_color="@color/white"
             app:civ_border_overlay="true"
             app:civ_border_width="4dp">

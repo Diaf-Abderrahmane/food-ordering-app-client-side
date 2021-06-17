@@ -1,6 +1,8 @@
 package com.restop.restopclient;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -105,13 +107,26 @@ public class Profile extends Fragment {
         });
 
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("save", Context.MODE_PRIVATE);
+        aSwitch.setChecked(sharedPreferences.getBoolean("value",true));
+
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true){
+                    SharedPreferences.Editor editor = getActivity()
+                            .getSharedPreferences("save",Context.MODE_PRIVATE).edit();
+                    editor.putBoolean("value",true);
+                    editor.apply();
+                    aSwitch.setChecked(true);
                     User.SubscribeNotification(reference.child(user.getUid()));
                 }
                 else {
+                    SharedPreferences.Editor editor = getActivity()
+                            .getSharedPreferences("save",Context.MODE_PRIVATE).edit();
+                    editor.putBoolean("value",false);
+                    editor.apply();
+                    aSwitch.setChecked(false);
                     User.unSubscribeNotification(reference.child(user.getUid()));
                 }
             }
