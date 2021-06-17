@@ -158,7 +158,7 @@ public class Menu extends Fragment {
             textView0 = textView1;
         }
     }
-    public void PopUpOption(int categoryIndex, int position, Drawable img) {
+    public void PopUpOption(int categoryIndex, int position, Bitmap img) {
         alertDialog = new AlertDialog.Builder(getActivity());
         viewP = getLayoutInflater().inflate(R.layout.popup_option, null);
         PopUpOptionImg=viewP.findViewById(R.id.PopUpOption_img);
@@ -172,7 +172,7 @@ public class Menu extends Fragment {
         PopUpOptionDescription.setText(AllCategories.get(categoryIndex).getAllOptions().get(position).getDescription());
         String price = AllCategories.get(categoryIndex).getAllOptions().get(position).getPrice() +" DZD";
         PopUpOptionPrice.setText(price);
-        if(img!=null)PopUpOptionImg.setImageDrawable(img);
+        if(img!=null)PopUpOptionImg.setImageBitmap(img);
 
         alertDialog.setView(viewP);
         dialog = alertDialog.create();
@@ -274,24 +274,18 @@ public class Menu extends Fragment {
                     String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() +" DZD";
                     viewHolder1.getOptionPrice().setText(price);
 
-                    final Bitmap[] Img=new Bitmap[1];
                     Option.getImg(AllCategories.get(CategoryIndex).getAllOptions().get(position).getImgName(), new Option.ImgStatus() {
                         @Override
                         public void isLoaded(Bitmap img) {
-                            if(img!=null)viewHolder1.getOptionImg().setImageBitmap(img);
-                            else Option.getImg("default.jpg", new Option.ImgStatus() {
-                                @Override
-                                public void isLoaded(Bitmap img) {
-                                    Img[0] =img;
-                                    viewHolder1.getOptionImg().setImageBitmap(img);
-                                }
-                            });
-                        }
-                    });
-                    viewHolder1.getOptionView().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            PopUpOption(CategoryIndex,position,viewHolder1.getOptionImg().getDrawable());
+                            if(img!=null){
+                                viewHolder1.getOptionImg().setImageBitmap(img);
+                                viewHolder1.getOptionView().setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        PopUpOption(CategoryIndex,position,img);
+                                    }
+                                });
+                            }
                         }
                     });
                     break;
