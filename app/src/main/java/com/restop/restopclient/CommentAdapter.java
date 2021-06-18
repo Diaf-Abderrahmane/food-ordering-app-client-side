@@ -58,7 +58,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                holder.name.setText(snapshot.child("Username").getValue().toString());
+                holder.name.setText(snapshot.child("Username").getValue(String.class));
             }
 
             @Override

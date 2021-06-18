@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Reviews"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Reviews"
+    android:background="#fff">
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#fff">
 
     <ImageView
         android:id="@+id/resto_logo"
         android:layout_width="0dp"
         android:layout_height="150dp"
+        android:maxWidth="42dp"
+        android:maxHeight="42dp"
+        android:adjustViewBounds="true"
+
         android:background="@drawable/reviewslogobackground"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +203,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comment"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -213,3 +221,4 @@
         app:layout_constraintTop_toTopOf="@+id/resto_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.core.widget.NestedScrollView>
