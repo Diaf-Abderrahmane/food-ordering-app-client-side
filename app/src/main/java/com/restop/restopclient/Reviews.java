@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -159,6 +160,7 @@ public class Reviews extends Fragment {
 
                 Comment comment = new Comment(commentContent,  commentRating);
                 addComment(comment);
+                editComment.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
 
 
@@ -283,7 +285,7 @@ private void getUserPhoto() {
         databaseReference.child(firebaseUser.getUid()).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                showMessage("comment added successfully");
+
                 btnAddComment.setVisibility(View.VISIBLE);
                 addBtnProgressBar.setVisibility(View.INVISIBLE);
 

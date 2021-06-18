@@ -175,10 +175,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/comment_edittext"
-
+                android:imeOptions="actionDone"
                 android:ems="10"
                 android:hint="Write Comment"
-
                 app:layout_constraintEnd_toStartOf="@id/add_comment_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
