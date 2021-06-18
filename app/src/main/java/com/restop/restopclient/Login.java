@@ -45,6 +45,7 @@ public class Login extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         toRegister = findViewById(R.id.toRegister);
         forgotPassword = findViewById(R.id.forgotPassword);
+
         AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
 
@@ -71,7 +72,7 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     b=false;
-                                    ref = FirebaseDatabase.getInstance().getReference().child("Admins").child(fAuth.getCurrentUser().getUid());
+                                    ref = FirebaseDatabase.getInstance().getReference().child("Users").child(fAuth.getCurrentUser().getUid());
                                     ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DataSnapshot> task) {

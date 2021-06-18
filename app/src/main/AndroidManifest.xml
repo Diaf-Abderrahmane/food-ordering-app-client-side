@@ -27,6 +27,7 @@
         <activity android:name=".Login" />
         <activity android:name=".PersonalData" />
         <activity android:name=".Sign_up" />
+        <activity android:name=".ForgotPassword" />
         <activity android:name=".MainActivity">
 
 

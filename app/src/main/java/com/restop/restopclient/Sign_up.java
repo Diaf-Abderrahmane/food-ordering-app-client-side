@@ -31,41 +31,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Sign_up extends AppCompatActivity {
     private TextView res,top,gettingStarted,toContinue;
-    private TextInputLayout email, password, confirmPassword;
+    private TextInputLayout username,email, password, confirmPassword;
     private Button signUpBtn,toLogin;
     private FirebaseAuth fAuth;
     private FirebaseDatabase fireb;
     private DatabaseReference racine;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-    private TextWatcher SignUpTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String emailInput = email.getEditText().getText().toString().trim();
-            String passwordInput = password.getEditText().getText().toString().trim();
-            String confirmInput = confirmPassword.getEditText().getText().toString().trim();
-            signUpBtn.setEnabled(!emailInput.isEmpty() && !passwordInput.isEmpty() && !confirmInput.isEmpty());
-//            if (loginBtn.isEnabled())  {
-//                loginBtn.setBackgroundColor(Color.BLACK);
-//                loginBtn.setTextColor(Color.WHITE);
-//            } else {
-//                loginBtn.setBackgroundColor(Color.GRAY);
-//                loginBtn.setTextColor(Color.BLACK);
-//            }
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
 
 
     @Override
@@ -82,14 +53,13 @@ public class Sign_up extends AppCompatActivity {
         confirmPassword = findViewById(R.id.confirmPassword);
         signUpBtn = findViewById(R.id.signUpBtn);
         fAuth = FirebaseAuth.getInstance();
+        username = findViewById(R.id.username);
         AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+
 
         awesomeValidation.addValidation(this,R.id.email,Patterns.EMAIL_ADDRESS,R.string.invalid_email);
         awesomeValidation.addValidation(this,R.id.password,".{6,}",R.string.invalid_password);
         awesomeValidation.addValidation(this,R.id.confirmPassword,R.id.password,R.string.invalid_confirm_password);
-        email.getEditText().addTextChangedListener(SignUpTextWatcher);
-        password.getEditText().addTextChangedListener(SignUpTextWatcher);
-        confirmPassword.getEditText().addTextChangedListener(SignUpTextWatcher);
 
         if (fAuth.getCurrentUser() != null) {
             startActivity(new Intent(Sign_up.this,Menu.class));
@@ -99,6 +69,7 @@ public class Sign_up extends AppCompatActivity {
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String vusername = username.getEditText().getText().toString();
                 String vemail = email.getEditText().getText().toString();
                 String vpassword = password.getEditText().getText().toString();
                 String vcPassword = confirmPassword.getEditText().getText().toString();
@@ -112,15 +83,15 @@ public class Sign_up extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 fAuth.signInWithEmailAndPassword(vemail,vpassword);
                                 String userId = fAuth.getCurrentUser().getUid();
-                                Toast.makeText(Sign_up.this, "Admin Created", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Sign_up.this, "User Created", Toast.LENGTH_SHORT).show();
 
                                 HashMap<String, Object> map = new HashMap<>();
+                                map.put("Username",vusername);
                                 map.put("Email", vemail);
                                 map.put("NotificationActivation",1);
-                                FirebaseDatabase.getInstance().getReference().child("Admins").child(userId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                FirebaseDatabase.getInstance().getReference().child("Users").child(userId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(Sign_up.this, "data added successfully", Toast.LENGTH_SHORT).show();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -128,11 +99,9 @@ public class Sign_up extends AppCompatActivity {
                                         Toast.makeText(Sign_up.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                Toast.makeText(Sign_up.this, userId , Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Sign_up.this,MainActivity.class));
                             } else {
-                                Toast.makeText(Sign_up.this, "Error "+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                //startActivity(new Intent(LOG.this,REG.class));
+                                Toast.makeText(Sign_up.this, "Error "+task.getException().getMessage(), Toast.LENGTH_SHORT).show();;
                             }
                         }
                     });
