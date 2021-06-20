@@ -76,8 +76,11 @@ public class Login extends AppCompatActivity {
                                     ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                            if (task.isSuccessful() && (task.getResult().getChildrenCount()>0))  startActivity(new Intent(Login.this, MainActivity.class));
-                                            finish();
+                                            if ((task.isSuccessful()) && (task.getResult().getChildrenCount()>0)) {
+                                                Intent intent=new Intent(Login.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
                                         }
                                     });
                                 } else {

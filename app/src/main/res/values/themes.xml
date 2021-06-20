@@ -17,6 +17,7 @@
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">#fff</item>
         <item name="boxStrokeWidth">2dp</item>
+
     </style>
 
     <style name="Title">

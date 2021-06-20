@@ -139,7 +139,7 @@
         android:layout_height="60dp"
         android:id="@+id/scan"
         android:text="SCAN"
-        android:textColor="@color/tashbar"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:background="@drawable/scan_btn"
         app:layout_constraintBottom_toBottomOf="parent"

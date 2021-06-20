@@ -88,7 +88,9 @@ public class Sign_up extends AppCompatActivity {
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("Username",vusername);
                                 map.put("Email", vemail);
+                                map.put("Points",0);
                                 map.put("NotificationActivation",1);
+
                                 FirebaseDatabase.getInstance().getReference().child("Users").child(userId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
