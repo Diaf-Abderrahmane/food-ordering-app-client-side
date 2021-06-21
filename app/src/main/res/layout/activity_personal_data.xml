@@ -126,12 +126,12 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
-                android:layout_width="262dp"
+                android:layout_width="300dp"
                 android:layout_height="57dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/background_profile"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
-                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintHorizontal_bias="0.593"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/textView5">
 
@@ -176,12 +176,12 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout3"
-                android:layout_width="262dp"
+                android:layout_width="300dp"
                 android:layout_height="57dp"
                 android:layout_marginTop="60dp"
                 android:background="@drawable/background_profile"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
-                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintHorizontal_bias="0.593"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
@@ -216,17 +216,17 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="262dp"
+                android:layout_width="300dp"
                 android:layout_height="57dp"
                 android:layout_marginTop="80dp"
                 android:layout_marginBottom="28dp"
                 android:background="@drawable/background_profile"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
-                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintHorizontal_bias="0.531"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-                app:layout_constraintVertical_bias="0.812">
+                app:layout_constraintVertical_bias="1.0">
 
                 <TextView
                     android:layout_width="wrap_content"
