@@ -48,6 +48,7 @@ public class Reviews extends Fragment {
     private TextView description;
     private ProgressBar addBtnProgressBar,logoProgressBar;
     private float commentRating;
+    private String replyAdmin="";
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
@@ -91,6 +92,7 @@ public class Reviews extends Fragment {
         editDeleteCard.setVisibility(View.INVISIBLE);
 
 
+
         userRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -116,6 +118,7 @@ public class Reviews extends Fragment {
                         editDeleteCard.setVisibility(View.INVISIBLE);
                         editComment.setText(snapshot.child("content").getValue(String.class));
                         userRating.setRating(snapshot.child("rating").getValue(float.class));
+                        replyAdmin = snapshot.child("reply").getValue(String.class);
                     }
                 });
                 btnDeleteComment.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +131,7 @@ public class Reviews extends Fragment {
                         editDeleteCard.setVisibility(View.INVISIBLE);
                         editComment.setText("");
                         userRating.setRating(0);
+                        replyAdmin = "";
                     }
                 });
                 }
@@ -161,6 +165,7 @@ public class Reviews extends Fragment {
 
 
                 Comment comment = new Comment(commentContent,  commentRating);
+                comment.setReply(replyAdmin);
                 addComment(comment);
                 editComment.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
