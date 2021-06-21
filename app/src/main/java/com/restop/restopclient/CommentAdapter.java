@@ -1,18 +1,17 @@
 package com.restop.restopclient;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.format.DateFormat;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -71,27 +70,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentRatingShow.setRating(mData.get(position).getRating());
         getUserInfo(holder,position);
         if(!mData.get(position).getReply().isEmpty() ){
-            holder.showCommentReply.setVisibility(View.VISIBLE);
-            holder.showCommentReply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.Theme_AppCompat_Light_Dialog_Alert));
-                    final View replyLayout = LayoutInflater.from(mContext).inflate(R.layout.show_reply,null);
-                    builder.setView(replyLayout);
-                    builder.setTitle("Admin reply");
-                    TextView commentReply = replyLayout.findViewById(R.id.comment_reply_textview);
-                    commentReply.setText(mData.get(position).getReply());
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+            holder.adminReply.setText(mData.get(position).getReply());
+            holder.expandableLayout.setVisibility(View.VISIBLE);
+            boolean isExpanded = mData.get(position).expanded;
+            holder.showCommentReply.setVisibility(isExpanded?View.GONE:View.VISIBLE);
+            holder.hideCommentReply.setVisibility(isExpanded?View.VISIBLE:View.GONE);
 
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-            });
-        }
+
+}
 
 
 
@@ -105,8 +91,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder{
-        ImageView userPhoto, showCommentReply;
-        TextView name,content,date;
+        ImageView userPhoto;
+        LinearLayout showCommentReply,hideCommentReply;
+        ConstraintLayout expandableLayout;
+        TextView name,content,adminReply,date;
         RatingBar commentRatingShow;
         public CommentViewHolder(View itemView){
             super(itemView);
@@ -115,7 +103,29 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             content = itemView.findViewById(R.id.comment_content);
             date = itemView.findViewById(R.id.comment_date);
             commentRatingShow = itemView.findViewById(R.id.comment_ratingbar);
-            showCommentReply = itemView.findViewById(R.id.show_comment_reply);
+            showCommentReply = itemView.findViewById(R.id.show_reply_LinLayout);
+            hideCommentReply = itemView.findViewById(R.id.hide_reply_LinLayout);
+            expandableLayout = itemView.findViewById(R.id.expandableLayout);
+            adminReply = itemView.findViewById(R.id.admin_reply);
+            showCommentReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Comment comment = mData.get(getAdapterPosition());
+                    comment.setExpanded(!comment.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
+            hideCommentReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Comment comment = mData.get(getAdapterPosition());
+                    comment.setExpanded(!comment.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
+
+
+
         }
     }
 

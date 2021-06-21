@@ -4,6 +4,7 @@ package com.restop.restopclient;
 import com.google.firebase.database.ServerValue;
 
 public class Comment {
+    boolean expanded;
     private String content,key, reply="";
     private float rating;
 
@@ -15,8 +16,16 @@ public class Comment {
     public Comment(String content, float rating) {
         this.content = content;
         this.rating = rating;
-
+        this.expanded = false;
         this.timestamp = ServerValue.TIMESTAMP;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 
     public String getReply() {

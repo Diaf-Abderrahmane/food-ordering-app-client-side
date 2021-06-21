@@ -76,43 +76,101 @@
                 app:layout_constraintTop_toBottomOf="@+id/comment_img"
                 app:layout_constraintVertical_bias="0.0" />
 
+
             <TextView
                 android:id="@+id/comment_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="11:00"
-                android:textSize="8sp"
-                app:layout_constraintBottom_toTopOf="@+id/comment_content"
-                app:layout_constraintStart_toEndOf="@+id/comment_ratingbar" />
-
-            <ImageView
-                android:id="@+id/show_comment_reply"
-                android:visibility="invisible"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:text="11:00"
+                android:textSize="8sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_reply_24" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/show_admin_reply"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
+                android:id="@+id/expandableLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="show admin's reply"
-                android:fontFamily="sans-serif-thin"
-                android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/comment_content"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintBottom_toBottomOf="parent">
+                   <LinearLayout
+
+                       android:id="@+id/show_reply_LinLayout"
+                       android:layout_width="0dp"
+
+                       android:layout_height="wrap_content"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                        android:orientation="horizontal">
+                       <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10"
+                            android:text="show admin's reply"
+                            android:fontFamily="sans-serif-thin"
+                            android:textColor="@color/primaryColor" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_baseline_expand_more_24" />
 
 
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+
+                    android:id="@+id/hide_reply_LinLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10"
+                        android:text="hide admin's reply"
+                        android:fontFamily="sans-serif-thin"
+                        android:textColor="@color/primaryColor" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_baseline_expand_less_24" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/admin_reply"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="ADMIN"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:fontFamily="sans-serif-condensed"
+                        />
+                </LinearLayout>
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

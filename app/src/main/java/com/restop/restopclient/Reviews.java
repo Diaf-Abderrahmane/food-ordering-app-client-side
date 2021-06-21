@@ -114,6 +114,8 @@ public class Reviews extends Fragment {
                     public void onClick(View v) {
                         commentCard.setVisibility(View.VISIBLE);
                         editDeleteCard.setVisibility(View.INVISIBLE);
+                        editComment.setText(snapshot.child("content").getValue(String.class));
+                        userRating.setRating(snapshot.child("rating").getValue(float.class));
                     }
                 });
                 btnDeleteComment.setOnClickListener(new View.OnClickListener() {
