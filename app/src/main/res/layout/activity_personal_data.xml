@@ -67,7 +67,7 @@
             android:background="@drawable/background_btn_profile"
             android:text="save"
             android:textAlignment="center"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/white"
             android:textSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
