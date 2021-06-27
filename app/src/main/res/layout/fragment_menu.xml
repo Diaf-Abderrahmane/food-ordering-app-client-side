@@ -30,11 +30,6 @@
         android:stateListAnimator="@null"
         android:hardwareAccelerated="true"
         android:elevation="80dp">
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="16dp"
-            android:src="@drawable/logo_"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -43,7 +38,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:fontFamily="monospace"
-            android:paddingLeft="6dp"
+            android:paddingLeft="20dp"
             android:text="ResTop"/>
     </LinearLayout>
 

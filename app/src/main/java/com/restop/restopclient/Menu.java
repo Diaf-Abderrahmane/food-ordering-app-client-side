@@ -102,8 +102,11 @@ public class Menu extends Fragment {
                     recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
                     SelectCategory(CategoryList[p[0]]);
                 }
-                if(p[0]==CPosition) CPosition=-1;
                 position[0] = p[0];
+                if(p[0]==CPosition || newState==RecyclerView.SCROLL_STATE_IDLE){
+                    position[0]=CPosition;
+                    CPosition=-1;
+                }
             }
         });
 
