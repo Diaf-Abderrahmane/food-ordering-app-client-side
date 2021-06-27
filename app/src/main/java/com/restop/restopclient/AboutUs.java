@@ -19,7 +19,7 @@ import com.google.firebase.database.annotations.NotNull;
 import com.squareup.picasso.Picasso;
 
 public class AboutUs extends AppCompatActivity {
-    private TextView restoName;
+
     private TextView emailTxt;
     private TextView phoneTxt;
     private TextView dayTxt;
@@ -40,7 +40,6 @@ public class AboutUs extends AppCompatActivity {
 
         logo = findViewById(R.id.logo);
         back = findViewById(R.id.back);
-        restoName = findViewById(R.id.restoName);
         emailTxt = findViewById(R.id.emailtxt);
         phoneTxt = findViewById(R.id.phonetxt);
         facebook = findViewById(R.id.facebook);
@@ -88,7 +87,6 @@ public class AboutUs extends AppCompatActivity {
                     String time = fromTime + " - " +toTime;
                     dayTxt.setText(day);
                     timeTxt.setText(time);
-                    restoName.setText(resto_name);
                     emailTxt.setText(email_txt);
                     phoneTxt.setText(phone_nmb);
                     Picasso.get().load(logo_url).into(logo);

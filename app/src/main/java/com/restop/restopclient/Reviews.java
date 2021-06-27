@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,6 +48,7 @@ public class Reviews extends Fragment {
     private TextView description;
     private ProgressBar addBtnProgressBar,logoProgressBar;
     private float commentRating;
+    private String replyAdmin="";
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
@@ -58,8 +60,7 @@ public class Reviews extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
 
 
 
@@ -91,6 +92,7 @@ public class Reviews extends Fragment {
         editDeleteCard.setVisibility(View.INVISIBLE);
 
 
+
         userRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -114,6 +116,9 @@ public class Reviews extends Fragment {
                     public void onClick(View v) {
                         commentCard.setVisibility(View.VISIBLE);
                         editDeleteCard.setVisibility(View.INVISIBLE);
+                        editComment.setText(snapshot.child("content").getValue(String.class));
+                        userRating.setRating(snapshot.child("rating").getValue(float.class));
+                        replyAdmin = snapshot.child("reply").getValue(String.class);
                     }
                 });
                 btnDeleteComment.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +131,7 @@ public class Reviews extends Fragment {
                         editDeleteCard.setVisibility(View.INVISIBLE);
                         editComment.setText("");
                         userRating.setRating(0);
+                        replyAdmin = "";
                     }
                 });
                 }
@@ -155,11 +161,13 @@ public class Reviews extends Fragment {
                 editDeleteCard.setVisibility(View.VISIBLE);
                 String commentContent = editComment.getText().toString();
 
-                String uname = firebaseUser.getDisplayName();
 
 
-                Comment comment = new Comment(commentContent, uname, commentRating);
+
+                Comment comment = new Comment(commentContent,  commentRating);
+                comment.setReply(replyAdmin);
                 addComment(comment);
+                editComment.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
 
 
@@ -180,7 +188,7 @@ private void getLogo(){
             restopLogo.setVisibility(View.VISIBLE);
             logoProgressBar.setVisibility(View.INVISIBLE);
             String logo = snapshot.child("LogoUrl").getValue(String.class);
-            Glide.with(getActivity()).load(logo).into(restopLogo);
+            Glide.with(restopLogo.getContext()).load(logo).into(restopLogo);
 
         }
 
@@ -230,11 +238,11 @@ private void getUserPhoto() {
                 if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                     if (snapshot.hasChild("image")) {
                         String image = snapshot.child("image").getValue(String.class);
-                        Glide.with(getActivity()).load(image).into(imgCurrentUser);
+                        Glide.with(imgCurrentUser.getContext()).load(image).into(imgCurrentUser);
                         //profilepic.setImageURI(storageReference.);
                     }
                     else
-                        Glide.with(getActivity()).load(R.drawable.profile_pic).into(imgCurrentUser);
+                        Glide.with(imgCurrentUser.getContext()).load(R.drawable.profile_pic).into(imgCurrentUser);
                 }
 
 
@@ -284,7 +292,7 @@ private void getUserPhoto() {
         databaseReference.child(firebaseUser.getUid()).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                showMessage("comment added successfully");
+
                 btnAddComment.setVisibility(View.VISIBLE);
                 addBtnProgressBar.setVisibility(View.INVISIBLE);
 

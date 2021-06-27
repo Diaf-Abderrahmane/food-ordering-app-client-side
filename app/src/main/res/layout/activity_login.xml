@@ -23,6 +23,7 @@
         android:id="@+id/top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
         android:text="TOP"
         android:textSize="30sp"
         android:textColor="@color/colorPrimary"
