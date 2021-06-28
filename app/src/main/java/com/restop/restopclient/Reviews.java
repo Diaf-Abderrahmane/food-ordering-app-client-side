@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,10 +50,12 @@ public class Reviews extends Fragment {
     private TextView description;
     private ProgressBar addBtnProgressBar,logoProgressBar;
     private float commentRating;
+    private ViewGroup.LayoutParams params;
     private String replyAdmin="";
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
+
     private RecyclerView RvComment;
     private CommentAdapter commentAdapter;
     private ArrayList<Comment> listComments;
@@ -80,6 +84,7 @@ public class Reviews extends Fragment {
         logoProgressBar = view.findViewById(R.id.resto_logo_progress_bar);
         description = view.findViewById(R.id.resto_description);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -89,7 +94,11 @@ public class Reviews extends Fragment {
         logoProgressBar.setVisibility(View.VISIBLE);
         addBtnProgressBar.setVisibility(View.INVISIBLE);
         commentCard.setVisibility(View.VISIBLE);
-        editDeleteCard.setVisibility(View.INVISIBLE);
+        editDeleteCard.setVisibility(View.GONE);
+
+        params = commentCard.getLayoutParams();
+
+
 
 
 
@@ -109,11 +118,15 @@ public class Reviews extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                commentCard.setVisibility(View.INVISIBLE);
-                editDeleteCard.setVisibility(View.VISIBLE);
-                btnEditComment.setOnClickListener(new View.OnClickListener() {
+                    params.height = 125;
+                    commentCard.setLayoutParams(params);
+                    commentCard.setVisibility(View.INVISIBLE);
+                    editDeleteCard.setVisibility(View.VISIBLE);
+                    btnEditComment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        commentCard.setLayoutParams(params);
                         commentCard.setVisibility(View.VISIBLE);
                         editDeleteCard.setVisibility(View.INVISIBLE);
                         editComment.setText(snapshot.child("content").getValue(String.class));
@@ -124,7 +137,8 @@ public class Reviews extends Fragment {
                 btnDeleteComment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        commentCard.setLayoutParams(params);
                         commentRef.removeValue();
                         commentAdapter.removeItem(getPosition());
                         commentCard.setVisibility(View.VISIBLE);
@@ -157,20 +171,12 @@ public class Reviews extends Fragment {
             public void onClick(View view) {
                 btnAddComment.setVisibility(View.INVISIBLE);
                 addBtnProgressBar.setVisibility(View.VISIBLE);
-                commentCard.setVisibility(View.INVISIBLE);
-                editDeleteCard.setVisibility(View.VISIBLE);
                 String commentContent = editComment.getText().toString();
-
-
-
-
-                Comment comment = new Comment(commentContent,  commentRating);
+                Comment comment = new Comment(commentContent, commentRating);
                 comment.setReply(replyAdmin);
                 addComment(comment);
                 editComment.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
-
-
         });
         //initialize recyclerview
         iniRvComment();
@@ -187,6 +193,7 @@ private void getLogo(){
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             restopLogo.setVisibility(View.VISIBLE);
             logoProgressBar.setVisibility(View.INVISIBLE);
+
             String logo = snapshot.child("LogoUrl").getValue(String.class);
             Glide.with(restopLogo.getContext()).load(logo).into(restopLogo);
 
@@ -211,10 +218,8 @@ private void getLogo(){
                 else
                     description.setText("THE DESCRIPTION IS NOT ADDED YET");
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -260,7 +265,6 @@ private void getUserPhoto() {
         RvComment.setLayoutManager(new LinearLayoutManager(getActivity()));
         DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child(COMMENT_KEY);
         listComments = new ArrayList<>();
-
         commentRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -274,10 +278,7 @@ private void getUserPhoto() {
                 Collections.reverse(listComments);
                 commentAdapter = new CommentAdapter(getActivity(),listComments);
                 RvComment.setAdapter(commentAdapter);
-
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -285,17 +286,17 @@ private void getUserPhoto() {
     }
 
     private void addComment(Comment comment) {
-
         DatabaseReference databaseReference = firebaseDatabase.getReference().child(COMMENT_KEY);
-
         comment.setKey(firebaseUser.getUid());
         databaseReference.child(firebaseUser.getUid()).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
                 btnAddComment.setVisibility(View.VISIBLE);
                 addBtnProgressBar.setVisibility(View.INVISIBLE);
-
+                commentCard.setVisibility(View.INVISIBLE);
+                editDeleteCard.setVisibility(View.VISIBLE);
+                params.height = 125;
+                commentCard.setLayoutParams(params);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
