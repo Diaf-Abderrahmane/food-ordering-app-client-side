@@ -26,15 +26,13 @@ public class Option {
     private String ImgName;
     private String Description;
 
-    interface OptionsStatus {
+    interface OptionsStatus{
         void isLoaded(ArrayList<Option> AllOptions);
     }
-
-    interface OptionsStatusC {
+    interface OptionsStatusC{
         void onDataChange();
     }
-
-    interface ImgStatus {
+    interface ImgStatus{
         void isLoaded(Bitmap img);
     }
 
@@ -97,25 +95,24 @@ public class Option {
         Description = description;
     }
 
-    public static void ReadOptions(String id, OptionsStatus optionsStatus) {
+    public static void ReadOptions(String id,OptionsStatus optionsStatus) {
         ArrayList<Option> AllOptions = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All");
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All");
         ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DataSnapshot ds : task.getResult().getChildren()) {
-                        Option o = ds.getValue(Option.class);
+                if(task.isSuccessful()){
+                    for (DataSnapshot ds:task.getResult().getChildren()) {
+                        Option o=ds.getValue(Option.class);
                         AllOptions.add(o);
-                        if (task.getResult().getChildrenCount() == AllOptions.size())
-                            optionsStatus.isLoaded(AllOptions);
+                        if (task.getResult().getChildrenCount()==AllOptions.size()) optionsStatus.isLoaded(AllOptions);
                     }
                 }
             }
         });
     }
 
-    public static void getImg(String imgName, ImgStatus imgStatus) {
+    public static void getImg(String imgName,ImgStatus imgStatus){
 
         String imgPath = "Menu/" + imgName;
         StorageReference SRef = FirebaseStorage.getInstance().getReference().child(imgPath);
