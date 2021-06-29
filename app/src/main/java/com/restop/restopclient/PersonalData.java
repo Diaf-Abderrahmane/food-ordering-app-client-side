@@ -73,8 +73,8 @@ public class PersonalData extends AppCompatActivity {
     private Uri uri;
     private String myUri = "";
     private StorageTask storageTask;
-    private String email="";
-    private String username="";
+    private String email = "";
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +98,9 @@ public class PersonalData extends AppCompatActivity {
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                int i=0;
-                for (DataSnapshot snap:snapshot.getChildren()){
-                    switch (i){
+                int i = 0;
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    switch (i) {
                         case 0:
                             emailTv.setText(snap.getValue().toString());
                             break;
@@ -120,10 +120,10 @@ public class PersonalData extends AppCompatActivity {
         });
 
 
-       back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(PersonalData.this, MainActivity.class);
+                Intent intent = new Intent(PersonalData.this, MainActivity.class);
                 intent.putExtra("key", 4);
                 startActivity(intent);
 
@@ -163,8 +163,8 @@ public class PersonalData extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (changeUserName()) {
-                           Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
-                        }else if(editName.getText().toString().equals("")){
+                            Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
+                        } else if (editName.getText().toString().equals("")) {
                             alertDialog1.dismiss();
                         }
                     }
@@ -190,7 +190,7 @@ public class PersonalData extends AppCompatActivity {
                     public void onClick(View v) {
                         if (changeUserEmail()) {
                             Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
-                        }else if(editEmail.getText().toString().equals("")){
+                        } else if (editEmail.getText().toString().equals("")) {
                             alertDialog1.dismiss();
                         }
                     }
@@ -204,8 +204,8 @@ public class PersonalData extends AppCompatActivity {
             public void onClick(View v) {
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(PersonalData.this);
                 View view = getLayoutInflater().inflate(R.layout.dialog_edit_password, null);
-                 EditText editPassword = view.findViewById(R.id.editpassword);
-                 EditText confirmPassword = view.findViewById(R.id.confirm_password);
+                EditText editPassword = view.findViewById(R.id.editpassword);
+                EditText confirmPassword = view.findViewById(R.id.confirm_password);
                 update2 = view.findViewById(R.id.update2);
                 alertDialog.setView(view);
                 final AlertDialog alertDialog1 = alertDialog.create();
@@ -216,16 +216,16 @@ public class PersonalData extends AppCompatActivity {
                     public void onClick(View v) {
                         final String edit_password = editPassword.getText().toString();
                         final String confirm_password = confirmPassword.getText().toString();
-                        if (changeUserPassword(edit_password,confirm_password)) {
+                        if (changeUserPassword(edit_password, confirm_password)) {
                             user.updatePassword(edit_password).addOnCompleteListener(PersonalData.this, new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                    Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
-}
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             });
-                        }else if (edit_password.equals("") || confirm_password.equals("")){
+                        } else if (edit_password.equals("") || confirm_password.equals("")) {
                             alertDialog1.dismiss();
                         }
                     }
@@ -234,7 +234,7 @@ public class PersonalData extends AppCompatActivity {
             }
         });
 
-       // Picasso.get().load(R.drawable.ic_undraw_profile_pic_ic5t).into(profilepic);
+        // Picasso.get().load(R.drawable.ic_undraw_profile_pic_ic5t).into(profilepic);
 
         getUserInfo();
 
@@ -242,7 +242,7 @@ public class PersonalData extends AppCompatActivity {
     }
 
 
-    private boolean changeUserPassword(String edit_password,String confirm_password) {
+    private boolean changeUserPassword(String edit_password, String confirm_password) {
         Boolean isValidNewPassword, isValidConfirmPassword;
         ArrayList<String> errors = new ArrayList<>();
         isValidNewPassword = edit_password.length() >= 6;

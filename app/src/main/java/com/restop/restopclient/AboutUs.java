@@ -31,8 +31,9 @@ public class AboutUs extends AppCompatActivity {
     private ImageView instagram;
     private String insta_url;
     private String fb_url;
-    String fromDay,toDay,fromTime,toTime;
-    String resto_name,email_txt,phone_nmb,logo_url;
+    String fromDay, toDay, fromTime, toTime;
+    String resto_name, email_txt, phone_nmb, logo_url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +51,8 @@ public class AboutUs extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                for(DataSnapshot snap:snapshot.getChildren()) {
-                    switch (snap.getKey()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    switch (snap.getKey()) {
                         case "FromDay":
                             fromDay = snap.getValue().toString();
                             break;
@@ -83,8 +84,8 @@ public class AboutUs extends AppCompatActivity {
                             email_txt = snap.getValue().toString();
                             break;
                     }
-                    String day = fromDay + " - " + toDay ;
-                    String time = fromTime + " - " +toTime;
+                    String day = fromDay + " - " + toDay;
+                    String time = fromTime + " - " + toTime;
                     dayTxt.setText(day);
                     timeTxt.setText(time);
                     emailTxt.setText(email_txt);
@@ -92,6 +93,7 @@ public class AboutUs extends AppCompatActivity {
                     Picasso.get().load(logo_url).into(logo);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
             }
@@ -124,6 +126,6 @@ public class AboutUs extends AppCompatActivity {
 
     private void gotoUrl(String s) {
         Uri uri = Uri.parse(s);
-        startActivity(new Intent(Intent.ACTION_VIEW,uri));
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 }

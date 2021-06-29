@@ -25,11 +25,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity {
-    private TextView res,top,toContinue,login;
+    private TextView res, top, toContinue, login;
     private TextInputLayout email, password;
-    private Button loginBtn,toRegister,forgotPassword;
+    private Button loginBtn, toRegister, forgotPassword;
     private FirebaseAuth fAuth;
-    private boolean b=true;
+    private boolean b = true;
     private DatabaseReference ref;
 
     @Override
@@ -71,13 +71,13 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    b=false;
+                                    b = false;
                                     ref = FirebaseDatabase.getInstance().getReference().child("Users").child(fAuth.getCurrentUser().getUid());
                                     ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                            if ((task.isSuccessful()) && (task.getResult().getChildrenCount()>0)) {
-                                                Intent intent=new Intent(Login.this, MainActivity.class);
+                                            if ((task.isSuccessful()) && (task.getResult().getChildrenCount() > 0)) {
+                                                Intent intent = new Intent(Login.this, MainActivity.class);
                                                 startActivity(intent);
                                                 finish();
                                             }

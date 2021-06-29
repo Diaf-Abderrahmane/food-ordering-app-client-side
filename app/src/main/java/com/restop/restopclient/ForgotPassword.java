@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPassword extends AppCompatActivity {
-    private TextView resetPassword,res,top,resetInst;
+    private TextView resetPassword, res, top, resetInst;
     private Button resetPasswordBtn;
     private TextInputLayout email;
     FirebaseAuth auth;
@@ -40,7 +40,7 @@ public class ForgotPassword extends AppCompatActivity {
         });
     }
 
-    private void resetPassword(){
+    private void resetPassword() {
         String emailInput = email.getEditText().getText().toString().trim();
         if (emailInput.isEmpty()) {
             email.setError("Email required");

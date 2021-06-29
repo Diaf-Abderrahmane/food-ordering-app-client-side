@@ -46,22 +46,20 @@ public class Reviews extends Fragment {
     private RatingBar userRating;
     private CardView commentCard, editDeleteCard;
     private TextView description;
-    private ProgressBar addBtnProgressBar,logoProgressBar;
+    private ProgressBar addBtnProgressBar, logoProgressBar;
     private float commentRating;
-    private String replyAdmin="";
+    private String replyAdmin = "";
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
     private RecyclerView RvComment;
     private CommentAdapter commentAdapter;
     private ArrayList<Comment> listComments;
-    final static String COMMENT_KEY = "Comments",DESCRIPTION_KEY = "resto_description";
+    final static String COMMENT_KEY = "Comments", DESCRIPTION_KEY = "resto_description";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
 
 
         View view = inflater.inflate(R.layout.fragment_reviews, container, false);
@@ -92,7 +90,6 @@ public class Reviews extends Fragment {
         editDeleteCard.setVisibility(View.INVISIBLE);
 
 
-
         userRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -108,32 +105,32 @@ public class Reviews extends Fragment {
         commentRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                commentCard.setVisibility(View.INVISIBLE);
-                editDeleteCard.setVisibility(View.VISIBLE);
-                btnEditComment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        commentCard.setVisibility(View.VISIBLE);
-                        editDeleteCard.setVisibility(View.INVISIBLE);
-                        editComment.setText(snapshot.child("content").getValue(String.class));
-                        userRating.setRating(snapshot.child("rating").getValue(float.class));
-                        replyAdmin = snapshot.child("reply").getValue(String.class);
-                    }
-                });
-                btnDeleteComment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                if (snapshot.exists()) {
+                    commentCard.setVisibility(View.INVISIBLE);
+                    editDeleteCard.setVisibility(View.VISIBLE);
+                    btnEditComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            commentCard.setVisibility(View.VISIBLE);
+                            editDeleteCard.setVisibility(View.INVISIBLE);
+                            editComment.setText(snapshot.child("content").getValue(String.class));
+                            userRating.setRating(snapshot.child("rating").getValue(float.class));
+                            replyAdmin = snapshot.child("reply").getValue(String.class);
+                        }
+                    });
+                    btnDeleteComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        commentRef.removeValue();
-                        commentAdapter.removeItem(getPosition());
-                        commentCard.setVisibility(View.VISIBLE);
-                        editDeleteCard.setVisibility(View.INVISIBLE);
-                        editComment.setText("");
-                        userRating.setRating(0);
-                        replyAdmin = "";
-                    }
-                });
+                            commentRef.removeValue();
+                            commentAdapter.removeItem(getPosition());
+                            commentCard.setVisibility(View.VISIBLE);
+                            editDeleteCard.setVisibility(View.INVISIBLE);
+                            editComment.setText("");
+                            userRating.setRating(0);
+                            replyAdmin = "";
+                        }
+                    });
                 }
             }
 
@@ -162,9 +159,7 @@ public class Reviews extends Fragment {
                 String commentContent = editComment.getText().toString();
 
 
-
-
-                Comment comment = new Comment(commentContent,  commentRating);
+                Comment comment = new Comment(commentContent, commentRating);
                 comment.setReply(replyAdmin);
                 addComment(comment);
                 editComment.onEditorAction(EditorInfo.IME_ACTION_DONE);
@@ -176,37 +171,37 @@ public class Reviews extends Fragment {
         iniRvComment();
 
 
-
         return view;
     }
 
-private void getLogo(){
-    DatabaseReference logoRef = firebaseDatabase.getReference().child("About_Us");
-    logoRef.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            restopLogo.setVisibility(View.VISIBLE);
-            logoProgressBar.setVisibility(View.INVISIBLE);
-            String logo = snapshot.child("LogoUrl").getValue(String.class);
-            Glide.with(restopLogo.getContext()).load(logo).into(restopLogo);
+    private void getLogo() {
+        DatabaseReference logoRef = firebaseDatabase.getReference().child("About_Us");
+        logoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                restopLogo.setVisibility(View.VISIBLE);
+                logoProgressBar.setVisibility(View.INVISIBLE);
+                String logo = snapshot.child("LogoUrl").getValue(String.class);
+                Glide.with(restopLogo.getContext()).load(logo).into(restopLogo);
 
-        }
+            }
 
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        }
-    });
+            }
+        });
 
-}
-//----------------------------------------------------------------
+    }
+
+    //----------------------------------------------------------------
 // this method gets the restaurant description and puts it in the description TextView
-    private void getDescription(){
+    private void getDescription() {
         DatabaseReference reference = firebaseDatabase.getReference().child("About_Us");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild(DESCRIPTION_KEY))
+                if (snapshot.hasChild(DESCRIPTION_KEY))
                     description.setText(snapshot.child(DESCRIPTION_KEY).getValue().toString());
                 else
                     description.setText("THE DESCRIPTION IS NOT ADDED YET");
@@ -218,19 +213,20 @@ private void getLogo(){
             }
         });
     }
-// this method gets the position of the current user comment
-private int getPosition(){
-    int position=0;
-    while(position<listComments.size()){
-        if(listComments.get(position).getKey().equals(firebaseUser.getUid()))
-            break;
-        position++;
-    }
-    return position;
-}
 
-// this method gets the current user photo from firebase
-private void getUserPhoto() {
+    // this method gets the position of the current user comment
+    private int getPosition() {
+        int position = 0;
+        while (position < listComments.size()) {
+            if (listComments.get(position).getKey().equals(firebaseUser.getUid()))
+                break;
+            position++;
+        }
+        return position;
+    }
+
+    // this method gets the current user photo from firebase
+    private void getUserPhoto() {
         DatabaseReference reference = firebaseDatabase.getReference().child("Users");
         reference.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -240,8 +236,7 @@ private void getUserPhoto() {
                         String image = snapshot.child("image").getValue(String.class);
                         Glide.with(imgCurrentUser.getContext()).load(image).into(imgCurrentUser);
                         //profilepic.setImageURI(storageReference.);
-                    }
-                    else
+                    } else
                         Glide.with(imgCurrentUser.getContext()).load(R.drawable.profile_pic).into(imgCurrentUser);
                 }
 
@@ -266,13 +261,13 @@ private void getUserPhoto() {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 listComments.clear();
-                for(DataSnapshot snap:snapshot.getChildren()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     Comment comment = snap.getValue(Comment.class);
                     listComments.add(comment);
 
                 }
                 Collections.reverse(listComments);
-                commentAdapter = new CommentAdapter(getActivity(),listComments);
+                commentAdapter = new CommentAdapter(getActivity(), listComments);
                 RvComment.setAdapter(commentAdapter);
 
 
@@ -300,13 +295,14 @@ private void getUserPhoto() {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                showMessage("failed to add comment : "+e.getMessage());
+                showMessage("failed to add comment : " + e.getMessage());
                 btnAddComment.setVisibility(View.VISIBLE);
                 addBtnProgressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
+
     private void showMessage(String message) {
-        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

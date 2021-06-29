@@ -34,11 +34,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class Menu extends Fragment {
 
-    int CPosition=-1;
+    int CPosition = -1;
     ArrayList<Category> AllCategories;
     RecyclerView.SmoothScroller smoothScroller;
     RecyclerView.SmoothScroller smoothScroller2;
@@ -51,7 +52,7 @@ public class Menu extends Fragment {
 
     LinearLayout VMenu;
 
-    TextView textView0=null;
+    TextView textView0 = null;
 
     AlertDialog.Builder alertDialog;
     Dialog dialog;
@@ -65,29 +66,31 @@ public class Menu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_menu, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
 
         smoothScroller = new LinearSmoothScroller(getActivity()) {
-            @Override protected int getVerticalSnapPreference() {
+            @Override
+            protected int getVerticalSnapPreference() {
                 return LinearSmoothScroller.SNAP_TO_START;
             }
         };
         smoothScroller2 = new LinearSmoothScroller(getActivity()) {
-            @Override protected int getVerticalSnapPreference() {
+            @Override
+            protected int getVerticalSnapPreference() {
                 return LinearSmoothScroller.SNAP_TO_START;
             }
         };
 
-        progressBar=view.findViewById(R.id.progressBar);
-        VMenu=view.findViewById(R.id.VMenu);
+        progressBar = view.findViewById(R.id.progressBar);
+        VMenu = view.findViewById(R.id.VMenu);
 
 
         recyclerView = view.findViewById(R.id.Menu);
         recyclerView2 = view.findViewById(R.id.AllCategories);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
 
         final int[] position = {0};
         final int[] p = {0};
@@ -96,16 +99,16 @@ public class Menu extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                p[0] = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                if (position[0] != p[0] && CPosition==-1){
+                p[0] = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                if (position[0] != p[0] && CPosition == -1) {
                     smoothScroller2.setTargetPosition(p[0]);
                     recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
                     SelectCategory(CategoryList[p[0]]);
                 }
                 position[0] = p[0];
-                if(p[0]==CPosition || newState==RecyclerView.SCROLL_STATE_IDLE){
-                    position[0]=CPosition;
-                    CPosition=-1;
+                if (p[0] == CPosition || newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    position[0] = CPosition;
+                    CPosition = -1;
                 }
             }
         });
@@ -118,11 +121,12 @@ public class Menu extends Fragment {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected && !c[0]) {
                     Refresh();
-                    c[0] =true;
+                    c[0] = true;
                 } else {
-                    c[0]=false;
+                    c[0] = false;
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -131,7 +135,8 @@ public class Menu extends Fragment {
 
         return view;
     }
-    public void Refresh(){
+
+    public void Refresh() {
         Category.ReadCategories(new Category.CategoriesStatus() {
             @Override
             public void isLoaded(ArrayList<Category> allCategories) {
@@ -142,12 +147,13 @@ public class Menu extends Fragment {
                 recyclerView2.setAdapter(adapter2);
                 progressBar.setVisibility(View.INVISIBLE);
                 VMenu.setVisibility(View.VISIBLE);
-                CategoryList=new TextView[allCategories.size()];
+                CategoryList = new TextView[allCategories.size()];
             }
         });
     }
-    public void SelectCategory(TextView textView1){
-        if(textView1!=null && textView0!=textView1) {
+
+    public void SelectCategory(TextView textView1) {
+        if (textView1 != null && textView0 != textView1) {
             int py = textView1.getPaddingTop();
             int px = textView1.getPaddingLeft();
             textView1.setBackgroundResource(R.drawable.bg_view_list_category_s);
@@ -161,29 +167,31 @@ public class Menu extends Fragment {
             textView0 = textView1;
         }
     }
+
     public void PopUpOption(int categoryIndex, int position, Bitmap img) {
         alertDialog = new AlertDialog.Builder(getActivity());
         viewP = getLayoutInflater().inflate(R.layout.popup_option, null);
-        PopUpOptionImg=viewP.findViewById(R.id.PopUpOption_img);
-        PopUpOptionName=viewP.findViewById(R.id.PopUpOption_name);
-        PopUpOptionDescription=viewP.findViewById(R.id.PopUpOption_description);
+        PopUpOptionImg = viewP.findViewById(R.id.PopUpOption_img);
+        PopUpOptionName = viewP.findViewById(R.id.PopUpOption_name);
+        PopUpOptionDescription = viewP.findViewById(R.id.PopUpOption_description);
 
-        PopUpOptionImg.getLayoutParams().height=getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        PopUpOptionImg.getLayoutParams().height = getActivity().getWindowManager().getDefaultDisplay().getWidth();
 
-        PopUpOptionPrice=viewP.findViewById(R.id.PopUpOption_price);
+        PopUpOptionPrice = viewP.findViewById(R.id.PopUpOption_price);
         PopUpOptionName.setText(AllCategories.get(categoryIndex).getAllOptions().get(position).getName());
         PopUpOptionDescription.setText(AllCategories.get(categoryIndex).getAllOptions().get(position).getDescription());
-        String price = AllCategories.get(categoryIndex).getAllOptions().get(position).getPrice() +" DZD";
+        String price = AllCategories.get(categoryIndex).getAllOptions().get(position).getPrice() + " DZD";
         PopUpOptionPrice.setText(price);
-        if(img!=null)PopUpOptionImg.setImageBitmap(img);
+        if (img != null) PopUpOptionImg.setImageBitmap(img);
 
         alertDialog.setView(viewP);
         dialog = alertDialog.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
     public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private int ViewType=0;
+        private int ViewType = 0;
         private int CategoryIndex;
 
         public class ViewHolder0 extends RecyclerView.ViewHolder {
@@ -197,8 +205,13 @@ public class Menu extends Fragment {
                 CategoryOptions = view.findViewById(R.id.CategoryOptions);
             }
 
-            public RecyclerView getCategoryOptions() { return CategoryOptions;    }
-            public TextView getCategoryName() {  return CategoryName;  }
+            public RecyclerView getCategoryOptions() {
+                return CategoryOptions;
+            }
+
+            public TextView getCategoryName() {
+                return CategoryName;
+            }
         }
 
         public class ViewHolder1 extends RecyclerView.ViewHolder {
@@ -210,7 +223,7 @@ public class Menu extends Fragment {
 
             public ViewHolder1(View view) {
                 super(view);
-                OptionView=view.findViewById(R.id.Option_v);
+                OptionView = view.findViewById(R.id.Option_v);
                 OptionName = view.findViewById(R.id.OptionName);
                 OptionDescription = view.findViewById(R.id.OptionDescription);
                 OptionPrice = view.findViewById(R.id.OptionPrice);
@@ -218,11 +231,25 @@ public class Menu extends Fragment {
 
             }
 
-            public CardView getOptionView() { return OptionView;  }
-            public TextView getOptionName() { return OptionName;  }
-            public TextView getOptionDescription() { return OptionDescription;  }
-            public TextView getOptionPrice() { return OptionPrice;  }
-            public ImageView getOptionImg() { return OptionImg;  }
+            public CardView getOptionView() {
+                return OptionView;
+            }
+
+            public TextView getOptionName() {
+                return OptionName;
+            }
+
+            public TextView getOptionDescription() {
+                return OptionDescription;
+            }
+
+            public TextView getOptionPrice() {
+                return OptionPrice;
+            }
+
+            public ImageView getOptionImg() {
+                return OptionImg;
+            }
         }
 
 
@@ -243,12 +270,14 @@ public class Menu extends Fragment {
 
         public CustomAdapter() {
         }
+
         public CustomAdapter(int viewType) {
-            ViewType=viewType;
+            ViewType = viewType;
         }
+
         public CustomAdapter(int viewType, int categoryIndex) {
-            ViewType=viewType;
-            CategoryIndex=categoryIndex;
+            ViewType = viewType;
+            CategoryIndex = categoryIndex;
         }
 
         @Override
@@ -257,7 +286,7 @@ public class Menu extends Fragment {
             View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_option, parent, false);
             View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_list_category, parent, false);
 
-            switch (ViewType){
+            switch (ViewType) {
                 case 1:
                     return new ViewHolder1(view1);
                 case 2:
@@ -271,21 +300,21 @@ public class Menu extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder Holder, final int position) {
             switch (ViewType) {
                 case 1:
-                    ViewHolder1 viewHolder1=(ViewHolder1) Holder;
+                    ViewHolder1 viewHolder1 = (ViewHolder1) Holder;
                     viewHolder1.getOptionName().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getName());
                     viewHolder1.getOptionDescription().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getDescription());
-                    String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() +" DZD";
+                    String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() + " DZD";
                     viewHolder1.getOptionPrice().setText(price);
 
                     Option.getImg(AllCategories.get(CategoryIndex).getAllOptions().get(position).getImgName(), new Option.ImgStatus() {
                         @Override
                         public void isLoaded(Bitmap img) {
-                            if(img!=null){
+                            if (img != null) {
                                 viewHolder1.getOptionImg().setImageBitmap(img);
                                 viewHolder1.getOptionView().setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        PopUpOption(CategoryIndex,position,img);
+                                        PopUpOption(CategoryIndex, position, img);
                                     }
                                 });
                             }
@@ -293,16 +322,16 @@ public class Menu extends Fragment {
                     });
                     break;
                 case 2:
-                    ViewHolder2 viewHolder2=(ViewHolder2) Holder;
-                    CategoryList[position]=viewHolder2.getCategoryName();
+                    ViewHolder2 viewHolder2 = (ViewHolder2) Holder;
+                    CategoryList[position] = viewHolder2.getCategoryName();
                     viewHolder2.getCategoryName().setText(AllCategories.get(position).getName());
-                    if(position==0){
+                    if (position == 0) {
                         SelectCategory(viewHolder2.getCategoryName());
                     }
                     viewHolder2.getCategoryName().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            CPosition=position;
+                            CPosition = position;
                             SelectCategory(viewHolder2.getCategoryName());
                             smoothScroller2.setTargetPosition(position);
                             recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
@@ -313,18 +342,19 @@ public class Menu extends Fragment {
                     break;
 
                 default:
-                    ViewHolder0 viewHolder0=(ViewHolder0) Holder;
+                    ViewHolder0 viewHolder0 = (ViewHolder0) Holder;
                     viewHolder0.getCategoryName().setText(AllCategories.get(position).getName());
 
                     viewHolder0.getCategoryOptions().setLayoutManager(new LinearLayoutManager(getActivity()));
-                    CustomAdapter adapterO = new CustomAdapter(1,position);
+                    CustomAdapter adapterO = new CustomAdapter(1, position);
                     viewHolder0.getCategoryOptions().setAdapter(adapterO);
                     break;
             }
         }
+
         @Override
         public int getItemCount() {
-            switch (ViewType){
+            switch (ViewType) {
                 case 1:
                     return AllCategories.get(CategoryIndex).getAllOptions().size();
                 default:

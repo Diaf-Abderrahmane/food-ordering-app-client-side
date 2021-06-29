@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        int i =intent.getIntExtra("key",0);
-        if (i ==2 ){
+        int i = intent.getIntExtra("key", 0);
+        if (i == 2) {
             replace(new QrSanner());
             findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
             findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             Main();
 
 
-        } else if (i ==3 ){
+        } else if (i == 3) {
             replace(new Profile());
             findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
             findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
@@ -44,26 +44,28 @@ public class MainActivity extends AppCompatActivity {
             Main();
 
 
-        } else if (i ==4 ){
-        replace(new Profile());
-        findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
-        findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
-        findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
-        findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
-        Main();
+        } else if (i == 4) {
+            replace(new Profile());
+            findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
+            findViewById(R.id.SettingImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
+            findViewById(R.id.QrCodeImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
+            findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.black)));
+            Main();
 
 
-    } else {
+        } else {
             replace(new Menu());
             Main();
 
         }
     }
+
     private void replace(Fragment Fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLO, Fragment).commit();
 
     }
-    public void Main(){
+
+    public void Main() {
         LinearLayout qr = findViewById(R.id.nQR_generator);
         qr.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)

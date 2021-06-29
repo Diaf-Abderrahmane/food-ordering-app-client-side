@@ -51,7 +51,7 @@ public class QrSanner extends Fragment {
                     String coefPts = String.valueOf(coeff[1]);
 
                     dzdInfo.setText("Balance is the equivalent of your points with DA. you gain 10DA for each point." +
-                            " For each " + coefMoney + " DA you spend you gain " + coefPts+" PT");
+                            " For each " + coefMoney + " DA you spend you gain " + coefPts + " PT");
                 }
             }
         });
@@ -125,16 +125,16 @@ public class QrSanner extends Fragment {
                                                     case 0: {
                                                         userFb.child("Points").setValue((points[0] + (price[0] / (coef[0] / coef[1]))));
                                                         qrFb.child("status").setValue(2);
-                                                        fbP.setText(String.valueOf((int)(points[0] + (price[0] / (coef[0] / coef[1])))));
-                                                        fbB.setText(String.valueOf((int)((points[0] + (price[0] / (coef[0] / coef[1]))) * 10)));
+                                                        fbP.setText(String.valueOf((int) (points[0] + (price[0] / (coef[0] / coef[1])))));
+                                                        fbB.setText(String.valueOf((int) ((points[0] + (price[0] / (coef[0] / coef[1]))) * 10)));
                                                         break;
                                                     }
                                                     case 1: {
-                                                        if (points[0] >= (price[0]/10)) {
+                                                        if (points[0] >= (price[0] / 10)) {
                                                             userFb.child("Points").setValue(points[0] - (price[0] / 10));
                                                             qrFb.child("status").setValue(3);
-                                                            fbP.setText(String.valueOf((int)(points[0] - (price[0] / 10))));
-                                                            fbB.setText(String.valueOf((int)((points[0]*10) - (price[0]))));
+                                                            fbP.setText(String.valueOf((int) (points[0] - (price[0] / 10))));
+                                                            fbB.setText(String.valueOf((int) ((points[0] * 10) - (price[0]))));
                                                         } else {
                                                             qrFb.child("status").setValue(4);
                                                             Toast.makeText(getActivity(), "not enough points", Toast.LENGTH_SHORT).show();

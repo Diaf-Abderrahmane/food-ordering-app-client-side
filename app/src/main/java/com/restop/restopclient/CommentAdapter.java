@@ -43,7 +43,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View row = LayoutInflater.from(mContext).inflate(R.layout.row_comment,parent,false);
+        View row = LayoutInflater.from(mContext).inflate(R.layout.row_comment, parent, false);
         return new CommentViewHolder(row);
     }
 
@@ -68,21 +68,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.content.setText(mData.get(position).getContent());
         holder.date.setText(timestampToString((long) mData.get(position).getTimestamp()));
         holder.commentRatingShow.setRating(mData.get(position).getRating());
-        getUserInfo(holder,position);
-        if(!mData.get(position).getReply().isEmpty() ){
+        getUserInfo(holder, position);
+        if (!mData.get(position).getReply().isEmpty()) {
             holder.adminReply.setText(mData.get(position).getReply());
             holder.expandableLayout.setVisibility(View.VISIBLE);
             boolean isExpanded = mData.get(position).expanded;
-            holder.showCommentReply.setVisibility(isExpanded?View.GONE:View.VISIBLE);
-            holder.hideCommentReply.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+            holder.showCommentReply.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
+            holder.hideCommentReply.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
 
-}
-
+        }
 
 
     }
-
 
 
     @Override
@@ -90,13 +88,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return mData.size();
     }
 
-    public class CommentViewHolder extends RecyclerView.ViewHolder{
+    public class CommentViewHolder extends RecyclerView.ViewHolder {
         ImageView userPhoto;
-        LinearLayout showCommentReply,hideCommentReply;
+        LinearLayout showCommentReply, hideCommentReply;
         ConstraintLayout expandableLayout;
-        TextView name,content,adminReply,date;
+        TextView name, content, adminReply, date;
         RatingBar commentRatingShow;
-        public CommentViewHolder(View itemView){
+
+        public CommentViewHolder(View itemView) {
             super(itemView);
             userPhoto = itemView.findViewById(R.id.comment_img);
             name = itemView.findViewById(R.id.comment_username);
@@ -125,7 +124,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             });
 
 
-
         }
     }
 
@@ -141,8 +139,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         Glide.with(mContext).load(image).into(holder.userPhoto);
 
 
-                    }
-                    else
+                    } else
                         Glide.with(mContext).load(R.drawable.profile_pic).into(holder.userPhoto);
                 }
 
@@ -155,16 +152,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             }
         });
     }
+
     private String timestampToString(long time) {
 
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(time);
-        String date = DateFormat.format("dd/MM/yyyy",calendar).toString();
+        String date = DateFormat.format("dd/MM/yyyy", calendar).toString();
         return date;
 
 
     }
-    public void removeItem(int position){
+
+    public void removeItem(int position) {
         mData.remove(position);
         notifyDataSetChanged();
         notifyItemRangeChanged(position, mData.size());

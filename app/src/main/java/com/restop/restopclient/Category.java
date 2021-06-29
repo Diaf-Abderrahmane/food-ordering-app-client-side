@@ -17,25 +17,29 @@ public class Category {
     private String Name;
     private int Index;
     private ArrayList<Option> AllOptions;
-    interface CategoriesStatus{
+
+    interface CategoriesStatus {
         void isLoaded(ArrayList<Category> allCategories);
     }
 
-    interface CategoriesStatusC{
+    interface CategoriesStatusC {
         void onDataChange();
     }
 
     public Category() {
     }
+
     public Category(String name, ArrayList<Option> allOptions) {
         Name = name;
         AllOptions = allOptions;
     }
+
     public Category(String name, int index, ArrayList<Option> allOptions) {
         Name = name;
         Index = index;
         AllOptions = allOptions;
     }
+
     public Category(String id, String name, int index, ArrayList<Option> allOptions) {
         Id = id;
         Name = name;
@@ -59,9 +63,13 @@ public class Category {
         Name = name;
     }
 
-    public int getIndex() {  return Index;  }
+    public int getIndex() {
+        return Index;
+    }
 
-    public void setIndex(int index) {  Index = index;  }
+    public void setIndex(int index) {
+        Index = index;
+    }
 
     public ArrayList<Option> getAllOptions() {
         return AllOptions;
@@ -78,12 +86,12 @@ public class Category {
         ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     AllCategories.clear();
 
                     for (DataSnapshot ds : task.getResult().getChildren()) {
                         String name = ds.child("name").getValue(String.class);
-                        int index=ds.child("index").getValue(int.class);
+                        int index = ds.child("index").getValue(int.class);
 
                         if (ds.child("All").exists()) {
                             int finalIndex = index;
@@ -91,28 +99,31 @@ public class Category {
                                 @Override
                                 public void isLoaded(ArrayList<Option> AllOptions) {
                                     AllCategories.add(new Category(ds.getKey(), name, finalIndex, AllOptions));
-                                    if (task.getResult().getChildrenCount() == AllCategories.size()) categoriesStatus.isLoaded(AllCategories);
+                                    if (task.getResult().getChildrenCount() == AllCategories.size())
+                                        categoriesStatus.isLoaded(AllCategories);
                                 }
                             });
-                        }else{
+                        } else {
                             AllCategories.add(new Category(ds.getKey(), name, index, new ArrayList<>()));
-                            if (task.getResult().getChildrenCount() == AllCategories.size()) categoriesStatus.isLoaded(AllCategories);
+                            if (task.getResult().getChildrenCount() == AllCategories.size())
+                                categoriesStatus.isLoaded(AllCategories);
                         }
                     }
-                    if(!task.getResult().hasChildren()) categoriesStatus.isLoaded(AllCategories);}
+                    if (!task.getResult().hasChildren()) categoriesStatus.isLoaded(AllCategories);
+                }
             }
         });
     }
 
 
-    public static ArrayList<Category> OrderCategories(ArrayList<Category> allCategories){
+    public static ArrayList<Category> OrderCategories(ArrayList<Category> allCategories) {
         Category category;
-        for (int i=0;i<allCategories.size()-1;i++)
-            for(int j=i+1;j<allCategories.size();j++)
-                if(allCategories.get(i).getIndex()>=allCategories.get(j).getIndex()) {
+        for (int i = 0; i < allCategories.size() - 1; i++)
+            for (int j = i + 1; j < allCategories.size(); j++)
+                if (allCategories.get(i).getIndex() >= allCategories.get(j).getIndex()) {
                     category = allCategories.get(i);
-                    allCategories.set(i,allCategories.get(j));
-                    allCategories.set(j,category);
+                    allCategories.set(i, allCategories.get(j));
+                    allCategories.set(j, category);
                 }
         return allCategories;
     }

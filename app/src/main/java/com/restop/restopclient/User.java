@@ -27,7 +27,6 @@ public class User {
     }
 
 
-
     public String getUserName() {
         return UserName;
     }
@@ -61,35 +60,36 @@ public class User {
     }
 
 
-    static void AddUser(User user, String password){
-        FirebaseAuth auth=FirebaseAuth.getInstance();
-        auth.createUserWithEmailAndPassword(user.getEmail(),password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    String UId = task.getResult().getUser().getUid().toString();
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(UId);
-                    ref.setValue(user);
-                    User.SubscribeNotification(ref);
-                }
+    static void AddUser(User user, String password) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.createUserWithEmailAndPassword(user.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                                                 @Override
+                                                                                                 public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                                                     if (task.isSuccessful()) {
+                                                                                                         String UId = task.getResult().getUser().getUid().toString();
+                                                                                                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(UId);
+                                                                                                         ref.setValue(user);
+                                                                                                         User.SubscribeNotification(ref);
+                                                                                                     }
 
-            }
-        }
+                                                                                                 }
+                                                                                             }
         );
     }
 
-    public void EditUser(User user,String password){
-        FirebaseAuth auth=FirebaseAuth.getInstance();
-        FirebaseUser User=auth.getCurrentUser();
+    public void EditUser(User user, String password) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser User = auth.getCurrentUser();
         User.updateEmail(user.getEmail());
         User.updatePassword(password);
     }
 
-    static void SubscribeNotification(DatabaseReference ref){
+    static void SubscribeNotification(DatabaseReference ref) {
         ref.child("NotificationActivation").setValue(1);
         FirebaseMessaging.getInstance().subscribeToTopic("Notification");
     }
-    static void unSubscribeNotification(DatabaseReference ref){
+
+    static void unSubscribeNotification(DatabaseReference ref) {
         ref.child("NotificationActivation").setValue(0);
         FirebaseMessaging.getInstance().unsubscribeFromTopic("Notification");
     }
