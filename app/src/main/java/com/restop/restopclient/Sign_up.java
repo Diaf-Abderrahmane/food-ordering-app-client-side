@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -81,8 +82,10 @@ public class Sign_up extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 fAuth.signInWithEmailAndPassword(vemail, vpassword);
+                                FirebaseUser user = fAuth.getCurrentUser();
+                                user.sendEmailVerification();
                                 String userId = fAuth.getCurrentUser().getUid();
-                                Toast.makeText(Sign_up.this, "User Created", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Sign_up.this, "Email verification sent", Toast.LENGTH_SHORT).show();
 
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("Username", vusername);
@@ -100,7 +103,7 @@ public class Sign_up extends AppCompatActivity {
                                         Toast.makeText(Sign_up.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                startActivity(new Intent(Sign_up.this, MainActivity.class));
+                                startActivity(new Intent(Sign_up.this, Login.class));
                             } else {
                                 Toast.makeText(Sign_up.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 ;
