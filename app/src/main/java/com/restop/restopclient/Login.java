@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,10 +28,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Login extends AppCompatActivity {
     private TextView res, top, toContinue, login;
     private TextInputLayout email, password;
-    private Button loginBtn, toRegister, forgotPassword;
+    private Button loginBtn, toRegister, forgotPassword,verification;
     private FirebaseAuth fAuth;
     private boolean b = true;
     private DatabaseReference ref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class Login extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         toRegister = findViewById(R.id.toRegister);
         forgotPassword = findViewById(R.id.forgotPassword);
+
 
         AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
@@ -71,18 +74,24 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    b = false;
-                                    ref = FirebaseDatabase.getInstance().getReference().child("Users").child(fAuth.getCurrentUser().getUid());
-                                    ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                            if ((task.isSuccessful()) && (task.getResult().getChildrenCount() > 0)) {
-                                                Intent intent = new Intent(Login.this, MainActivity.class);
-                                                startActivity(intent);
-                                                finish();
+                                    FirebaseUser user = fAuth.getCurrentUser();
+                                    if (!user.isEmailVerified()) {
+                                        Toast.makeText(Login.this, "Email not verified", Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        b = false;
+                                        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(fAuth.getCurrentUser().getUid());
+                                        ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                if ((task.isSuccessful()) && (task.getResult().getChildrenCount() > 0)) {
+                                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
+                                    }
                                 } else {
                                     Toast.makeText(Login.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -102,6 +111,7 @@ public class Login extends AppCompatActivity {
                 finish();
             }
         });
+
 
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
