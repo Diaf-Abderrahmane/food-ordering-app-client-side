@@ -140,7 +140,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
 
                     } else
-                        Glide.with(mContext).load(R.drawable.profile_pic).into(holder.userPhoto);
+                        Glide.with(mContext).load(R.drawable.final_profile_picture).into(holder.userPhoto);
                 }
 
 
