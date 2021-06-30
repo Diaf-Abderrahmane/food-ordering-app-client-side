@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -43,11 +42,11 @@ public class Profile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+         View view = inflater.inflate(R.layout.profile_fragment, container, false);
 
         ConstraintLayout myAccount = view.findViewById(R.id.personal_data);
         ConstraintLayout aboutUs = view.findViewById(R.id.aboutUs);
-        ConstraintLayout logOut = view.findViewById(R.id.Logout);
+        ConstraintLayout logOut= view.findViewById(R.id.Logout);
         TextView nameProfile = view.findViewById(R.id.nameProfile);
         profilepic = view.findViewById(R.id.userpic);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -108,32 +107,32 @@ public class Profile extends Fragment {
 
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("save", Context.MODE_PRIVATE);
-        aSwitch.setChecked(sharedPreferences.getBoolean("value", true));
+        aSwitch.setChecked(sharedPreferences.getBoolean("value",true));
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
+                if (isChecked == true){
                     SharedPreferences.Editor editor = getActivity()
-                            .getSharedPreferences("save", Context.MODE_PRIVATE).edit();
-                    editor.putBoolean("value", true);
+                            .getSharedPreferences("save",Context.MODE_PRIVATE).edit();
+                    editor.putBoolean("value",true);
                     editor.apply();
                     aSwitch.setChecked(true);
                     User.SubscribeNotification(reference.child(user.getUid()));
-                } else {
+                }
+                else {
                     SharedPreferences.Editor editor = getActivity()
-                            .getSharedPreferences("save", Context.MODE_PRIVATE).edit();
-                    editor.putBoolean("value", false);
+                            .getSharedPreferences("save",Context.MODE_PRIVATE).edit();
+                    editor.putBoolean("value",false);
                     editor.apply();
                     aSwitch.setChecked(false);
                     User.unSubscribeNotification(reference.child(user.getUid()));
                 }
             }
         });
-        getUserInfo();
+       getUserInfo();
         return view;
     }
-
     private void getUserInfo() {
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -153,7 +152,7 @@ public class Profile extends Fragment {
 
                             }
                         });*/
-                    } else {
+                    }else{
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
                     }
