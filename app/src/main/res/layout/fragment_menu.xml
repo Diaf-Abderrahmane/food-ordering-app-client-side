@@ -39,7 +39,7 @@
             android:textStyle="bold"
             android:fontFamily="monospace"
             android:paddingLeft="20dp"
-            android:text="ResTop"/>
+            android:text="Menu"/>
     </LinearLayout>
 
 
