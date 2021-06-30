@@ -66,11 +66,12 @@
                     android:id="@+id/editPic"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginEnd="116dp"
+                    android:layout_marginEnd="140dp"
                     android:src="@drawable/ic_editpic"
                     app:layout_constraintBottom_toTopOf="@+id/saveBtn"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView11" />
+                    app:layout_constraintTop_toBottomOf="@+id/imageView11"
+                    app:layout_constraintVertical_bias="0.45" />
 
                 <Button
                     android:id="@+id/saveBtn"
@@ -136,7 +137,6 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="5dp"
                         android:ems="8"
-                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -195,12 +195,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="8"
-                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/edit2"
-                        app:layout_constraintHorizontal_bias="0.25"
+                        app:layout_constraintHorizontal_bias="0.134"
                         app:layout_constraintStart_toEndOf="@+id/imageView5"
                         app:layout_constraintTop_toTopOf="@+id/imageView5"
                         app:layout_constraintVertical_bias="0.0" />
