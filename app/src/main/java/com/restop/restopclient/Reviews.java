@@ -237,7 +237,7 @@ public class Reviews extends Fragment {
                         Glide.with(imgCurrentUser.getContext()).load(image).into(imgCurrentUser);
                         //profilepic.setImageURI(storageReference.);
                     } else
-                        Glide.with(imgCurrentUser.getContext()).load(R.drawable.profile_pic).into(imgCurrentUser);
+                        Glide.with(imgCurrentUser.getContext()).load(R.drawable.final_profile_picture).into(imgCurrentUser);
                 }
 
 
