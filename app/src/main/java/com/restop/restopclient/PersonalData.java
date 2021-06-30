@@ -280,7 +280,6 @@ public class PersonalData extends AppCompatActivity {
         String email = emailTv.getText().toString();
         if (!email.equals(editEmail.getText().toString()) && !editEmail.getText().toString().equals("")) {
             reference.child(user.getUid()).child("Email").setValue(editEmail.getText().toString());
-            // user.updateEmail(editEmail.getText().toString());
             user.sendEmailVerification();
             reference.child(user.getUid()).child("Email").addValueEventListener(new ValueEventListener() {
                 @Override
@@ -330,7 +329,6 @@ public class PersonalData extends AppCompatActivity {
                     if (snapshot.hasChild("image")) {
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
-                        //profilepic.setImageURI(storageReference.);
                     }
                 }
 

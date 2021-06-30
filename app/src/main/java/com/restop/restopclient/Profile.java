@@ -37,6 +37,8 @@ public class Profile extends Fragment {
     private DatabaseReference reference;
     Switch aSwitch;
     Intent intent;
+    TextView username;
+    TextView email;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,17 +53,23 @@ public class Profile extends Fragment {
         profilepic = view.findViewById(R.id.userpic);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         aSwitch = view.findViewById(R.id.switch1);
+        username = view.findViewById(R.id.nameProfile);
+        email = view.findViewById(R.id.textEmail);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
-       /* reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+
+        reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                int i=0;
-                for (DataSnapshot snap:snapshot.getChildren()){
-                    switch (i){
+                int i = 0;
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    switch (i) {
+                        case 0:
+                            email.setText(snap.getValue().toString());
+                            break;
                         case 3:
-                            nameProfile.setText(snap.getValue().toString());
+                            username.setText(snap.getValue().toString());
                             break;
                     }
                     i++;
@@ -73,10 +81,8 @@ public class Profile extends Fragment {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
-        });*/
+        });
 
-        String userName = user.getDisplayName();
-        nameProfile.setText(userName);
 
         aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +139,8 @@ public class Profile extends Fragment {
        getUserInfo();
         return view;
     }
+
+
     private void getUserInfo() {
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -140,18 +148,6 @@ public class Profile extends Fragment {
                 if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                     if (!snapshot.hasChild("image")) {
                         Picasso.get().load(R.drawable.ic_undraw_profile_pic_ic5t).into(profilepic);
-                        /*reference.child("Default_Img").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                  Uri defaultUri = snapshot.getValue(Uri.class);
-                                  profilepic.setImageURI(defaultUri);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                            }
-                        });*/
                     }else{
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
