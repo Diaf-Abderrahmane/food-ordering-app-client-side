@@ -16,7 +16,6 @@
         android:layout_marginTop="15dp"
         android:textSize="30sp"
         android:textColor="@color/colorPrimaryDark"
-        android:fontFamily="sans-serif"
         android:layout_gravity="center_horizontal"
         />
     <TextView
@@ -28,7 +27,6 @@
         android:textSize="30sp"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-black"
         android:layout_gravity="center_horizontal"
         />
     <androidx.cardview.widget.CardView
@@ -52,11 +50,9 @@
                 android:layout_height="wrap_content"
                 android:text="Getting Started"
                 android:textColor="@color/black"
-                android:fontFamily="sans-serif-medium"
                 android:textSize="35sp"
                 android:layout_marginTop="10dp"
                 />
-
             <TextView
                 android:id="@+id/toContinue"
                 android:layout_width="wrap_content"
@@ -98,20 +94,17 @@
 
 
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/forgotPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="forgot password?"
                 android:textSize="10sp"
-                android:layout_alignParentEnd="true"
+                android:layout_marginStart="235dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 style="@style/Widget.AppCompat.Button.Borderless"/>
-            </RelativeLayout>
 
 
             <Button

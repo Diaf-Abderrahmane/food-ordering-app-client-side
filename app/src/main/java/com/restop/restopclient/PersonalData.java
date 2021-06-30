@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -281,7 +280,6 @@ public class PersonalData extends AppCompatActivity {
         String email = emailTv.getText().toString();
         if (!email.equals(editEmail.getText().toString()) && !editEmail.getText().toString().equals("")) {
             reference.child(user.getUid()).child("Email").setValue(editEmail.getText().toString());
-            // user.updateEmail(editEmail.getText().toString());
             user.sendEmailVerification();
             reference.child(user.getUid()).child("Email").addValueEventListener(new ValueEventListener() {
                 @Override
@@ -331,7 +329,6 @@ public class PersonalData extends AppCompatActivity {
                     if (snapshot.hasChild("image")) {
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
-                        //profilepic.setImageURI(storageReference.);
                     }
                 }
 
@@ -346,7 +343,6 @@ public class PersonalData extends AppCompatActivity {
     }
 
     private void uploadProfileImage() {
-
 
         final ProgressDialog progressDialog = new ProgressDialog(PersonalData.this);
         progressDialog.setTitle("Set your profile image");

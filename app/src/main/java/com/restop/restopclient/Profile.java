@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -38,31 +37,39 @@ public class Profile extends Fragment {
     private DatabaseReference reference;
     Switch aSwitch;
     Intent intent;
+    TextView username;
+    TextView email;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+         View view = inflater.inflate(R.layout.profile_fragment, container, false);
 
         ConstraintLayout myAccount = view.findViewById(R.id.personal_data);
         ConstraintLayout aboutUs = view.findViewById(R.id.aboutUs);
-        ConstraintLayout logOut = view.findViewById(R.id.Logout);
+        ConstraintLayout logOut= view.findViewById(R.id.Logout);
         TextView nameProfile = view.findViewById(R.id.nameProfile);
         profilepic = view.findViewById(R.id.userpic);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         aSwitch = view.findViewById(R.id.switch1);
+        username = view.findViewById(R.id.nameProfile);
+        email = view.findViewById(R.id.textEmail);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
-       /* reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+
+        reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                int i=0;
-                for (DataSnapshot snap:snapshot.getChildren()){
-                    switch (i){
+                int i = 0;
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    switch (i) {
+                        case 0:
+                            email.setText(snap.getValue().toString());
+                            break;
                         case 3:
-                            nameProfile.setText(snap.getValue().toString());
+                            username.setText(snap.getValue().toString());
                             break;
                     }
                     i++;
@@ -74,10 +81,8 @@ public class Profile extends Fragment {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
-        });*/
+        });
 
-        String userName = user.getDisplayName();
-        nameProfile.setText(userName);
 
         aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,31 +113,33 @@ public class Profile extends Fragment {
 
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("save", Context.MODE_PRIVATE);
-        aSwitch.setChecked(sharedPreferences.getBoolean("value", true));
+        aSwitch.setChecked(sharedPreferences.getBoolean("value",true));
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
+                if (isChecked == true){
                     SharedPreferences.Editor editor = getActivity()
-                            .getSharedPreferences("save", Context.MODE_PRIVATE).edit();
-                    editor.putBoolean("value", true);
+                            .getSharedPreferences("save",Context.MODE_PRIVATE).edit();
+                    editor.putBoolean("value",true);
                     editor.apply();
                     aSwitch.setChecked(true);
                     User.SubscribeNotification(reference.child(user.getUid()));
-                } else {
+                }
+                else {
                     SharedPreferences.Editor editor = getActivity()
-                            .getSharedPreferences("save", Context.MODE_PRIVATE).edit();
-                    editor.putBoolean("value", false);
+                            .getSharedPreferences("save",Context.MODE_PRIVATE).edit();
+                    editor.putBoolean("value",false);
                     editor.apply();
                     aSwitch.setChecked(false);
                     User.unSubscribeNotification(reference.child(user.getUid()));
                 }
             }
         });
-        getUserInfo();
+       getUserInfo();
         return view;
     }
+
 
     private void getUserInfo() {
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
@@ -140,20 +147,8 @@ public class Profile extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                     if (!snapshot.hasChild("image")) {
-                        Picasso.get().load(R.drawable.ic_undraw_profile_pic_ic5t).into(profilepic);
-                        /*reference.child("Default_Img").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                  Uri defaultUri = snapshot.getValue(Uri.class);
-                                  profilepic.setImageURI(defaultUri);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                            }
-                        });*/
-                    } else {
+                        Picasso.get().load(R.drawable.final_profile_picture).into(profilepic);
+                    }else{
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
                     }
