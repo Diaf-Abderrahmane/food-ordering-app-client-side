@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
                     android:textSize="14dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/primaryColor"
                     android:textStyle="bold"
                     android:fontFamily="@font/opensans_regular"
                     android:text="Price"/>
