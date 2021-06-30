@@ -76,6 +76,7 @@ public class Sign_up extends AppCompatActivity {
                 String vcPassword = confirmPassword.getEditText().getText().toString();
 
 
+
                 if (awesomeValidation.validate()) {
                     fAuth.createUserWithEmailAndPassword(vemail, vpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
