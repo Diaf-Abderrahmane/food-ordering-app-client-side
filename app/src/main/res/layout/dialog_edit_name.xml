@@ -10,7 +10,6 @@
       android:layout_height="wrap_content"
       android:text="Edit Your Name"
       android:textSize="22dp"
-      android:fontFamily="@font/poppins_bold"
       android:textAlignment="center"
       android:textColor="@color/black">
 
@@ -36,7 +35,6 @@
         android:text="UPDATE"
         android:textColor="@color/white"
         android:textSize="15dp"
-        android:fontFamily="@font/poppins_bold"
         android:id="@+id/update">
 
     </Button>
