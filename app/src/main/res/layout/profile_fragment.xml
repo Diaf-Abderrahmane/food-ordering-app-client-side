@@ -42,7 +42,6 @@
                     android:id="@+id/userpic"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:src="@drawable/ic_undraw_profile_pic_ic5t"
                     app:civ_border_color="@color/white"
                     app:civ_border_overlay="true"
                     app:civ_border_width="4dp"

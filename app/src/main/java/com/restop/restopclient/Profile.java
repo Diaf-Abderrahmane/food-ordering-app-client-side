@@ -147,7 +147,7 @@ public class Profile extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
                     if (!snapshot.hasChild("image")) {
-                        Picasso.get().load(R.drawable.ic_undraw_profile_pic_ic5t).into(profilepic);
+                        Picasso.get().load(R.drawable.final_profile_picture).into(profilepic);
                     }else{
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profilepic);
