@@ -46,8 +46,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="14dp"
                 android:gravity="center_vertical"
-                android:text="Home"
+                android:text="Menu"
                 android:textSize="10dp"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/colorPrimary"/>
         </LinearLayout>
         <LinearLayout
@@ -66,6 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="14dp"
                 android:gravity="center_vertical"
+                android:fontFamily="@font/opensans_regular"
                 android:text="QR Scan"
                 android:textSize="10dp"
                 android:textColor="@color/black"/>
@@ -88,6 +90,7 @@
                 android:gravity="center_vertical"
                 android:text="Reviews"
                 android:textSize="10dp"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"/>
         </LinearLayout>
         <LinearLayout
@@ -107,6 +110,7 @@
                 android:layout_height="14dp"
                 android:gravity="center_vertical"
                 android:text="Setting"
+                android:fontFamily="@font/opensans_regular"
                 android:textSize="10dp"
                 android:textColor="@color/black"/>
         </LinearLayout>
