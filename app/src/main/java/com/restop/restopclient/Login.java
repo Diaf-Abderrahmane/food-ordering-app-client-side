@@ -77,6 +77,7 @@ public class Login extends AppCompatActivity {
                                     FirebaseUser user = fAuth.getCurrentUser();
                                     if (!user.isEmailVerified()) {
                                         Toast.makeText(Login.this, "Email not verified", Toast.LENGTH_LONG).show();
+                                        fAuth.signOut();
                                     }
                                     else {
                                         b = false;
@@ -99,6 +100,7 @@ public class Login extends AppCompatActivity {
                         });
                 } else {
                     Toast.makeText(Login.this, "Validation failed", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

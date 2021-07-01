@@ -15,7 +15,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -58,21 +61,22 @@ public class Profile extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
+        reference.child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.isSuccessful()){
+                    email.setText(task.getResult().child("Email").getValue(String.class));
+                    username.setText(task.getResult().child("Username").getValue(String.class));
+                }
 
+            }
+        });
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                int i = 0;
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    switch (i) {
-                        case 0:
-                            email.setText(snap.getValue().toString());
-                            break;
-                        case 3:
-                            username.setText(snap.getValue().toString());
-                            break;
-                    }
-                    i++;
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("Email") && snapshot.hasChild("Username")){
+                    email.setText(snapshot.child("Email").getValue(String.class));
+                    username.setText(snapshot.child("Username").getValue(String.class));
                 }
 
             }
