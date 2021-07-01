@@ -35,8 +35,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Profile extends Fragment {
     private CircleImageView profilepic;
-    FirebaseAuth firebaseAuth;
-    FirebaseUser user;
+    FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+    FirebaseUser user = firebaseAuth.getCurrentUser();
     private DatabaseReference reference;
     Switch aSwitch;
     Intent intent;
@@ -58,8 +58,6 @@ public class Profile extends Fragment {
         aSwitch = view.findViewById(R.id.switch1);
         username = view.findViewById(R.id.nameProfile);
         email = view.findViewById(R.id.textEmail);
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
 
         reference.child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
