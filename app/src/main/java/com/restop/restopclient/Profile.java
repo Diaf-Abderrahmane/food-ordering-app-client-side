@@ -74,7 +74,7 @@ public class Profile extends Fragment {
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild("Email")&&snapshot.hasChild("Username")){
+                if(snapshot.hasChild("Email") && snapshot.hasChild("Username")){
                     email.setText(snapshot.child("Email").getValue(String.class));
                     username.setText(snapshot.child("Username").getValue(String.class));
                 }
