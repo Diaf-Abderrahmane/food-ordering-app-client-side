@@ -56,8 +56,6 @@ public class Sign_up extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         username = findViewById(R.id.username);
         AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-
-
         awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
         awesomeValidation.addValidation(this, R.id.password, ".{6,}", R.string.invalid_password);
         awesomeValidation.addValidation(this, R.id.confirmPassword, R.id.password, R.string.invalid_confirm_password);
