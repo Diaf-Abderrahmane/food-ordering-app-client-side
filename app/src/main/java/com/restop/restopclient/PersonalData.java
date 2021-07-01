@@ -63,8 +63,8 @@ public class PersonalData extends AppCompatActivity {
     private ImageView edit1;
     private ImageView edit2;
     private ImageView edit3;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser user;
+    private FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+    private FirebaseUser user = firebaseAuth.getCurrentUser();
     private DatabaseReference reference;
     private StorageReference storageReference;
     private CircleImageView editPic;
@@ -91,8 +91,6 @@ public class PersonalData extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference().child("Profile_Pics");
         back = findViewById(R.id.back);
         profilepic = findViewById(R.id.profilepic);
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -213,13 +211,13 @@ public class PersonalData extends AppCompatActivity {
                 update2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final String edit_password = editPassword.getText().toString();
-                        final String confirm_password = confirmPassword.getText().toString();
+                         String edit_password = editPassword.getText().toString();
+                         String confirm_password = confirmPassword.getText().toString();
                         if (changeUserPassword(edit_password, confirm_password)) {
-                            user.updatePassword(edit_password).addOnCompleteListener(PersonalData.this, new OnCompleteListener<Void>() {
+                            user.updatePassword(edit_password).addOnCompleteListener(PersonalData.this,new OnCompleteListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
+                                public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                    if (task.isSuccessful()){
                                         Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -300,7 +298,7 @@ public class PersonalData extends AppCompatActivity {
 
     private boolean changeUserName() {
         String userName = usernameTv.getText().toString();
-        if (!userName.equals(editName.getText().toString())) {
+        if (!userName.equals(editName.getText().toString()) && !editName.getText().toString().equals("")) {
             reference.child(user.getUid()).child("Username").setValue(editName.getText().toString());
             reference.child(user.getUid()).child("Username").addValueEventListener(new ValueEventListener() {
                 @Override
