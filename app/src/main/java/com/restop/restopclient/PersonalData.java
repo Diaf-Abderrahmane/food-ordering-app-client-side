@@ -221,6 +221,7 @@ public class PersonalData extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(PersonalData.this, "Data has been changed", Toast.LENGTH_SHORT).show();
+                                        alertDialog1.dismiss();
                                     }
                                 }
                             });
@@ -300,7 +301,7 @@ public class PersonalData extends AppCompatActivity {
 
     private boolean changeUserName() {
         String userName = usernameTv.getText().toString();
-        if (!userName.equals(editName.getText().toString())) {
+        if (!userName.equals(editName.getText().toString()) && !editName.getText().toString().equals("")) {
             reference.child(user.getUid()).child("Username").setValue(editName.getText().toString());
             reference.child(user.getUid()).child("Username").addValueEventListener(new ValueEventListener() {
                 @Override
